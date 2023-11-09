@@ -73,6 +73,7 @@ reset() {
     return this.guards ? this.first === 0 : true;
   }
   onRowEditInit(guards: any) {
+    console.warn(this.myForm.controls)
     this.clonedProducts[guards.id as string] = { ...guards };
   }
 

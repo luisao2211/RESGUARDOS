@@ -1,0 +1,62 @@
+<!-- <nav>
+  <ul>
+    <li [ngClass]="{'enter': isAnimateMenu,
+                    'exit':!isAnimateMenu
+  }">
+      <a href="ocultar2">1</a>
+      <p class="ocultar">HOME</p>
+    </li>
+    <li [ngClass]="{'enter': isAnimateMenu,
+                    'exit':!isAnimateMenu
+  }">
+      <a href="">2</a>
+      <p class="ocultar">HOME</p>
+
+    </li>
+    <li [ngClass]="{'enter': isAnimateMenu,
+                    'exit':!isAnimateMenu
+  }">
+      <a href="">3</a>
+      <p class="ocultar">HOME</p>
+
+    </li>
+    <li [ngClass]="{'enter': isAnimateMenu,
+                    'exit':!isAnimateMenu
+  }">
+      <a href="">4</a>
+      <p class="ocultar">HOME</p>
+
+    </li>
+    <li [ngClass]="{'enter': isAnimateMenu,
+                    'exit':!isAnimateMenu
+  }">
+      <a href="">5</a>
+      <p class="ocultar">HOME</p>
+
+    </li>
+  </ul>
+  <button class="boton" (click)="animateMenu()"><svg  xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+  </svg>
+  </button>
+</nav>-->
+
+<ng-container  *ngIf="isAnimateMenu">
+  <div id="backdrop"></div>
+</ng-container>
+<nav class="menu" [ngClass]="{'menuOpen':isAnimateMenu}">
+   <input type="checkbox" (click)="animateMenu()" href="#" class="menu-open" name="menu-open" id="menu-open" />
+   <label class="menu-open-button" for="menu-open">
+    <span class="lines line-1"></span>
+    <span class="lines line-2"></span>
+    <span class="lines line-3"></span>
+  </label>
+
+   <a href="#" class="menu-item blue"> <i class="fa fa-anchor"></i> </a>
+   <a href="#" class="menu-item green"> <i class="fa fa-coffee"></i> </a>
+   <a href="#" class="menu-item red"> <i class="fa fa-heart"></i> </a>
+   <a href="#" class="menu-item purple"> <i class="fa fa-microphone"></i> </a>
+   <a href="#" class="menu-item orange"> <i class="fa fa-star"></i> </a>
+   <a href="#" class="menu-item lightblue"> <i class="fa fa-diamond"></i> </a>
+</nav>
+<router-outlet></router-outlet> 

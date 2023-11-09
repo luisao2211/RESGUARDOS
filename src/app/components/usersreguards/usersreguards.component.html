@@ -1,0 +1,233 @@
+<form  [formGroup]="myForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+<div class="card container mx-auto pt-20">
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <button type="button" (click)="moreInputs()"
+          class="min-w-auto w-32 h-10 bg-blue-300 p-2 rounded-t-xl hover:bg-blue-500 text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"
+          pButton pRipple label="" icon="pi pi-plus">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+          </svg>
+
+        </button>
+        <!-- <button pButton pRipple  icon="pi pi-trash" class="p-button-danger" ></button> -->
+      </ng-template>
+
+      <ng-template pTemplate="right">
+        <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
+        <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
+      </ng-template>
+    </p-toolbar>
+    <p-table class="" [value]="guards" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}"
+      [paginator]="true" [rows]="5" (onPage)="pageChange($event)"
+      [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+      [rowsPerPageOptions]="[10, 25, 50]" [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:20%">Foto</th>
+          <th style="width:20%">Numero de factura</th>
+          <th style="width:20%">Nombre emisor</th>
+          <th style="width:20%">Descripción del producto</th>
+          <th style="width:20%">Cantidad o Pieza</th>
+          <th style="width:20%">Valor</th>
+          <th style="width:20%">Nombre del resguardante</th>
+          <th style="width:20%">Departamento</th>
+          <th style="width:20%">Numero consecutivo</th>
+          <th style="width:20%">Numero de etiqueta</th>
+          <th style="width:20%">Numero de nomina</th>
+          <th style="width:20%"></th>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-guards let-editing="editing" let-ri="rowIndex">
+     
+        <tr class="" [pEditableRow]="guards"   >
+          <td class="border-black border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <!-- component -->
+                <div class="flex  items-center justify-center">
+                  <div class="rounded-md border border-gray-100 bg-white shadow-md">
+                    <label for="upload" class="flex flex-col items-center gap-2 cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 fill-white stroke-indigo-500"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </label>
+                    <input id="upload" type="file" class="hidden" />
+                  </div>
+                </div>
+
+
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.picture}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+
+          <td class="border-black border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input  type="text"
+                [formControlName]="guards.facture+ri"
+                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                  >
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.facture}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="border-black border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text"
+                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                  >
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.emisor}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="border-black border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text"
+                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                  >
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.description}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="border-black border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text"
+                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                  >
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.type}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="border-black border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text"
+                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                  >
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.value}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="border-black border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text"
+                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                >
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.name}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="border-black border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text"
+                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                  >
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.group}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="border-black  border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text"
+                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                 required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.numberconsecutive}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+         
+          <td class="border-black  border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text"
+                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                >
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.label }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="border-black  border-b">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text"
+                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                  >
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{guards.payroll }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="border-black  border-b">
+            <div class="flex align-items-center justify-content-center gap-2">
+              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                (click)="onRowEditInit(guards)"
+                class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-yellow-300 p-2 rounded-full hover:bg-yellow-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                </svg>
+              </button>
+              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                (click)="onRowEditSave(guards)"
+                class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-yellow-300 p-2 rounded-full hover:bg-yellow-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                </svg>
+
+              </button>
+              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                (click)="onRowEditCancel(guards, ri)" class="p-button-rounded p-button-text p-button-danger
+                      min-w-auto w-14 h-14 bg-red-300 p-2 rounded-full hover:bg-red-500 text-white font-semibold transition-rotation duration-300 hover:-rotate-45 ease-in-out
+                      ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</form>

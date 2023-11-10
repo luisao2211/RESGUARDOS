@@ -18,7 +18,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
-
+import { FileUploadModule } from 'primeng/fileupload';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +36,7 @@ import { ToolbarModule } from 'primeng/toolbar';
     StyleClassModule,
     ButtonModule,
     ToolbarModule,
+    FileUploadModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule
   ],
   providers: [],

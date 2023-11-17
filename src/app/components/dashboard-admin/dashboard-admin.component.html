@@ -1,0 +1,375 @@
+<div 
+>
+
+
+<div
+ class="container mx-auto rounded-full shadow-2xl pt-20"
+>
+    <p-tabView
+    sleCltyass="background-color: red;"
+    class="border-gray-400 rounded-full"
+     >
+
+      <p-tabPanel 
+      styleClass="shadow-lg "
+      class="bg-black shadow-lg"
+       header="Reportes">
+            <p-toolbar styleClass="mb-4 gap-2 mx-auto rounded-1xl bg-gray-100 shadow-lg">
+              <ng-template pTemplate="left">
+               
+                <button
+                  class="min-w-auto w-32 h-10 mr-5 bg-green-300 p-2 rounded-t-xl hover:bg-green-500 text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-excel"
+                  (click)="exportExcel()"
+                  pTooltip="EXCEL"
+                  tooltipPosition="bottom"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-file-earmark-excel-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM5.884 6.68 8 9.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 10l2.233 2.68a.5.5 0 0 1-.768.64L8 10.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 10 5.116 7.32a.5.5 0 1 1 .768-.64z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  class="min-w-auto w-32 h-10 bg-red-300 p-2 rounded-t-xl hover:bg-red-500 text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-pdf"
+                  (click)="exportPdf()"
+                  pTooltip="PDF"
+                  tooltipPosition="bottom"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-filetype-pdf"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"
+                    />
+                  </svg>
+                </button>
+                <!-- <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text">AFTER</p-button>
+                  <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text">RESET</p-button>
+                  <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text">MORE</p-button> -->
+              </ng-template>
+              
+        
+              <ng-template pTemplate="right">
+                <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
+                <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
+              </ng-template>
+            </p-toolbar>
+            <p-table
+            #dt
+            [scrollable]="true"
+            scrollWidht="400px"
+          [value]="guardSave" 
+          [loading]="loading"
+          sortField="payroll" sortMode="multiple" dataKey="payroll" rowGroupMode="subheader" groupRowsBy="payroll" 
+          [rows]="5"
+          [paginator]="true"
+          [rowsPerPageOptions]="[10, 25, 50]"
+          [globalFilterFields]="['payroll']"
+          currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+          [showCurrentPageReport]="true"
+        
+          styleClass=""
+          [tableStyle]="{ 'border-radius':'50%' }"
+        >
+        
+          <!-- Resto del código sigue igual -->
+          <ng-template pTemplate="caption">
+            <div class="flex">
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText 
+                    type="text" 
+                    class=" shadow-lg  appearance-none rounded-full  pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+        
+                    (input)="onInputChangeReports($event)" 
+                    placeholder="buscar por N° de nomina" />
+             
+                </span>
+            </div>
+        </ng-template>
+              <ng-template pTemplate="header">
+                <tr class="bg-gray-800 text-white shadow-md">
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Foto</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero de factura</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Nombre emisor</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:400px">Descripción del producto</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Cantidad o Pieza</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Valor</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:400px">Nombre del resguardante</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:400px">Departamento</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero consecutivo</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero de etiqueta</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero de nomina</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Insertado</th>
+                  <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Status</th>
+
+                </tr>
+              </ng-template>
+              <ng-template
+                pTemplate="groupheader"
+                let-guardSave
+                let-rowIndex="rowIndex"
+                let-expanded="expanded"
+              >
+                <tr>
+                  <td colspan="13"
+                  class="shadow-lg  bg-gray-100 border-cyan-300"
+                  >
+             
+                    <button
+                     type="button"
+                      pButton
+                      pRipple
+                      [pRowToggler]="guardSave"
+                      class="p-button-text p-button-rounded p-button-plain mr-2"
+                      [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"type="button"
+                      pButton
+                      pRipple
+                      [pRowToggler]="guardSave"
+                      class="p-button-text p-button-rounded p-button-plain mr-2 border absolute top-0 left-0 right-0 bottom-0"
+                      [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                    
+                    class="animate-bounce mx-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                      El empleado con el numero de nomina {{ guardSave.payroll }} presione para ver sus resguardos
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+           
+        
+             
+        
+              
+             <ng-template class="bg-black" pTemplate="rowexpansion" let-guardSave>
+                <tr class="">
+                  <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900  bg-slate-500">
+                    <div class="flex items-center justify-center">
+                      <div class="rounded-md border border-gray-100 bg-white shadow-md">
+                        <label
+                          for="upload"
+                          class="flex flex-col items-center gap-2 cursor-pointer"
+                        >
+                          <div
+                            class="h-20 w-20 bg-cover bg-center rounded-full"
+                            [style.background-image]="'url(' + guardSave.picture + ')'"
+                          ></div>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.facture !== 'null' ? guardSave.facture : '' }}
+                   
+                  </td>
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.emisor }}
+                  </td>
+        
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.description }}
+                  </td>
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.type }}
+                  </td>
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.value }}
+                  </td>
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.name }}
+                  </td>
+                
+              
+        
+        
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.group }}
+                  </td>
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.numberconsecutive }}
+                  </td>
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.label }}
+                  </td>
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.payroll }}
+                  </td>
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    {{ guardSave.email }}
+                  </td>
+                  <td class="p-4 border-2 border-gray-200 rounded-lg shadow-inner text-center font-light font-semibold">
+                    <ng-container *ngIf="guardSave.active==1" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 30 30">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                          </svg>
+                    </ng-container>
+                    <ng-container *ngIf="guardSave.active==0" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-x-octagon" viewBox="0 0 16 16">
+                            <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                          </svg>
+                    </ng-container>
+
+                  </td>
+                </tr>
+              </ng-template> 
+            </p-table>
+          </p-tabPanel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <p-tabPanel header="Usuarios">
+            <div class="pt-10">
+        
+                <p-table
+                #dt1
+                class="border-spacing-y-96"
+                [value]="users"
+                [paginator]="true"
+                [rows]="5"
+                [loading]="loading"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [globalFilterFields]="['email']"
+            
+                >
+              
+                <ng-template pTemplate="caption">
+                    <div class="flex ">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText 
+                            type="text" 
+                            class=" shadow-lg  appearance-none rounded-full  pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+            
+                            (input)="onInputChange($event)" 
+                            placeholder="buscar por correo" />
+                     
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr class="bg-gray-800 text-white shadow-md">
+                    <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="width:25%">Correo</th>
+                        <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="width:25%">Rol</th>
+                        <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="width:25%">Status</th>
+                        <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="width:25%">Acciones</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-customer>
+                    <tr>
+                        <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold"  >{{ customer.email }}</td>
+                        <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">{{ customer.role==1?'Usuario':'Administrativo' }}</td>
+                        <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">{{ customer.active==1?'Activo':'Inactivo' }}</td>
+                        <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                            <button (click)="updateStatus(customer.id)" pButton  type="button"  icon="pi pi-pencil"
+                            pTooltip="Cambiar permisos"
+
+                            class="mr-1 p-button-rounded p-button-text min-w-auto w-14 h-14 bg-yellow-300 p-2 rounded-full hover:bg-yellow-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out">
+              
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                 <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                          </button>
+                          <button pButton  type="button"  icon="pi pi-pencil"
+                          (click)="updateEmail(customer.email,customer.id)" 
+                          pTooltip="Editar"
+                          class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-yellow-300 p-2 rounded-full hover:bg-yellow-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out">
+            
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
+                            viewBox="0 0 16 16">
+                            <path
+                              d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                          </svg>
+                        </button>
+                       
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template class="pr-5" pTemplate="paginatorleft">
+                    <button (click)="showDialog()"
+                    pTooltip="Agregar"
+
+                     class="bg-blue-400 px-5 py-3 text-sm shadow-sm font-medium tracking-wider  text-blue-100 rounded-full hover:shadow-2xl hover:bg-blue-500" type="button" icon="pi pi-plus" styleClass="p-button-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                          </svg> 
+                        </button>
+                    </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    <p-button   class="text-center justify-center" type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                </ng-template>
+            </p-table>
+            </div>
+        </p-tabPanel>
+       
+    </p-tabView>
+  </div>
+</div>
+
+
+
+
+
+
+
+<p-dialog header="Registrar Usuario" [(visible)]="visible" [style]="{width: '50vw'}">
+    <form action="" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <div class="mt-5 mx-auto">                
+                    <input type="email"
+                    formControlName="email"
+                    placeholder="Correo electronico" class="mt-1 block w-full border-none bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">                           
+                </div>
+                <button type="submit" 
+                class="bg-green-300 mt-4 justify-center text-center px-5 py-3 text-sm shadow-sm font-medium tracking-wider  text-blue-100 rounded-full hover:shadow-2xl hover:bg-green-500"
+                >Registrar</button>
+            </form>
+
+</p-dialog>

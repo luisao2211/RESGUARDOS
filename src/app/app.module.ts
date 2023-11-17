@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { StyleClassModule } from 'primeng/styleclass';
-
+import { DialogModule } from 'primeng/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardUsersComponent } from './components/dashboard-users/dashboard-users.component';
@@ -19,12 +19,26 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { FileUploadModule } from 'primeng/fileupload';
+import { TabViewModule } from 'primeng/tabview';
+import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-admin.component';
+import { AuthInterceptor } from './auth.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { SplitterModule } from 'primeng/splitter';
+import { TagModule } from 'primeng/tag';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { CardModule } from 'primeng/card';
+
 @NgModule({
   declarations: [
     AppComponent,
     DashboardUsersComponent,
     LoginComponent,
-    UsersreguardsComponent
+    UsersreguardsComponent,
+    DashboardAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -37,9 +51,22 @@ import { FileUploadModule } from 'primeng/fileupload';
     ButtonModule,
     ToolbarModule,
     FileUploadModule,
+    TabViewModule,
+    DialogModule,
+    SpeedDialModule,
+    ToastModule,
+    SplitterModule,
+    TagModule,
+    AvatarModule,
+    AvatarGroupModule,
+    CardModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule
   ],
-  providers: [],
+  providers: [MessageService, {
+    provide:HTTP_INTERCEPTORS,
+    useClass:AuthInterceptor,
+    multi:true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

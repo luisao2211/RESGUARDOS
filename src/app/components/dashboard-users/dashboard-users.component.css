@@ -91,7 +91,7 @@ body {
  
     .menu {
         margin: auto;
-        position: absolute;
+        position: fixed;
         top: 10px;
         right: 10px;
         width: 80px;

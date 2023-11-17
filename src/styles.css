@@ -3,7 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
-
+.p-tabview {
+    color: #ff0000;
+  }
+  div[data-pc-name="tabview"] {
+background-color: aquamarine;  }
+    
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: rgb(224, 224, 224); }
 @import url(https://pro.fontawesome.com/releases/v5.10.0/css/all.css);

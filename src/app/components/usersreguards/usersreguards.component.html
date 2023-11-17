@@ -1,301 +1,821 @@
-<form class="pt-10"  [formGroup]="myForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-<div class="card  mx-auto pt-20">
-    <p-toolbar styleClass="mb-4 gap-2">
+<div class="container mx-auto pt-20">
+<p-tabView >
+  <p-tabPanel class="container" header="Reportes">
+    <p-toolbar styleClass="mb-4 gap-2 mx-auto rounded-1xl bg-gray-100 shadow-lg">
       <ng-template pTemplate="left">
-        <button type="button" (click)="moreInputs()"
-          class="
-          min-w-auto w-32 h-10 bg-blue-300 p-2 rounded-t-xl hover:bg-blue-500 text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"
-          pButton pRipple label="" icon="pi pi-plus">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
-            viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-              d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+        
+        <button
+          class="min-w-auto w-32 h-10 mr-5 bg-green-300 p-2 rounded-t-xl hover:bg-green-500 text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file-excel"
+          (click)="exportExcel()"
+          pTooltip="EXCEL"
+          tooltipPosition="bottom"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-file-earmark-excel-fill"
+            viewBox="0 0 16 16"
+            >
+            <path
+            d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM5.884 6.68 8 9.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 10l2.233 2.68a.5.5 0 0 1-.768.64L8 10.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 10 5.116 7.32a.5.5 0 1 1 .768-.64z"
+            />
           </svg>
-
+        </button>
+        <button
+          class="min-w-auto w-32 h-10 bg-red-300 p-2 rounded-t-xl hover:bg-red-500 text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file-pdf"
+          (click)="exportPdf()"
+          pTooltip="PDF"
+          tooltipPosition="bottom"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-filetype-pdf"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"
+            />
+          </svg>
         </button>
         <!-- <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text">AFTER</p-button>
-        <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text">RESET</p-button>
-        <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text">MORE</p-button> -->
+          <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text">RESET</p-button>
+          <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text">MORE</p-button> -->
       </ng-template>
-      <button class="absolute right-10 pr-12 min-w-auto w-32 h-10 bg-green-300 p-2 rounded-t-xl hover:bg-green-500 text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"  type="submit">Guardar</button>
+      
 
       <ng-template pTemplate="right">
         <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
         <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
       </ng-template>
     </p-toolbar>
-    <p-table  #dt [value]="guards" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}"
-      [paginator]="true" 
-      [rows]="5"
-      (onPage)="pageChange($event)"
-      [showCurrentPageReport]="true"
-      [rowsPerPageOptions]="[5,10, 25, 50]" 
-      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros">
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width:5%">Foto</th>
-          <th style="width:10%">Numero de factura</th>
-          <th style="width:11%">Nombre emisor</th>
-          <th style="width:11%">Descripción del producto</th>
-          <th style="width:8%">Cantidad o Pieza</th>
-          <th style="width:8%">Valor</th>
-          <th style="width:11%">Nombre del resguardante</th>
-          <th style="width:11%">Departamento</th>
-          <th style="width:7%">Numero consecutivo</th>
-          <th style="width:7%">Numero de etiqueta</th>
-          <th style="width:7%">Numero de nomina</th>
-          <th style="width:5%"></th>
+    <p-table
+    #dt1
+    [scrollable]="true"
+    scrollWidht="400px"
+  [value]="guardSave" 
+  [loading]="loading"
+  sortField="payroll" sortMode="multiple" dataKey="payroll" rowGroupMode="subheader" groupRowsBy="payroll" 
+  [rows]="5"
+  [paginator]="true"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [globalFilterFields]="['payroll']"
+  currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
 
+
+  [tableStyle]="{ 'min-width': '70rem' }"
+>
+
+  <!-- Resto del código sigue igual -->
+  <ng-template pTemplate="caption">
+    <div class="flex">
+        <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText 
+            type="text" 
+            class=" shadow-lg  appearance-none rounded-full  pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+
+            (input)="onInputChange($event)" 
+            placeholder="buscar por N° de nomina" />
+     
+        </span>
+    </div>
+</ng-template>
+      <ng-template pTemplate="header">
+        <tr class="bg-gray-800 text-white shadow-md">
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Foto</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero de factura</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Nombre emisor</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:400px">Descripción del producto</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Cantidad o Pieza</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Valor</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:400px">Nombre del resguardante</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:400px">Departamento</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero consecutivo</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero de etiqueta</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero de nomina</th>
+          <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px"></th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-guards let-editing="editing" let-ri="rowIndex">
-     
-        <tr class="" [pEditableRow]="guards">
-          <td class="border-black border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <!-- component -->
-                
-                <ng-container *ngIf="!myForm.get('img'+guards.id)?.value" >
-
-                  <input 
-    [formControlName]="'picture' + guards.id"
-    (change)="onFileChange($event, guards.id)"
-    class="block w-70 mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
-    id="small_size" 
-    type="file"
-  >
-                </ng-container>
-
-
-              </ng-template>
-              <ng-template pTemplate="output">
-                <div class="flex items-center justify-center">
-                  <div class="rounded-md border border-gray-100 bg-white shadow-md">
-                    <label for="upload" class="flex flex-col items-center gap-2 cursor-pointer">
-                      <div *ngIf="myForm.get('img'+guards.id)?.value" class="h-20 w-20 bg-cover bg-center rounded-full"
-                        [style.background-image]="'url(data:image/png;base64,' + myForm.get('img'+guards.id)?.value + ')'"></div>
-                    
-                    </label>
-                  </div>
-                </div>
-                
-              </ng-template>
-            </p-cellEditor>
-          </td>
-
-          <td class="border-black border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input  type="number"
-                min="1"
-                [formControlName]="'facture'+guards.id"
-                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                  >
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{
-                myForm.get('facture'+guards.id)?.value
-                }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td class="border-black border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text"
-                [formControlName]="'emisor'+guards.id"
-                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                  >
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{
-                  myForm.get('emisor'+guards.id)?.value
-                  }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td class="border-black border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text"
-                [formControlName]="'description'+guards.id"
-
-                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                  >
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{
-                  myForm.get('description'+guards.id)?.value
-                  }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td class="border-black border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text"
-                [formControlName]="'type'+guards.id"
-                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                  >
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{
-                  myForm.get('type'+guards.id)?.value
-                  }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td class="border-black border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                
-                <input pInputText type="number"
-                min="1"
-                [formControlName]="'value'+guards.id"
-                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                  >
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{
-                  myForm.get('value'+guards.id)?.value
-                  }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td class="border-black border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text"
-                [formControlName]="'name'+guards.id"
-                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                >
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{
-                  myForm.get('name'+guards.id)?.value
-                  }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td class="border-black border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text"
-                [formControlName]="'group'+guards.id"
-                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                  >
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{
-                  myForm.get('group'+guards.id)?.value
-                  }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td class="border-black  border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="number"
-                min="1"
-                [formControlName]="'numberconsecutive'+guards.id"
-                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                 required>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{
-                  myForm.get('numberconsecutive'+guards.id)?.value
-                  }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-         
-          <td class="border-black  border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="number"
-                min="1"
-                [formControlName]="'label'+guards.id"
-                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                >
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{
-                  myForm.get('label'+guards.id)?.value
-                  }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td class="border-black  border-b">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="number"
-                min="1"
-                [formControlName]="'payroll'+guards.id"
-                  class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-                  >
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{
-                  myForm.get('payroll'+guards.id)?.value
-                  }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td class="border-black  border-b">
-            <div class="flex align-items-center justify-content-center gap-2">
-              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                (click)="onRowEditInit(guards)"
-                class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-yellow-300 p-2 rounded-full hover:bg-yellow-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out">
-
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                </svg>
-              </button>
+      <ng-template
+        pTemplate="groupheader"
+        let-guardSave
+        let-rowIndex="rowIndex"
+        let-expanded="expanded"
+      >
+        <tr>
+          <td colspan="12">
+            <button
+            type="button"
+             pButton
+             pRipple
+             [pRowToggler]="guardSave"
+             class="p-button-text p-button-rounded p-button-plain mr-2"
+             [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"type="button"
+             pButton
+             pRipple
+             [pRowToggler]="guardSave"
+             class="p-button-text p-button-rounded p-button-plain mr-2 border absolute top-0 left-0 right-0 bottom-0"
+             [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
            
-              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-              (click)="onRowDelete(ri)"
-              class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-red-300 p-2 rounded-full hover:bg-red-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out">
+           class="animate-bounce mx-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+             El empleado con el numero de nomina {{ guardSave.payroll }} presione para ver sus resguardos
+           </button>
+          </td>
+        </tr>
+      </ng-template>
+   
 
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-              </svg>
-            </button>
-            
-            
-            
-            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-              
-            (click)="onRowEditSave(ri)"
-              class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-yellow-300 p-2 rounded-full hover:bg-yellow-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
-                viewBox="0 0 16 16">
-                <path
-                  d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-              </svg>
+     
 
-            </button>
-          
-
-
-              
-              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                (click)="onRowEditCancel(guards, ri)" class="p-button-rounded p-button-text p-button-danger
-                      min-w-auto w-14 h-14 bg-red-300 p-2 rounded-full hover:bg-red-500 text-white font-semibold transition-rotation duration-300 hover:-rotate-45 ease-in-out
-                      ">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                </svg>
-              </button>
+      
+     <ng-template pTemplate="rowexpansion" let-guardSave>
+        <tr>
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900  bg-slate-500">
+            <div class="flex items-center justify-center">
+              <div class="rounded-md border border-gray-100 bg-white shadow-md">
+                <label
+                  for="upload"
+                  class="flex flex-col items-center gap-2 cursor-pointer"
+                >
+                  <div
+                    class="h-20 w-20 bg-cover bg-center rounded-full"
+                    [style.background-image]="'url(' + guardSave.picture + ')'"
+                  ></div>
+                </label>
+              </div>
             </div>
           </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</form>
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            {{ guardSave.facture !== 'null' ? guardSave.facture : '' }}
+           
+          </td>
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            {{ guardSave.emisor }}
+          </td>
 
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            {{ guardSave.description }}
+          </td>
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            {{ guardSave.type }}
+          </td>
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            {{ guardSave.value }}
+          </td>
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            {{ guardSave.name }}
+          </td>
+        
+      
+
+
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            {{ guardSave.group }}
+          </td>
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            {{ guardSave.numberconsecutive }}
+          </td>
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            {{ guardSave.label }}
+          </td>
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            {{ guardSave.payroll }}
+          </td>
+          <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+            <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-check"
+            (click)="EditGuard(guardSave)"
+
+            pTooltip="Editar"
+            class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-yellow-300 p-2 rounded-full hover:bg-yellow-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-pencil"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+              />
+            </svg>
+          </button>
+          <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-pencil"
+          pTooltip="ELIMINAR"
+          (click)="removeGuard(guardSave.id)"
+          class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-red-300 p-2 rounded-full hover:bg-red-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-trash3"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
+            />
+          </svg>
+        </button>
+          </td>
+        </tr>
+      </ng-template> 
+    </p-table>
+  </p-tabPanel>
+  <p-tabPanel header="Agregar">
+    <form
+      [formGroup]="myForm"
+      (ngSubmit)="onSubmit()"
+      enctype="multipart/form-data"
+    >
+      <div class="card mx-auto">
+        <p-toolbar styleClass="mb-4 gap-2 mx-auto rounded-1xl bg-gray-100 shadow-lg">
+          <ng-template pTemplate="left">
+            <button
+              type="button"
+              pTooltip="Agregar"
+              (click)="moreInputs()"
+              class="min-w-auto w-32 h-10 bg-blue-300 p-2 rounded-t-xl hover:bg-blue-500 text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"
+              pButton
+              pRipple
+              label=""
+              icon="pi pi-plus"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-plus-lg"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
+                />
+              </svg>
+            </button>
+            
+           
+            <!-- <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text">AFTER</p-button>
+              <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text">RESET</p-button>
+              <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text">MORE</p-button> -->
+          </ng-template>
+          <ng-container *ngIf="!myForm.invalid" >
+            <button
+            pTooltip="Registrar"
+            class="pr-12 min-w-auto w-32 h-10 bg-green-300 p-2 rounded-t-xl hover:bg-green-500 text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"
+            type="submit"
+          >
+            Registrar
+          </button>
+          </ng-container>
+          <ng-container *ngIf="myForm.invalid" >
+            <button
+            pTooltip="Registrar"
+            disabled
+            class="pr-12 min-w-auto w-32 h-10 bg-green-300 p-2 rounded-t-xl text-white font-semibold"
+            type="submit"
+          >
+            Registrar
+          </button>
+          </ng-container>
+
+          <ng-template pTemplate="right">
+            <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
+            <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
+          </ng-template>
+        </p-toolbar>
+
+        <p-table
+          #dt
+          [value]="guards"
+          dataKey="idtable"
+          editMode="row"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          [paginator]="true"
+          [rows]="5"
+          [loading]="loading"
+          (onPage)="pageChange($event)"
+          [showCurrentPageReport]="true"
+          [rowsPerPageOptions]="[5, 10, 25, 50]"
+          [scrollable]="true"
+          scrollWidht="400px"
+          currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Foto</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero de factura</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Nombre emisor</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:400px">Descripción del producto</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Cantidad o Pieza</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Valor</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:400px">Nombre del resguardante</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:400px">Departamento</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero consecutivo</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero de etiqueta</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px">Numero de nomina</th>
+              <th class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold  text-gray-900" style="min-width:150px"></th>
+
+              
+            </tr>
+          </ng-template>
+
+          <ng-template
+            pTemplate="body"
+            let-guards
+            let-editing="editing"
+            let-ri="rowIndex"
+          >
+            <tr class="" [pEditableRow]="guards">
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <!-- component -->
+
+                    <input
+                      (change)="onFileChange($event, guards.idtable)"
+                      class="block w-70 mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      idtable="small_size"
+                      type="file"
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    <!-- <ng-container  *ngIf="guards.picture">
+                                      <div class="h-20 w-20 bg-cover bg-center rounded-full"
+                        [style.background-image]="'url(' + guards.picture + ')'" >
+                                        </div>
+      
+                      </ng-container>
+       -->
+
+                    <div class="flex items-center justify-center">
+                      <div
+                        class="rounded-md border border-gray-100 bg-white shadow-md"
+                      >
+                        <label
+                          for="upload"
+                          class="flex flex-col items-center gap-2 cursor-pointer"
+                        >
+                          <div
+                            *ngIf="myForm.get('img' + guards.idtable)?.value"
+                            class="h-20 w-20 bg-cover bg-center rounded-full"
+                            [style.background-image]="
+                              'url(data:image/png;base64,' +
+                              myForm.get('img' + guards.idtable)?.value +
+                              ')'
+                            "
+                          ></div>
+                        </label>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      type="number"
+                      min="1"
+                      [formControlName]="'facture' + guards.idtable"
+                          class=" block w-full h-10 mb-5 text-xs mt-2 text-gray-900 border-b border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ myForm.get("facture" + guards.idtable)?.value }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="text"
+                      [formControlName]="'emisor' + guards.idtable"
+                      class=" block w-full h-10 mb-5 text-xs mt-2 text-gray-900 border-b border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ myForm.get("emisor" + guards.idtable)?.value }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="text"
+                      [formControlName]="'description' + guards.idtable"
+                      class=" block w-full h-10 mb-5 text-xs mt-2 text-gray-900 border-b border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ myForm.get("description" + guards.idtable)?.value }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="text"
+                      [formControlName]="'type' + guards.idtable"
+                      class=" block w-full h-10 mb-5 text-xs mt-2 text-gray-900 border-b border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ myForm.get("type" + guards.idtable)?.value }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="number"
+                      min="1"
+                      [formControlName]="'value' + guards.idtable"
+                      class=" block w-full h-10 mb-5 text-xs mt-2 text-gray-900 border-b border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ myForm.get("value" + guards.idtable)?.value }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="text"
+                      [formControlName]="'name' + guards.idtable"
+                      class=" block w-full h-10 mb-5 text-xs mt-2 text-gray-900 border-b border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ myForm.get("name" + guards.idtable)?.value }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="text"
+                      [formControlName]="'group' + guards.idtable"
+                      class=" block w-full h-10 mb-5 text-xs mt-2 text-gray-900 border-b border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ myForm.get("group" + guards.idtable)?.value }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="number"
+                      min="1"
+                      [formControlName]="'numberconsecutive' + guards.idtable"
+                      class=" block w-full h-10 mb-5 text-xs mt-2 text-gray-900 border-b border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+
+                      required
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{
+                      myForm.get("numberconsecutive" + guards.idtable)?.value
+                    }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="number"
+                      min="1"
+                      [formControlName]="'label' + guards.idtable"
+                      class=" block w-full h-10 mb-5 text-xs mt-2 text-gray-900 border-b border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ myForm.get("label" + guards.idtable)?.value }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="number"
+                      min="1"
+                      [formControlName]="'payroll' + guards.idtable"
+                      class=" block w-full h-10 mb-5 text-xs mt-2 text-gray-900 border-b border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ myForm.get("payroll" + guards.idtable)?.value }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td class="p-4 border-2 border-gray-300 rounded-lg shadow-inner text-center font-light font-semibold">
+                <div
+                  class="flex align-items-center justify-content-center gap-2"
+                >
+                  <button
+                    *ngIf="!editing"
+                    pTooltip="EDITAR"
+                    pButton
+                    pRipple
+                    type="button"
+                    pInitEditableRow
+                    icon="pi pi-pencil"
+                    (click)="onRowEditInit(guards)"
+                    class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-yellow-300 p-2 rounded-full hover:bg-yellow-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-pencil"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+                      />
+                    </svg>
+                  </button>
+
+                  <button
+                    *ngIf="!editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pInitEditableRow
+                    icon="pi pi-pencil"
+                    (click)="onRowDelete(ri)"
+                    pTooltip="ELIMINAR"
+                    class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-red-300 p-2 rounded-full hover:bg-red-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-trash3"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
+                      />
+                    </svg>
+                  </button>
+
+                  <button
+                    *ngIf="editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pSaveEditableRow
+                    icon="pi pi-check"
+                    (click)="onRowEditSave(guards.idtable)"
+                    pTooltip="ACEPTAR"
+                    class="p-button-rounded p-button-text min-w-auto w-14 h-14 bg-yellow-300 p-2 rounded-full hover:bg-yellow-500 text-white font-semibold transition-rotation duration-300 hover:rotate-45 ease-in-out"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-pencil"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+                      />
+                    </svg>
+                  </button>
+
+                  <button
+                    *ngIf="editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pCancelEditableRow
+                    icon="pi pi-times"
+                    pTooltip="CANCELAR"
+                    (click)="onRowEditCancel(guards, ri)"
+                    class="p-button-rounded p-button-text p-button-danger min-w-auto w-14 h-14 bg-red-300 p-2 rounded-full hover:bg-red-500 text-white font-semibold transition-rotation duration-300 hover:-rotate-45 ease-in-out"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-x-lg"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </form>
+  </p-tabPanel>
+</p-tabView>
+</div>
+
+
+<p-dialog header="Actualizar" [(visible)]="visible" [style]="{width: '50vw'}">
+  <form action="" [formGroup]="myFormUpdate" (ngSubmit)="onSubmitUpdate()" enctype="multipart/form-data"
+  >
+      <div class="mt-5 mx-auto">
+   
+        <label for="">foto </label>
+        <input
+        (change)="onFileChangeUpdate($event)"
+        class="block w-full h-full mb-5 text-xs mt-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+        id="small_size"
+        type="file"
+        
+      />     
+      <label for="">factura </label>
+  
+      <input
+      [value]="this.myFormUpdate.get('facture')?.value"
+      class="mt-1 block w-full border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"   
+         placeholder="Factura"
+      id="small_size"
+        type="number"
+        formControlName="facture"
+        />
+        <label for="">Emisor </label>
+
+        <input
+        class="mt-1 block w-full border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"    
+            placeholder="Emisor"
+            [value]="this.myFormUpdate.get('emisor')?.value"
+
+        id="small_size"
+          type="text"
+          formControlName="emisor"
+          /> 
+          <label for="">Descripción </label>
+
+          <input
+          [value]="this.myFormUpdate.get('description')?.value"
+
+          class="mt-1 block w-full border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"    
+            placeholder="Descripción"
+      id="small_size"
+        type="text"
+        formControlName="description"
+        /> 
+        <label for="">Cantidad o pieza </label>
+
+        <input
+        [value]="this.myFormUpdate.get('type')?.value"
+        class="mt-1 block w-full border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"    
+          placeholder="Cantidad o pieza"
+      id="small_size"
+        type="text"
+        formControlName="type"
+        /> 
+        <label for="">valor </label>
+
+        <input
+        [value]="this.myFormUpdate.get('value')?.value"
+
+        class="mt-1 block w-full border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"  
+            placeholder="valor"
+      id="small_size"
+        type="number"
+        formControlName="value"
+        />   
+        <label for="">Nombre de resguardante </label>
+
+        <input
+        [value]="this.myFormUpdate.get('name')?.value"
+
+        class="mt-1 block w-full border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"  
+              placeholder="Nombre de resguardante"
+        id="small_size"
+          type="text"
+          formControlName="name"
+          /> 
+          <label for="">Departamento </label>
+
+          <input
+          [value]="this.myFormUpdate.get('group')?.value"
+
+          class="mt-1 block w-full border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"    
+                placeholder="Departamento"
+          id="small_size"
+            type="text"
+            formControlName="group"
+            /> 
+            <label for="">Numero consecutivo </label>
+
+            <input
+class="mt-1 block w-full border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" 
+[value]="this.myFormUpdate.get('numberconsecutive')?.value"
+
+placeholder="Numero consecutivo"
+            id="small_size"
+              type="number"
+              formControlName="numberconsecutive"
+              /> 
+              <label for="">Numero de etiqueta </label>
+
+                <input
+                [value]="this.myFormUpdate.get('label')?.value"
+
+                class="mt-1 block w-full border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"  
+               placeholder="Numero de etiqueta"
+                id="small_size"
+                  type="number"
+                  formControlName="label"
+                  /> 
+                  <label for="">Numero de nomina </label>
+
+                  <input
+                  [value]="this.myFormUpdate.get('payroll')?.value"
+                  class="mt-1 block w-full border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"  
+              placeholder="Numero de nomina"
+                  id="small_size"
+                    type="number"
+                    formControlName="payroll"
+                    />
+              </div>
+              <ng-container *ngIf="!myFormUpdate.invalid">
+              
+                <button type="submit" 
+                class="bg-green-300 mt-4 justify-center text-center px-5 py-3 text-sm shadow-sm font-medium tracking-wider  text-blue-100 rounded-full hover:shadow-2xl hover:bg-green-500"
+                >Registrar</button>
+              </ng-container>
+              <ng-container *ngIf="myFormUpdate.invalid">
+                <button type="submit" 
+                class="bg-green-300 mt-4 justify-center text-center px-5 py-3 text-sm shadow-sm font-medium tracking-wider  text-blue-100 rounded-full "
+                >Registrar</button>
+
+              </ng-container>
+
+          </form>
+
+</p-dialog>

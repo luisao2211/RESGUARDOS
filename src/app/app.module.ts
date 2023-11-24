@@ -31,6 +31,7 @@ import { TagModule } from 'primeng/tag';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { CardModule } from 'primeng/card';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { CardModule } from 'primeng/card';
     AvatarModule,
     AvatarGroupModule,
     CardModule,
+    ImageModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule
   ],
   providers: [MessageService, {

@@ -6,10 +6,64 @@
 .p-tabview {
     color: #ff0000;
   }
-  div[data-pc-name="tabview"] {
-background-color: aquamarine;  }
+
     
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: rgb(224, 224, 224); }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif}
 @import url(https://pro.fontawesome.com/releases/v5.10.0/css/all.css);
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap');
+/* Cambiar el color de fondo de los botones de paginación */
+/* Cambiar el color de fondo del botón */
+.p-ripple.p-element.p-paginator-page.p-paginator-element.p-link.p-highlight {
+  background-color: #0070f0 !important;
+  color: #fff;
+  border: 1px solid #0070f0;
+  /* Otros estilos según sea necesario */
+}
+table{
+ border-radius: 20px;
+}
+
+.p-component { 
+  font-family: var(--font-family); 
+  font-feature-settings: var(--font-feature-settings, normal); 
+  /* font-size: 1rem; */
+   font-weight: normal; }
+.p-paginator {
+  /* Estilos adicionales para el componente p-paginator */
+  /* Por ejemplo: */
+  margin: 0%;
+  background-color: #f8f8f8;
+  
+}
+
+.p-inputwrapper-filled{
+opacity: .8;
+}
+.p-tabview-panels{
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+
+}
+
+.p-tabview-nav-content{
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+
+}
+
+/* Otros estilos para botones de paginación, como tamaño, márgenes, etc. */
+.p-dialog-header{
+  background-color: #262626;
+  text-align: center;
+  font-size: medium;
+  font-weight: bold;
+  color: #fff;
+}
+.p-image-preview-container {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+    width: 150px;
+    height: 100px;
+}

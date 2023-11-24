@@ -14,6 +14,9 @@ export class ServiceService<T> {
   Data<T>(url: string) {
     return this.http.get<T>(`${this.route}/${url}`);
   }
+  OtherData<T>(url: string) {
+    return this.http.get<T>(`${url}`);
+  }
   Post<T>(url: string, params: any) {
     return this.http.post<T>(`${this.route}/${url}`, params);
   }

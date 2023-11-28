@@ -52,18 +52,20 @@ export class DashboardAdminComponent {
     this.LoadUsers()
     this.getGuards()
     this.cols = [
-      { field: 'facture', header: 'Factura', customExportHeader: 'Factura' },
-      { field: 'emisor', header: 'Emisor', customExportHeader: 'Emisor' },
-      { field: 'description', header: 'Descripción del producto', customExportHeader: 'Descripción del producto' },
-      { field: 'type', header: 'Cantidad o Pieza', customExportHeader: 'Cantidad o Pieza' },
-      { field: 'value', header: 'Valor', customExportHeader: 'Valor' },
-      { field: 'name', header: 'Nombre del resguardante', customExportHeader: 'Nombre del resguardante' },
-      { field: 'group', header: 'Departamento', customExportHeader: 'Departamento' },
-      { field: 'numberconsecutive', header: 'Numero consecutivo', customExportHeader: 'Numero consecutivo' },
-      { field: 'label', header: 'Numero de etiqueta', customExportHeader: 'Numero de etiqueta' },
-      { field: 'payroll', header: 'Numero de nomina', customExportHeader: 'Numero de nomina' },
+      { field: 'stock_number', header: 'NUMERO DE INVENTARIO', customExportHeader: 'Emisor' },
+      { field: 'description', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'Emisor' },
+      { field: 'brand', header: 'MARCA Y MODELO', customExportHeader: 'Descripción del producto' },
+      { field: 'type', header: 'TIPO', customExportHeader: 'Cantidad o Pieza' },
+      { field: 'state', header: 'NUMERO DE SERIE', customExportHeader: 'Valor' },
+      { field: 'serial', header: 'ESTADO FISICO', customExportHeader: 'Nombre del resguardante' },
+      { field: 'airlne', header: 'ÁEREA DE ADSCRIPCION', customExportHeader: 'Departamento' },
+      { field: 'payroll', header: 'NUMERO DE NOMINA', customExportHeader: 'Numero consecutivo' },
+      { field: 'group', header: 'UBICACIÓN/DEPARTAMENTO', customExportHeader: 'Numero de etiqueta' },
+      { field: 'employeed', header: 'NOMBRE DEL RESGUARDANTE', customExportHeader: 'Numero de nomina' },
+      { field: 'date', header: 'FECHA DE ASIGNACIÓN DEL RESGUARDO', customExportHeader: 'Numero de nomina' },
+      { field: 'observations', header: 'OBSERVACÍONES', customExportHeader: 'Numero de nomina' },
       { field: 'email', header: 'responsable', customExportHeader: 'responsable' },
-      { field: 'status', header: 'status', customExportHeader: 'status' },
+      { field: 'exist', header: 'status', customExportHeader: 'status' },
 
   ];
   this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
@@ -193,10 +195,13 @@ export class DashboardAdminComponent {
       const jsPDF = jsPDFModule.default;
       const autoTable = autoTableModule.default;
 
-      const doc = new jsPDF('p', 'px', 'a4');
+      const doc = new jsPDF('l', 'px', 'a4');
       (doc as any).autoTable({
         columns: this.exportColumns,
-        body: this.guardSave
+        body: this.guardSave,
+        styles: {
+          fontSize: 8 // Cambiar el tamaño de la fuente a 8 puntos
+        }
       });
       doc.save('Resguardos.pdf');
     });

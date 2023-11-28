@@ -32,6 +32,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { CardModule } from 'primeng/card';
 import { ImageModule } from 'primeng/image';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { ImageModule } from 'primeng/image';
     AvatarGroupModule,
     CardModule,
     ImageModule,
+    InputSwitchModule,
+    MultiSelectModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule
   ],
   providers: [MessageService, {

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ViewChild, ChangeDetectorRef, NgZone, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ViewChild, ChangeDetectorRef, NgZone, OnInit, ElementRef} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2'
 import { Table } from 'primeng/table'; 
@@ -32,6 +32,7 @@ export class UsersreguardsComponent  {
 
 
   cols!: Column[];
+    selectedColumns!: Column[];
 
   exportColumns!: ExportColumn[];
   addTr: number = 0;
@@ -39,10 +40,12 @@ export class UsersreguardsComponent  {
   myForm!: FormGroup;
   myFormUpdate!: FormGroup;
   first = 0;
-  @ViewChild('dt') table?: Table; 
+  @ViewChild('dt') table!: Table; 
   @ViewChild('dt1') tableReports!: Table; 
+  @ViewChild('file') fileInputRef!: ElementRef;
 
   loading: boolean = false;
+  action:'edit'|'insert'='insert' 
 
   rows = 10;
   guards: any = [
@@ -74,16 +77,17 @@ export class UsersreguardsComponent  {
   serial = localStorage.getItem('serial') !== null ? localStorage.getItem('serial') : ''; //serial
   airlne = localStorage.getItem('airlne') !== null ? localStorage.getItem('airlne') : ''; //aerea de adscripcion
   numberNomina = localStorage.getItem('numberNomina') !== null ? localStorage.getItem('numberNomina') : ''; //aerea de adscripcion
+  checked = localStorage.getItem('checked') !== null ? false : true;
   //numero de nomina
 
   constructor(private fb: FormBuilder,private service:ServiceService<any>) {
+    console.warn(this.checked,typeof(this.checked))
     this.myForm = new FormGroup({
       
     });
     this.myFormUpdate = new FormGroup({  } )
-    // this.myFormUpdate.addControl(`id`,new FormControl(''))
-      this.myFormUpdate.addControl(`picture`,new FormControl('',Validators.required))
-      this.myFormUpdate.addControl(`stock_number`,new FormControl('',Validators.required))
+    this.myFormUpdate.addControl(`id`,new FormControl(''))
+      this.myFormUpdate.addControl(`picture`,new FormControl(''))
       this.myFormUpdate.addControl(`description`,new FormControl('',Validators.required))
 
       this.myFormUpdate.addControl(`brand`,new FormControl(localStorage.getItem('brand') !== null ? localStorage.getItem('brand') : '',Validators.required))
@@ -100,17 +104,19 @@ export class UsersreguardsComponent  {
 
 
     this.cols = [
-      // { field: 'facture', header: 'Factura', customExportHeader: 'Factura' },
-      { field: 'emisor', header: 'Emisor', customExportHeader: 'Emisor' },
-      { field: 'description', header: 'Descripción del producto', customExportHeader: 'Descripción del producto' },
-      { field: 'type', header: 'Cantidad o Pieza', customExportHeader: 'Cantidad o Pieza' },
-      { field: 'value', header: 'Valor', customExportHeader: 'Valor' },
-      { field: 'name', header: 'Nombre del resguardante', customExportHeader: 'Nombre del resguardante' },
-      { field: 'group', header: 'Departamento', customExportHeader: 'Departamento' },
-      { field: 'numberconsecutive', header: 'Numero consecutivo', customExportHeader: 'Numero consecutivo' },
-      { field: 'label', header: 'Numero de etiqueta', customExportHeader: 'Numero de etiqueta' },
-      { field: 'payroll', header: 'Numero de nomina', customExportHeader: 'Numero de nomina' },
-   
+      { field: 'stock_number', header: 'NUMERO DE INVENTARIO', customExportHeader: 'Emisor' },
+      { field: 'description', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'Emisor' },
+      { field: 'brand', header: 'MARCA Y MODELO', customExportHeader: 'Descripción del producto' },
+      { field: 'type', header: 'TIPO', customExportHeader: 'Cantidad o Pieza' },
+      { field: 'state', header: 'NUMERO DE SERIE', customExportHeader: 'Valor' },
+      { field: 'serial', header: 'ESTADO FISICO', customExportHeader: 'Nombre del resguardante' },
+      { field: 'airlne', header: 'ÁEREA DE ADSCRIPCION', customExportHeader: 'Departamento' },
+      { field: 'payroll', header: 'NUMERO DE NOMINA', customExportHeader: 'Numero consecutivo' },
+      { field: 'group', header: 'UBICACIÓN/DEPARTAMENTO', customExportHeader: 'Numero de etiqueta' },
+      { field: 'employeed', header: 'NOMBRE DEL RESGUARDANTE', customExportHeader: 'Numero de nomina' },
+      { field: 'date', header: 'FECHA DE ASIGNACIÓN DEL RESGUARDO', customExportHeader: 'Numero de nomina' },
+      { field: 'observations', header: 'OBSERVACÍONES', customExportHeader: 'Numero de nomina' },
+
   ];
 
   this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
@@ -146,7 +152,17 @@ export class UsersreguardsComponent  {
     localStorage.setItem("numberNomina", event.target.value == null ? '' : event.target.value);
     this.searchEmployeed(event)
   }
-
+  onSwitchChange(event: any) {
+    this.checked =!this.checked
+    if (!this.checked) {
+        localStorage.setItem("checked",JSON.stringify(false))
+    }else{
+      localStorage.removeItem("checked")
+    }
+  }
+  clearFileInput() {
+    this.fileInputRef.nativeElement.value = '';
+  }
   next() {
     this.first = this.first + this.rows;
   }
@@ -226,6 +242,14 @@ onRowEditCancel(guards: any, index: number) {
 // }
 
 moreInputs() {
+  this.myFormUpdate.get('brand')?.setValue(localStorage.getItem('brand') !== null ? localStorage.getItem('brand') : ''); //marca
+ this.myFormUpdate.get('type')?.setValue(localStorage.getItem('type') !== null ? localStorage.getItem('type') : ''); //tipo
+ this.myFormUpdate.get('state')?.setValue(localStorage.getItem('state') !== null ? localStorage.getItem('state') : ''); //estado fisico
+ this.myFormUpdate.get('serial')?.setValue( localStorage.getItem('serial') !== null ? localStorage.getItem('serial') : ''); //serial
+ this.myFormUpdate.get('airlne')?.setValue(localStorage.getItem('airlne') !== null ? localStorage.getItem('airlne') : ''); //aerea de adscripcion
+ this.myFormUpdate.get('payroll')?.setValue(localStorage.getItem('numberNomina') !== null ? localStorage.getItem('numberNomina') : '');
+ this.myFormUpdate.get(`date`)?.setValue(new Date().toISOString().slice(0, 10))
+
   if (localStorage.getItem('numberNomina')) {
     
     this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${localStorage.getItem('numberNomina')}`).subscribe({
@@ -308,18 +332,20 @@ onInputChange(event: any) {
 
 
 exportPdf() {
-  console.log('Export Columns:', this.exportColumns);
-  console.log('Guards Data:', this.guardSave);
+  
 
   import('jspdf').then((jsPDFModule) => {
     import('jspdf-autotable').then((autoTableModule) => {
       const jsPDF = jsPDFModule.default;
       const autoTable = autoTableModule.default;
 
-      const doc = new jsPDF('p', 'px', 'a4');
+      const doc = new jsPDF('l', 'px', 'a4');
       (doc as any).autoTable({
         columns: this.exportColumns,
-        body: this.guardSave
+        body: this.guardSave,
+        styles: {
+          fontSize: 8 // Cambiar el tamaño de la fuente a 8 puntos
+        }
       });
       doc.save('Resguardos.pdf');
     });
@@ -387,8 +413,8 @@ calculateCustomerTotal(number: number) {
   return total;
 }
   onSubmit() {
+   
     this.loading = true;
-    console.log(this.myFormUpdate.value)
     
     const formData = this.myFormUpdate.value;
     const form = new FormData();
@@ -397,9 +423,11 @@ calculateCustomerTotal(number: number) {
      
       if (key.includes('picture')) {
         const files = formData[key];
+        if (files && files.length > 0) {
           const file = files[0];
           const newKey = `${key}`;
           form.append(newKey, file);
+        }
         
       } else {
         form.append(key, formData[key]);
@@ -409,10 +437,12 @@ calculateCustomerTotal(number: number) {
     
     
     
-
+    let url = 'guards'
+    if (this.action !='insert') {
+      url = 'guards/update'
+    }
     
-    
-    this.service.Post('guards',form).subscribe({
+    this.service.Post(url,form).subscribe({
       next:(n)=>{
         this.Toast.fire({
           position: 'top-end',
@@ -429,7 +459,18 @@ calculateCustomerTotal(number: number) {
       },
       complete:()=>{
         // this.table.reset()
+        this.action ='insert'
         this.loading = false;
+        if (this.checked||this.action !='insert') {
+          this.myFormUpdate.reset()
+          this.visible = false
+        }
+        else{
+          this.myFormUpdate.get(`picture`)?.setValue('');
+          this.myFormUpdate.get(`description`)?.setValue('');
+          this.myFormUpdate.get(`observations`)?.setValue('');
+          this.clearFileInput()
+        }
         this.getGuards()
 
       }
@@ -525,21 +566,24 @@ calculateCustomerTotal(number: number) {
       }
     })
   }
-//  EditGuard(guard:any){
-//   this.visible = true
-//   this.myFormUpdate.get(`id`)?.setValue(guard.id)
-//   this.myFormUpdate.get(`facture`)?.setValue(guard.facture)
-//   this.myFormUpdate.get(`emisor`)?.setValue(guard.emisor)
-//   this.myFormUpdate.get(`description`)?.setValue(guard.description)
-//   this.myFormUpdate.get(`type`)?.setValue(guard.type)
-//   this.myFormUpdate.get(`value`)?.setValue(guard.value)
-//   this.myFormUpdate.get(`name`)?.setValue(guard.name)
-//   this.myFormUpdate.get(`group`)?.setValue(guard.group)
-//   this.myFormUpdate.get(`numberconsecutive`)?.setValue(guard.numberconsecutive)
-//   this.myFormUpdate.get(`label`)?.setValue(guard.label)
-//   this.myFormUpdate.get(`payroll`)?.setValue(guard.payroll)
-//   console.log(this.myFormUpdate.value)
-//  }
+ EditGuard(guard:any){
+  this.visible = true
+  this.action = 'edit'
+  this.myFormUpdate.get(`id`)?.setValue(guard.id)
+  this.myFormUpdate.get(`description`)?.setValue(guard.description)
+  this.myFormUpdate.get(`brand`)?.setValue(guard.brand)
+  this.myFormUpdate.get(`type`)?.setValue(guard.type)
+  this.myFormUpdate.get(`serial`)?.setValue(guard.serial)
+  this.myFormUpdate.get(`state`)?.setValue(guard.state)
+  this.myFormUpdate.get(`airlne`)?.setValue(guard.airlne)
+  this.myFormUpdate.get(`payroll`)?.setValue(guard.payroll)
+  this.myFormUpdate.get(`group`)?.setValue(guard.group)
+  this.myFormUpdate.get(`employeed`)?.setValue(guard.employeed)
+  this.myFormUpdate.get(`date`)?.setValue(guard.date)
+  this.myFormUpdate.get(`observations`)?.setValue(guard.observations)
+  this.myFormUpdate.addControl(`description`,new FormControl('',Validators.required))
+
+}
  searchEmployeed(event:any ){
   this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${event.target.value}`).subscribe({
   next:(n)=>{
@@ -568,6 +612,8 @@ calculateCustomerTotal(number: number) {
   localStorage.removeItem('serial')
   localStorage.removeItem('airlne')
   localStorage.removeItem('numberNomina')
+  localStorage.removeItem('checked')
+
   this.brand = null
   this.type = null
   this.state =null
@@ -584,6 +630,13 @@ calculateCustomerTotal(number: number) {
   
   this.options = false
  }
+ onInputChangeReports(event: any) {
+  if (event && event.target) {
+    // Ahora TypeScript sabe que event.target no es nulo
+    const inputValue: string = event.target.value;
+    this.table.filterGlobal(inputValue, 'contains');
+  }
+}
 }
     
   

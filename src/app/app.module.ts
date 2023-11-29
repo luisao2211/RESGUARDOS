@@ -34,6 +34,7 @@ import { CardModule } from 'primeng/card';
 import { ImageModule } from 'primeng/image';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,10 @@ import { MultiSelectModule } from 'primeng/multiselect';
     provide:HTTP_INTERCEPTORS,
     useClass:AuthInterceptor,
     multi:true
-  }],
+  },
+  {provide: LocationStrategy, useClass: HashLocationStrategy}
+
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

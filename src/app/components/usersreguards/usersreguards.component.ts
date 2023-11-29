@@ -87,7 +87,7 @@ export class UsersreguardsComponent  {
     });
     this.myFormUpdate = new FormGroup({  } )
     this.myFormUpdate.addControl(`id`,new FormControl(''))
-      this.myFormUpdate.addControl(`picture`,new FormControl(''))
+      this.myFormUpdate.addControl(`picture`,new FormControl('',Validators.required))
       this.myFormUpdate.addControl(`description`,new FormControl('',Validators.required))
 
       this.myFormUpdate.addControl(`brand`,new FormControl(localStorage.getItem('brand') !== null ? localStorage.getItem('brand') : '',Validators.required))
@@ -242,6 +242,15 @@ onRowEditCancel(guards: any, index: number) {
 // }
 
 moreInputs() {
+  if (this.myFormUpdate.get('picture')) {    
+    this.myFormUpdate.removeControl(`picture`)
+  }
+  this.myFormUpdate.addControl(`picture`,new FormControl('',Validators.required))
+  this.myFormUpdate.get(`description`)?.setValue('')
+  this.myFormUpdate.get(`observations`)?.setValue('')
+  this.myFormUpdate.get('employeed')?.setValue(``)
+        this.myFormUpdate.get('group')?.setValue(``)
+  this.clearFileInput()
   this.myFormUpdate.get('brand')?.setValue(localStorage.getItem('brand') !== null ? localStorage.getItem('brand') : ''); //marca
  this.myFormUpdate.get('type')?.setValue(localStorage.getItem('type') !== null ? localStorage.getItem('type') : ''); //tipo
  this.myFormUpdate.get('state')?.setValue(localStorage.getItem('state') !== null ? localStorage.getItem('state') : ''); //estado fisico
@@ -252,7 +261,7 @@ moreInputs() {
 
   if (localStorage.getItem('numberNomina')) {
     
-    this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${localStorage.getItem('numberNomina')}`).subscribe({
+    this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${localStorage.getItem('numberNomina')}/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
       next:(n)=>{
         const employed = n.RESPONSE.recordsets[0][0]
         console.log(employed)
@@ -463,12 +472,14 @@ calculateCustomerTotal(number: number) {
         this.loading = false;
         if (this.checked||this.action !='insert') {
           this.myFormUpdate.reset()
+          this.clearFileInput()
           this.visible = false
         }
         else{
           this.myFormUpdate.get(`picture`)?.setValue('');
           this.myFormUpdate.get(`description`)?.setValue('');
           this.myFormUpdate.get(`observations`)?.setValue('');
+         
           this.clearFileInput()
         }
         this.getGuards()
@@ -534,7 +545,8 @@ calculateCustomerTotal(number: number) {
        
       },
       error:(e)=>{
-  
+        this.loading = false;
+
       },
       complete:()=>{
         
@@ -567,6 +579,11 @@ calculateCustomerTotal(number: number) {
     })
   }
  EditGuard(guard:any){
+  if (this.myFormUpdate.get('picture')) {
+    this.myFormUpdate.removeControl(`picture`)
+
+  }
+  this.myFormUpdate.addControl(`picture`,new FormControl(''))
   this.visible = true
   this.action = 'edit'
   this.myFormUpdate.get(`id`)?.setValue(guard.id)
@@ -585,7 +602,7 @@ calculateCustomerTotal(number: number) {
 
 }
  searchEmployeed(event:any ){
-  this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${event.target.value}`).subscribe({
+  this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${event.target.value}/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
   next:(n)=>{
     const employed = n.RESPONSE.recordsets[0][0]
     console.log(employed)

@@ -107,6 +107,7 @@ export class DashboardAdminComponent {
          
         },
         error:(e)=>{
+          this.loading = false;
     
         },
         complete:()=>{
@@ -180,6 +181,7 @@ export class DashboardAdminComponent {
       this.users =n['data']["result"]
     },
     error:(e)=>{
+      this.loading = false;
 
     },
     complete:()=>{

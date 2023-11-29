@@ -22,7 +22,10 @@ export class DashboardUsersComponent {
   Logout() {
   this.service.Logout('auth/logout').subscribe({
     next:(n)=>{
-      localStorage.clear()
+      localStorage.removeItem('token')
+      localStorage.removeItem('id')
+      localStorage.removeItem('role')
+
       this.router.navigateByUrl('');
 
     },

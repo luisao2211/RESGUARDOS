@@ -557,7 +557,7 @@ calculateCustomerTotal(number: number) {
   } 
   removeGuard(id:number){
     this.loading = true
-    this.service.Delete(`guards/${id}`).subscribe({
+    this.service.Delete(`guardsdestroy/${id}`).subscribe({
       next:(n)=>{
         this.Toast.fire({
           position: 'top-end',

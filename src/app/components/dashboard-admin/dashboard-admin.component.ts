@@ -149,7 +149,7 @@ export class DashboardAdminComponent {
    }) 
   }
   updateStatus(id:any){
-    this.Http.Delete(`users/${id}`).subscribe({
+    this.Http.Delete(`usersdestroy/${id}`).subscribe({
       next:(n)=>{
         this.LoadUsers()
         this.Toast.fire({

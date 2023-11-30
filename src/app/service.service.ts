@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ServiceService<T> {
  
-  route: string =  "http://api-imm.gomezconnect.com";
+  route: string =  "https://api-imm.gomezconnect.com/api";
   constructor(private http: HttpClient) { 
   }
   
@@ -30,7 +30,7 @@ export class ServiceService<T> {
     return this.http.put(`${this.route}/${url}`, params);
   }
   Delete(url:string) {
-    return this.http.delete(`${this.route}/${url}`);
+    return this.http.post(`${this.route}/${url}`,'');
   }
 
   

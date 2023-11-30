@@ -211,9 +211,10 @@
 
               </td>
               <td class="bg-zinc-900 text-xs text-white">
-                {{ guardSave.type !== 'null' ? guardSave.type : '' }}
+                {{ guards.type!=='null'? guards.type:''}}
 
               </td>
+              
               <td class="bg-zinc-900 text-xs text-white">
                 {{ guards.serial }}
 
@@ -243,9 +244,10 @@
 
               </td>
               <td class="bg-zinc-900 text-xs text-white">
-                {{ guardSave.observations !== 'null' ? guardSave.observations : '' }}
+                {{ guards.observations!=='null'? guards.observations:''}}
 
               </td>
+              
               <td class="bg-zinc-900 text-xs text-white">
                 <button
                 type="submit"

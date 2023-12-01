@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ServiceService<T> {
  
-  route: string =  "https://api-imm.gomezconnect.com/api";
+  route: string =  "http://127.0.0.1:8000/api";
   constructor(private http: HttpClient) { 
   }
   

@@ -73,6 +73,8 @@ export class DashboardAdminComponent {
     this.myForm = new FormGroup(
       {
         email: new FormControl('', [Validators.required,Validators.email]),
+        group: new FormControl('', [Validators.required]),
+
         password: new FormControl('123456'),
         role: new FormControl('1')
       }
@@ -167,11 +169,13 @@ export class DashboardAdminComponent {
       }
     })
   }
-  updateEmail(email:String,id:number){
+  updateEmail(user:any){
     this.action = true
-    this.id = id
+    this.id = user.id
     this.visible = true;
-    this.myForm.get("email")?.setValue(email)
+    this.myForm.get("email")?.setValue(user.email)
+    this.myForm.get("group")?.setValue(user.group)
+
   }
  LoadUsers(){
   this.loading = true;

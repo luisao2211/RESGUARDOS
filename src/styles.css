@@ -67,3 +67,22 @@ opacity: .8;
     width: 150px;
     height: 100px;
 }
+span{
+  color: #050505;
+}
+a:hover{
+  background-color: #262626;
+  color: whitesmoke;
+  box-shadow: 2px 2px 2px 7px white;
+}
+a:active {
+  background: red;
+}
+div.p-tabview-panels {
+  /* Estilos específicos para div con la clase p-tabview-panels */
+  background-color: rgb(235, 235, 235);
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  /* Otros estilos... */
+}

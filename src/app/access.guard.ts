@@ -16,7 +16,6 @@ export class AcessGuard implements CanActivate {
      
       return true;
     } else {
-
       this.router.navigate(['']);
 
       return true;

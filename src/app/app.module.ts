@@ -35,14 +35,16 @@ import { ImageModule } from 'primeng/image';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-
+import { UsersComponent } from './components/users/users.component';
+import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
   declarations: [
     AppComponent,
     DashboardUsersComponent,
     LoginComponent,
     UsersreguardsComponent,
-    DashboardAdminComponent
+    DashboardAdminComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +69,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     ImageModule,
     InputSwitchModule,
     MultiSelectModule,
+    DropdownModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule
   ],
   providers: [MessageService, {

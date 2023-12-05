@@ -7,7 +7,6 @@
     color: #ff0000;
   }
 
-    
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif}
 @import url(https://pro.fontawesome.com/releases/v5.10.0/css/all.css);
@@ -22,19 +21,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif}
 }
 table{
  border-radius: 20px;
+ -webkit-border-radius: 20px;
+ -moz-border-radius: 20px;
+ -ms-border-radius: 20px;
+ -o-border-radius: 20px;
 }
 
-.p-component { 
-  font-family: var(--font-family); 
-  font-feature-settings: var(--font-feature-settings, normal); 
+.p-component {
+  font-family: var(--font-family);
+  font-feature-settings: var(--font-feature-settings, normal);
   /* font-size: 1rem; */
    font-weight: normal; }
 .p-paginator {
   /* Estilos adicionales para el componente p-paginator */
   /* Por ejemplo: */
   margin: 0%;
-  background-color: #f8f8f8;
-  
+  background-color: #ffffff;
+
 }
 
 .p-inputwrapper-filled{
@@ -54,11 +57,13 @@ opacity: .8;
 
 /* Otros estilos para botones de paginación, como tamaño, márgenes, etc. */
 .p-dialog-header{
-  background-color: #262626;
+  background-color: #f4f5f7;
+  line-height: 2px;
+  text-decoration: solid;
   text-align: center;
   font-size: medium;
   font-weight: bold;
-  color: #fff;
+  color: #cac9c9;
 }
 .p-image-preview-container {
     position: relative;
@@ -70,19 +75,32 @@ opacity: .8;
 span{
   color: #050505;
 }
-a:hover{
-  background-color: #262626;
-  color: whitesmoke;
-  box-shadow: 2px 2px 2px 7px white;
-}
-a:active {
-  background: red;
-}
+
 div.p-tabview-panels {
   /* Estilos específicos para div con la clase p-tabview-panels */
   background-color: rgb(235, 235, 235);
-  border: 1px solid #ccc;
+  border: 1px solid #fafafa;
   padding: 10px;
   border-radius: 10px;
   /* Otros estilos... */
+}
+/* Estilos para el componente de selección personalizado */
+.select-trigger {
+  border: 1px solid #ccc;
+}
+
+.options {
+  min-width: 120px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.option {
+  cursor: pointer;
+}
+
+.hover-content {
+  width: 200px;
+  top: 0;
+  transform: translateY(-100%);
 }

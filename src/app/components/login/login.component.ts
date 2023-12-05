@@ -53,15 +53,11 @@ export class LoginComponent implements OnInit  {
 
 
       
-      if(n["data"]["result"]["user"]["role"]==1)
-        {
-            this.router.navigateByUrl('/Resguardos');
+      
+            this.router.navigateByUrl('/Usuarios');
 
-        }
-        else{
-
-          this.router.navigateByUrl('/Administrativo');
-        }
+      
+     
 
       
       

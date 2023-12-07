@@ -26,14 +26,14 @@ selected: any;
   constructor(private service:ServiceService<any>,private router: Router){
     this.GetUsers()
     this.roleTypeUser = parseInt(this.roleTypeUser)
-    this.service.data$.subscribe(data => {
+    this.service.data$.subscribe((data:any) => {
       
      this.GetUsers()
     });
   }
   GetUsers(role:any = null){
     this.service.Data<any>(`users${role != null ? `/${role}` : ''}`).subscribe({
-      next:(n)=>{
+      next:(n:any)=>{
         this.listUsers = n['data']['result']
 
         this.users = n['data']['result']
@@ -72,7 +72,7 @@ selected: any;
   }
   Logout() {
   this.service.Logout('auth/logout').subscribe({
-    next:(n)=>{
+    next:(n:any)=>{
       localStorage.removeItem('token')
       localStorage.removeItem('id')
       localStorage.removeItem('role')
@@ -80,7 +80,7 @@ selected: any;
       this.router.navigateByUrl('');
 
     },
-    error:(e)=>{
+    error:(e:any)=>{
 
     }
   })

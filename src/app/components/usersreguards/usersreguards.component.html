@@ -1,555 +1,145 @@
-<div class="container mx-auto pt-20">
-  <p-card header="" styleClass="bg-zinc-200 w-full h-full">
-    
-      <div class="card mx-auto">
-        <p-toolbar styleClass="relative mx-auto rounded-1xl bg-neutral-800">
-          <ng-template pTemplate="left">
-            <button
-              type="button"
-              pTooltip="Agregar"
-              (click)="moreInputs()"
-              class="min-w-auto w-32 h-10 bg-zinc-400 shadow-xl p-2 rounded-full hover:bg-blue-500 text-white font-semibold transition-transform hover:-translate-y-3 ease-in-out"
-              pButton
-              pRipple
-              label=""
-              icon="pi pi-plus"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-plus-lg"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
-                />
-              </svg>
-            </button>
-            <!-- <button
-            type="button"
-            pTooltip="PDF"
-            (click)="exportPdf()"
-            class="min-w-auto w-32 h-10 ml-1 bg-zinc-400 shadow-xl p-2 rounded-full hover:bg-blue-500 text-white font-semibold transition-transform hover:-translate-y-3 ease-in-out"
-            pButton
-            pRipple
-            label=""
-            icon="pi pi-plus"
-          >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"/>
-          </svg>
-          </button> -->
-          <button
-          type="button"
-          pTooltip="EXCEL"
-          (click)="exportExcel()"
-          class="min-w-auto w-32 h-10 ml-1 bg-zinc-400 shadow-xl p-2 rounded-full hover:bg-blue-500 text-white font-semibold transition-transform hover:-translate-y-3 ease-in-out"
-          pButton
-          pRipple
-          label=""
-          icon="pi pi-plus"
-        >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-excel" viewBox="0 0 16 16">
-          <path d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z"/>
-          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-        </svg>
-        </button>
-            <button
-            type="button"
-            pTooltip="Configuraciones"
-            (click)="config()"
-            class="min-w-auto w-32 h-10 ml-1 bg-zinc-400 shadow-xl p-2 rounded-full hover:bg-blue-500 text-white font-semibold transition-transform hover:-translate-y-3 ease-in-out"
-            pButton
-            pRipple
-            label=""
-            icon="pi pi-plus"
-          >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
-          </svg>
-          </button>
-          <input pInputText 
-          type="text" 
-          class=" shadow-lg mr-2 absolute right-0 appearance-none rounded-full  pl-8 pr-6 py-2 w-50 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+<div class="container px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center w-full rounded-xl group sm:flex space-x-6 bg-white bg-opacity-50 shadow-xl hover:rounded-2xl">
+  <div class="flex flex-row max-lg:hidden max-lg:w-0 max-lg:h-0">
+
+   
+    <div
+    pTooltip="INFORMACION"
+    class="bg-white p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-gray-600 rounded-md">
+      Habilitado
+    </div>
+
+   
+    <div
+    pTooltip="INFORMACION"
+    class="bg-gray-100 p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-gray-500  rounded-md">
+      desabilitidado
+    </div>
+
+
+  <input pInputText 
+  type="text" 
+  class=" shadow-md mr-2 ml-6 pl-4 mt-2 justify-end items-end right-0 appearance-none rounded-full h-10  w-60 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+
+  (input)="onInputChangeReports($event)" 
+  placeholder="buscador" />
+  </div> 
   
-          (input)="onInputChangeReports($event)" 
-          placeholder="buscador" />
-            <!-- <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text">AFTER</p-button>
-              <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text">RESET</p-button>
-              <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text">MORE</p-button> -->
-          </ng-template>
-          <ng-container *ngIf="!myForm.invalid">
-            <!-- <button
-            pTooltip="Registrar"
-            class="pr-12 min-w-auto w-32 h-10 bg-green-300 p-2 rounded-full hover:bg-green-500 text-white font-semibold transition-transform hover:-translate-y-2 ease-in-out"
-            type="submit"
-          >
-            Registrar
-          </button> -->
-          </ng-container>
-          <!-- <ng-container *ngIf="myForm.invalid" >
-            <button
-            pTooltip="Registrar"
-            disabled
-            class="pr-12 min-w-auto w-32 h-10 bg-green-300 p-2 rounded-t-xl text-white font-semibold"
-            type="submit"
-          >
-            Registrar
-          </button>
-          </ng-container> -->
-
-          <ng-template pTemplate="right">
-            <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
-            <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
-          </ng-template>
-          
-        </p-toolbar>
-     
-
-
-        <p-table
-          class="p-3"
+    <div class="w-full">
+    <p-table
           #dt
-          [value]="guardSave"
-          dataKey="idtable"
+
+          [value]="guardSave" [tableStyle]="{ 'min-width': '50rem' }"
+          [paginator]="true"
+          [rows]="5"
+          [globalFilterFields]="['payroll','name','group','email','type_role']"
+          [loading]="loading"
+          currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+          [rowsPerPageOptions]="[5,10, 25, 50]"
           editMode="row"
           [paginator]="true"
           [rows]="5"
           [loading]="loading"
-          (onPage)="pageChange($event)"
           [showCurrentPageReport]="true"
           [globalFilterFields]="['stock_number','description','brand','type','state','serial','airlne','payroll','group','employeed','date','observations']"
           [rowsPerPageOptions]="[5, 10, 25, 50]"
           [scrollable]="true"
           scrollWidht="400px"
           currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
-        >
-        <!-- <ng-template pTemplate="caption">
-          <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-              selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Mostrar Columnas"></p-multiSelect>
-      </ng-template> -->
-          <ng-template pTemplate="header">
-          
-            <tr class="text-center ">
-              
-              <th  class="rounded-tl-lg text-xs bg-neutral-800 text-zinc-400">
-                FOTO
-              </th>
-              <th pSortableColumn="stock_number"  class="text-xs bg-neutral-800 text-zinc-400 ">
-                
-                <span class="">NUMERO DE INVENTARIO
-                <p-sortIcon class=""></p-sortIcon>
-              </span>
-              </th>
-
-              
-              
-              <th  pSortableColumn="description" class=" text-xs bg-neutral-800 text-zinc-400">
-                NOMBRE O DESCRIPCIÓN<p-sortIcon></p-sortIcon>
-              </th>
-              <th pSortableColumn="brand" class=" text-xs bg-neutral-800 text-zinc-400">
-                MARCA Y MODELO<p-sortIcon></p-sortIcon>
-              </th>
-              <th pSortableColumn="type" class=" text-xs bg-neutral-800 text-zinc-400">TIPO<p-sortIcon></p-sortIcon></th>
-              <th pSortableColumn="serial" class=" text-xs bg-neutral-800 text-zinc-400">
-                NUMERO DE SERIE<p-sortIcon></p-sortIcon>
-              </th>
-              <th pSortableColumn="state" class=" text-xs bg-neutral-800 text-zinc-400">
-                ESTADO FISICO<p-sortIcon></p-sortIcon>
-              </th>
-              <th pSortableColumn="airlne" class=" text-xs bg-neutral-800 text-zinc-400">
-                ÁEREA DE ADSCRIPCION<p-sortIcon></p-sortIcon>
-              </th>
-              <th pSortableColumn="payroll" class=" text-xs bg-neutral-800 text-zinc-400">
-                NUMERO DE NOMINA<p-sortIcon></p-sortIcon>
-              </th>
-              <th pSortableColumn="group" class=" text-xs bg-neutral-800 text-zinc-400">
-                UBICACIÓN/DEPARTAMENTO<p-sortIcon></p-sortIcon>
-              </th>
-              <th pSortableColumn="employeed" class=" text-xs bg-neutral-800 text-zinc-400">
-                NOMBRE DEL RESGUARDANTE<p-sortIcon></p-sortIcon>
-              </th>
-              <th pSortableColumn="date" class=" text-xs bg-neutral-800 text-zinc-400">
-                FECHA DE ASIGNACIÓN DEL RESGUARDO<p-sortIcon></p-sortIcon>
-              </th>
-              <th pSortableColumn="observations" class=" text-xs bg-neutral-800 text-zinc-400">
-                OBSERVACÍONES<p-sortIcon></p-sortIcon>
-              </th>
-              <th class="text-xs rounded-tr-lg bg-neutral-800 text-zinc-400">
-                ACCIONES
-              </th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-guards>
+    >
+        
+        <ng-template pTemplate="header">
             <tr>
-              <td class="bg-zinc-900 text-xs text-white w-20 h-20 relative">
-                <div class="flex items-center justify-center">
-                  <label for="upload" class="flex flex-col items-center gap-2 cursor-pointer">
-                    <p-image 
-                      [src]="guards.picture" 
-                      class="max-w-full max-h-full" 
-                      [alt]="guards.description" 
-                      [preview]="true"
-                    ></p-image>
-                  </label>
-                </div>
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-
-                {{ guards.stock_number }}
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.description }}
-
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.brand }}
-
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.type!=='null'? guards.type:''}}
-
-              </td>
-              
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.serial }}
-
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.state }}
-
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.airlne }}
-
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.payroll }}
-
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.group }}
-
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.employeed }}
-
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.date }}
-
-              </td>
-              <td class="bg-zinc-900 text-xs text-white">
-                {{ guards.observations!=='null'? guards.observations:''}}
-
-              </td>
-              
-              <td class="bg-zinc-900 text-xs text-white">
-                <button
-                type="submit"
-                pTooltip="Editar"
-
-                (click)="EditGuard(guards)"
-                class="bg-yellow-300 mt-4 hover:bg-yellow-500 justify-center text-center px-5 py-3 text-sm shadow-sm font-medium tracking-wider text-blue-100 rounded-full"
-              >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-              </svg>
-              </button>
-                <button
-                type="submit"
-                pTooltip="Eliminar"
-
-                (click)="removeGuard(guards.id)"
-                class="bg-red-500 mt-4 hover:bg-red-700 justify-center text-center px-5 py-3 text-sm shadow-sm font-medium tracking-wider text-blue-100 rounded-full"
-              >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-              </svg>
-              </button>
-              
-              
-              </td>
-
+              <th                                     
+              class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Foto</th>
+                <th  
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Numero de inventario</th>
+                  
+                    <th                                     
+                    class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                       Nombre o Descripcion</th>
+                       <th                                     
+                       class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          Marca y modelo</th>
+                        <th                                     
+                        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Tipo</th>
+                            <th                                     
+                            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Aerea de adscripcion</th>
+                        <th                                     
+                        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Numero de serie</th>
+                            <th                                     
+                            class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Estado Fisico   
+                          </th>   
+                      
+                        <th                                     
+                        class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Observaciones
+                      </th> 
+                      <th                                     
+                      class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    </th> 
+                <!-- <th                                     
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Rol</th>
+                <th                                     
+                class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Quantity</th> -->
             </tr>
-          </ng-template>
-        </p-table>
-      </div>
-  </p-card>
+        </ng-template>
+        <ng-template pTemplate="body" class="shadow-md" let-guards let-i="rowIndex">
+            
+            <tr >
+              
+                <td [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.picture }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.stock_number }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.description }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.brand }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.type }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.airlane }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.serial }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.state }}</td>
+
+                <td [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.observations }}</td>
+
+                <td [ngClass]="{'bg-gray-50 text-gray-400':guards.active==0}" class="px-5 py-5 border-b border-gray-200 flex flex-row text-sm">
+              
+                  <button  class="mr-2 bg-yellow-300 hover:bg-yellow-500 rounded-full p-4 "> <li class="fa fa-edit"></li></button>
+
+                  <button (click)="changeResguardState(guards)" class=" rounded-full p-4 mr-2 "
+                  [ngClass]="{'bg-lime-300 hover:bg-lime-500':guards.active ==0,
+                  'bg-gray-300 hover:bg-gray-500':guards.active ==1
+               
+               
+               }"> 
+                   <ng-container *ngIf="guards.active ==1" >
+
+                     <li class="fa fa-toggle-on"></li>
+
+                   </ng-container>
+                   <ng-container *ngIf="guards.active ==0" >
+
+                     <li class="fa fa-toggle-off"></li>
+
+                   </ng-container>
+                 </button>
+                </td>
+
+                <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<!-- component -->
+
 </div>
 
-<p-dialog
-  header="Configurar por defecto"
-  class="bg-zinc-800"
-  [(visible)]="options"
-  [style]="{ width: '25vw' }"
-  [position]="'bottomleft'"
->
-<div class="mt-3"></div>
-<label class="" for="">Marca y Modelo</label>
-
-      <input
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Marca y Modelo"
-        id="small_size"
-        type="text"
-    [(ngModel)]="brand"
-        (input)="changeBrand($event)"
-        />
-      <label class="" for="">Tipo </label>
-
-      <input
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Tipo"
-        id="small_size"
-        type="text"
-        [(ngModel)]="type"
-        (input)="changeType($event)"
-
-      />
-      <label class="" for="">Numero de serie </label>
-
-      <input
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Numero de serie"
-        id="small_size"
-        type="text"
-        [(ngModel)]="serial"
-        (input)="changeSerial($event)"
-
-      />
-      <label class="" for="">Estado fisico</label>
-
-      <input
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Estado fisico"
-        id="small_size"
-        type="text"
-        [(ngModel)]="state"
-        (input)="changeState($event)"
-
-      />
-      <label class="" for="">Áerea de adscripción </label>
-
-      <input
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Áerea de adscripción"
-        type="text"
-        id="small_size"
-        [(ngModel)]="airlne"
-        (input)="changeAirlne($event)"
-
-        />
-        <label class="" for="">Numero de nomina </label>
-        
-        <input
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Numero de nomina"
-        type="number"
-        id="small_size"
-        [(ngModel)]="numberNomina"
-        (input)="changeNumberNomina($event)"
-
-    />
-    <label class="" for="">¿Cerrar Formulario cuando se haga un nuevo registro? </label>
-
-    <p-inputSwitch
-    class="mt-1 block w-full mb-3 pl-2 border-none mt-2"
-    (ngModelChange)="onSwitchChange($event)"
-    [(ngModel)]="checked">
-</p-inputSwitch>
 
 
-    <button
-    type="submit"
-    (click)="Close()"
-    class="bg-blue-500 mt-4 hover:bg-blue-700 justify-center text-center px-5 py-3 text-sm shadow-sm font-medium tracking-wider text-blue-100 rounded-full"
-  >
-    Cerrar
-  </button>
-  <button
-    type="submit"
-    (click)="Destroy()"
-    class="bg-red-500 mt-4 hover:bg-red-700 justify-center text-center px-5 py-3 text-sm shadow-sm font-medium tracking-wider text-blue-100 rounded-full"
-  >
-    Limpiar
-  </button>
-</p-dialog>
 
-<p-dialog
-  header="Agregar"
-  class="bg-zinc-800"
-  [(visible)]="visible"
-  [style]="{ width: '50vw' }"
-  [position]="'right'"
->
-  <form
-    action=""
-    [formGroup]="myFormUpdate"
-    (ngSubmit)="onSubmit()"
-    enctype="multipart/form-data"
-  >
-    <div class="mt-5 mx-auto">
-      <label class="" for="">Foto </label>
-      <input
-      #file
-        (change)="onFileChangeUpdate($event)"
-        class="block w-full mb-3 pl-2 h-full mb-5 text-xs mt-2 text-gray-900 border border-gray-300 rounded-xl cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-        id="small_size"
-        type="file"
-      />
-      
-      
-      
-      
-      
-      
-      
 
-      <label class="" for="">Nombre o Descripción</label>
-
-      <input
-        [value]="this.myFormUpdate.get('description')?.value"
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Nombre o Descripción"
-        id="small_size"
-        type="text"
-        formControlName="description"
-      />
-      <label class="" for="">Marca y Modelo</label>
-
-      <input
-        [value]="this.myFormUpdate.get('brand')?.value"
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Marca y Modelo"
-        id="small_size"
-        type="text"
-        formControlName="brand"
-      />
-      <label class="" for="">Tipo </label>
-
-      <input
-        [value]="this.myFormUpdate.get('type')?.value"
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Tipo"
-        id="small_size"
-        type="text"
-        formControlName="type"
-      />
-      <label class="" for="">Numero de serie </label>
-
-      <input
-        [value]="this.myFormUpdate.get('serial')?.value"
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Numero de serie"
-        id="small_size"
-        type="text"
-        formControlName="serial"
-      />
-      <label class="" for="">Estado fisico</label>
-
-      <input
-        [value]="this.myFormUpdate.get('state')?.value"
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Estado fisico"
-        id="small_size"
-        type="text"
-        formControlName="state"
-      />
-      <label class="" for="">Áerea de adscripción </label>
-
-      <input
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Áerea de adscripción"
-        type="text"
-        [value]="this.myFormUpdate.get('airlne')?.value"
-        id="small_size"
-        formControlName="airlne"
-      />
-    
-    
-
-      <label class="" for="">Numero de nomina </label>
-
-      <input
-        [value]="this.myFormUpdate.get('payroll')?.value"
-        (input)="searchEmployeed($event)"
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Numero de nomina"
-        id="small_size"
-        type="number"
-        formControlName="payroll"
-      />
-
-      <label class="" for="">Ubicación o Departamento </label>
-
-      <input
-        [value]="this.myFormUpdate.get('group')?.value"
-        readonly
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-50 h-11 rounded-xl shadow-lg focus:outline-none"
-        placeholder="Ubicación o Departamento"
-        id="small_size"
-        type="text"
-        formControlName="group"
-      />
-
-      <label class="" for="">Nombre del resguardante </label>
-
-      <input
-        [value]="this.myFormUpdate.get('employeed')?.value"
-        readonly
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-50 h-11 rounded-xl shadow-lg focus:outline-none"
-        placeholder="Nombre del resguardante"
-        id="small_size"
-        type="text"
-        formControlName="employeed"
-      />
-
-      <label class="" for="">Fecha de asignación del resguardo </label>
-
-      <input
-         readonly
-        class="mt-1 block w-full mb-3 pl-2 border-none mt-2 bg-gray-50 h-11 rounded-xl shadow-lg focus:outline-none"
-        [value]="myFormUpdate.get('date')?.value"
-        placeholder="Fecha de asignación del resguardo"
-        id="small_size"
-        type="date"
-        formControlName="date"
-      />
-      <label class="" for="">Observacíones </label>
-
-      <textarea
-        [value]="this.myFormUpdate.get('observations')?.value"
-        class="mt-1 block w-full max-w-full max-h-40 h-40 mb-3 pl-2 border-none mt-2 bg-gray-200 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-        placeholder="Observacíones"
-      
-        formControlName="observations"
-        cols="40" rows="5" style="resize: both;"
-      ></textarea>
-    </div>
-  <ng-container *ngIf="myFormUpdate.invalid" >
-
-    <button
-    type="submit"
-    disabled
-    class="bg-zinc-300 mt-4 justify-center text-center px-5 py-3 text-sm shadow-sm font-medium tracking-wider text-blue-100 rounded-full  cursor-not-allowed"
-  >
-    Registrar
-  </button>
-  </ng-container>
-  <ng-container *ngIf="!myFormUpdate.invalid" >
-
-    <button
-    type="submit"
-    class="bg-blue-500 mt-4 justify-center text-center px-5 py-3 text-sm shadow-sm font-medium tracking-wider hover:bg-blue-700 text-blue-100 rounded-full"
-  >
-    Registrar
-  </button>
-  </ng-container>
-  </form>
-</p-dialog>

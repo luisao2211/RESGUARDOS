@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit  {
   onSubmit() {
 
   this.Http.Post<any>("auth/login",this.myForm.value).subscribe({
-    next:(n)=>{
+    next:(n:any)=>{
       localStorage.setItem("token",n["data"]["result"]["token"])
       localStorage.setItem("role",n["data"]["result"]["user"]["role"])
       localStorage.setItem("id",n["data"]["result"]["user"]["id"])
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit  {
       
       
     },
-    error:(e)=>{
+    error:(e:any)=>{
       this.Toast.fire({
         position: 'top-end',
         icon: 'error',

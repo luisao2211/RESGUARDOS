@@ -104,11 +104,11 @@ export class DashboardAdminComponent {
       this.loading = true;
   
       this.Http.Data<any>("guards/admin").subscribe({
-        next:(n)=>{
+        next:(n:any)=>{
           this.guardSave =n['data']["result"]
          
         },
-        error:(e)=>{
+        error:(e:any)=>{
           this.loading = false;
     
         },
@@ -125,7 +125,7 @@ export class DashboardAdminComponent {
       url = `users/${this.id}` 
     }
    this.Http.Post(url,this.myForm.value).subscribe({
-    next:(n)=>{
+    next:(n:any)=>{
       this.Toast.fire({
         position: 'top-end',
         icon: 'success',
@@ -133,7 +133,7 @@ export class DashboardAdminComponent {
       });
       this.LoadUsers()
     },
-    error:(e)=>{
+    error:(e:any)=>{
       this.Toast.fire({
         position: 'top-end',
         icon: 'error',
@@ -152,7 +152,7 @@ export class DashboardAdminComponent {
   }
   updateStatus(id:any){
     this.Http.Delete(`usersdestroy/${id}`).subscribe({
-      next:(n)=>{
+      next:(n:any)=>{
         this.LoadUsers()
         this.Toast.fire({
           position: 'top-end',
@@ -160,7 +160,7 @@ export class DashboardAdminComponent {
           title: `Se cambio el permiso del usuario.`,
         });
       },
-      error:(e)=>{
+      error:(e:any)=>{
         this.Toast.fire({
           position: 'top-end',
           icon: 'success',
@@ -181,10 +181,10 @@ export class DashboardAdminComponent {
   this.loading = true;
 
   this.Http.Data<any>("users").subscribe({
-    next:(n)=>{
+    next:(n:any)=>{
       this.users =n['data']["result"]
     },
-    error:(e)=>{
+    error:(e:any)=>{
       this.loading = false;
 
     },

@@ -104,3 +104,12 @@ div.p-tabview-panels {
   top: 0;
   transform: translateY(-100%);
 }
+.custom-scrollbar::-webkit-scrollbar {
+  margin-right: 10px;
+  width: 6px; /* Ancho de la barra en navegadores WebKit */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #999; /* Color del thumb */
+  border-radius: 8px; /* Borde redondeado del thumb */
+}

@@ -1,24 +1,76 @@
 <div class="container px-4 mx-auto mt-10 pt-10 flex flex-col p-4 items-center justify-center w-full rounded-xl group sm:flex space-x-6 bg-white bg-opacity-50 shadow-xl hover:rounded-2xl">
-    <p-toolbar
-    styleClass="rounded-full bg-gray-100"
-         class="w-full mx-auto pl-3 mb-10 rounded-full">
-         <ng-container *ngIf="roleTypeUser<4" >
-  
-         <div
-            class="   flex items-center justify-start ">
-                <p-button
-                (click)="showDialog()" 
-                pTooltip="Agregar"
-                class="px-10 pb-3 pt-1 shadow-sm cursor-pointer hover:bg-purple-400 rounded-full bg-purple-200"><li class="fa fa-plus"></li></p-button>
-            </div>
-         </ng-container>
-        </p-toolbar>
+  <div class="flex flex-row max-lg:hidden max-lg:w-0 max-lg:h-0">
+    <ng-container *ngIf="roleTypeUser<4" >
+
+    <button
+    (click)="showDialog()" 
+    pTooltip="Agregar"
+    class=" shadow-md cursor-pointer hover:bg-purple-400 h-14 rounded-md  w-28 pt-2 bg-purple-200"><li class="fa fa-plus"></li></button>
+    </ng-container>
+    <ng-container *ngIf="roleTypeUser<2" >
+
+      <div 
+      pTooltip="INFORMACION"
+
+      class="bg-blue-100 p-4 ml-2 cursor-not-allowed shadow-md mb-4 text-blue-500  rounded-md">
+        Administrativo
+      </div>
+    </ng-container>
+    <ng-container *ngIf="roleTypeUser<3" >
+
+      <div
+      pTooltip="INFORMACION"
+
+      class="bg-cyan-100 p-4 ml-2 cursor-not-allowed shadow-md mb-4 text-cyan-500  rounded-md">
+        Jefe de departamento
+    </div>
+  </ng-container>
+  <ng-container *ngIf="roleTypeUser<4" >
+
+    <div
+    pTooltip="INFORMACION"
+
+    class="bg-teal-100 p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-teal-500  rounded-md">
+      Empleado
+    </div>
+    <div
+    pTooltip="INFORMACION"
+    class="bg-gray-100 p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-gray-500  rounded-md">
+      desabilitidado
+    </div>
+  </ng-container>
+  <ng-container *ngIf="roleTypeUser<4" >
+
+  <input pInputText 
+  type="text" 
+  class=" shadow-md mr-2 ml-6 pl-4 mt-2 justify-end items-end right-0 appearance-none rounded-full h-10  w-60 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600"
+
+  (input)="onInputChangeReports($event)" 
+  placeholder="buscador" />
+  </ng-container>
+  </div> 
+ 
     <div class="w-full">
-    <p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }"
-    [paginator]="true"
-    [rows]="5"
-    currentPageReportTemplate="Mostrando {first} to {last} of {totalRecords} resultados"
-    [rowsPerPageOptions]="[5,10, 25, 50]"
+    <p-table
+          #dt
+
+          [value]="users" [tableStyle]="{ 'min-width': '50rem' }"
+          [paginator]="true"
+          [rows]="5"
+          [globalFilterFields]="['payroll','name','group','email','type_role']"
+          [loading]="loading"
+          currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+          [rowsPerPageOptions]="[5,10, 25, 50]"
+          editMode="row"
+          [paginator]="true"
+          [rows]="5"
+          [loading]="loading"
+          [showCurrentPageReport]="true"
+          [globalFilterFields]="['stock_number','description','brand','type','state','serial','airlne','payroll','group','employeed','date','observations']"
+          [rowsPerPageOptions]="[5, 10, 25, 50]"
+          [scrollable]="true"
+          scrollWidht="400px"
+          currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
     >
         
         <ng-template pTemplate="header">
@@ -50,23 +102,22 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" class="shadow-md" let-users let-i="rowIndex">
-          <ng-container *ngIf="i > 0"> <!-- Aquí excluyes el primer elemento -->
             
             <tr >
               
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0}" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.name }}</td>
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0}" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.payroll }}</td>
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0}" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.email }}</td>
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0}" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.group }}</td>
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0}" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.type_role }}</td>
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0}" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.name }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.payroll }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.email }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.group }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.type_role }}</td>
+                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">
                   <ng-container *ngIf="users.active ==1" >
-                    <button class="bg-yellow-300 hover:bg-yellow-500 rounded-full p-4  mr-2"> 
+                    <button (click)="editUser(users)" class="bg-yellow-300 hover:bg-yellow-500 rounded-full p-4  mr-2"> 
                       <li class="fa fa-edit"></li>
   
                     </button>
                   </ng-container>
-                  <button (click)="removeUser(users.id)" class=" rounded-full p-4 "
+                  <button (click)="changeStateUser(users.id)" class=" rounded-full p-4 "
                    [ngClass]="{'bg-lime-300 hover:bg-lime-500':users.active ==0,
                    'bg-gray-300 hover:bg-gray-500':users.active ==1
                 
@@ -89,7 +140,6 @@
                 <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
             </tr>
-          </ng-container>
         </ng-template>
     </p-table>
 </div>
@@ -192,24 +242,26 @@
     </div>
     <div class="relative z-0 mb-6 w-full group">
         <input
+        readonly
         formControlName="name"
-        type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+        type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none dark:text-white    peer" placeholder=" " required />
         <label for="floating_email"
-         class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
+        class="absolute text-sm text-gray-300 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  ">Nombre</label>
     </div>
     <div class="relative z-0 mb-6 w-full group">
       <input
+      readonly
       formControlName="group"
-      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+      type="text" name="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 focus:outline-none appearance-none dark:text-white    peer" placeholder=" " required />
       <label for="floating_email"
-       class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Departamento</label>
+       class="absolute text-sm text-gray-300 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  ">Departamento</label>
   </div>
 
     <div class="relative inline-block text-left h-full z-0  w-full group">
         <input
         formControlName="role"
         readonly type="text" #textInput
-          class="block py-2.5 px-4 w-full text-sm text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-blue-600 focus:outline-none focus:ring-0 peer"
+          class="block py-2.5  w-full text-sm text-gray-900 bg-transparent border-b-2 border-gray-300 focus:border-blue-600 focus:outline-none focus:ring-0 peer"
           placeholder=" " (click)="toggleDropdown()">
         
         <div *ngIf="isDropdownOpen" class="absolute z-10 right-0 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">

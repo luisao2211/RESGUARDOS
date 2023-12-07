@@ -31,9 +31,20 @@ interface ExportColumn {
 export class UsersreguardsComponent  {
 
 
+
   cols!: Column[];
     selectedColumns!: Column[];
-
+     Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
   exportColumns!: ExportColumn[];
   addTr: number = 0;
   inputsForm: any = [];
@@ -56,17 +67,7 @@ export class UsersreguardsComponent  {
   conteo: number = 0;
   visible: boolean = false;
   options:boolean = false;
-  public Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+
   value:any;
   clonedProducts: { [s: string]: any } = {};
   editing: any;
@@ -262,14 +263,14 @@ moreInputs() {
   if (localStorage.getItem('numberNomina')) {
     
     this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${localStorage.getItem('numberNomina')}/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
-      next:(n)=>{
+      next:(n:any)=>{
         const employed = n.RESPONSE.recordsets[0][0]
         console.log(employed)
         this.myFormUpdate.get('employeed')?.setValue(`${employed.nombreE} ${employed.apellidoP} ${employed.apellidoM}`)
         this.myFormUpdate.get('group')?.setValue(`${employed.departamento}`)
     
       },
-      error:(e)=>{
+      error:(e:any)=>{
         this.myFormUpdate.get('employeed')?.setValue(``)
         this.myFormUpdate.get('group')?.setValue(``)
         this.visible = true
@@ -452,14 +453,14 @@ calculateCustomerTotal(number: number) {
     }
     
     this.service.Post(url,form).subscribe({
-      next:(n)=>{
+      next:(n:any)=>{
         this.Toast.fire({
           position: 'top-end',
           icon: 'success',
           title: `se han insertado`,
         });     
        },
-      error:(e)=>{
+      error:(e:any)=>{
         this.Toast.fire({
           position: 'top-end',
           icon: 'error',
@@ -510,14 +511,14 @@ calculateCustomerTotal(number: number) {
     }
     
     this.service.Post('guards/update',form).subscribe({
-      next:(n)=>{
+      next:(n:any)=>{
         this.Toast.fire({
           position: 'top-end',
           icon: 'success',
           title: `se han actualizado`,
         });  
       },
-      error:(e)=>{
+      error:(e:any)=>{
         this.Toast.fire({
           position: 'top-end',
           icon: 'error',
@@ -539,12 +540,11 @@ calculateCustomerTotal(number: number) {
     this.loading = true;
 
     this.service.Data<any>("guards").subscribe({
-      next:(n)=>{
+      next:(n:any)=>{
         this.guardSave =n['data']["result"]
-        console.log(this.guardSave)
        
       },
-      error:(e)=>{
+      error:(e:any)=>{
         this.loading = false;
 
       },
@@ -558,14 +558,14 @@ calculateCustomerTotal(number: number) {
   removeGuard(id:number){
     this.loading = true
     this.service.Delete(`guardsdestroy/${id}`).subscribe({
-      next:(n)=>{
+      next:(n:any)=>{
         this.Toast.fire({
           position: 'top-end',
           icon: 'success',
           title: `se ha eliminado correctamente`,
         }); 
       },
-      error:(e)=>{
+      error:(e:any)=>{
         this.Toast.fire({
           position: 'top-end',
           icon: 'error',
@@ -603,14 +603,14 @@ calculateCustomerTotal(number: number) {
 }
  searchEmployeed(event:any ){
   this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${event.target.value}/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
-  next:(n)=>{
+  next:(n:any)=>{
     const employed = n.RESPONSE.recordsets[0][0]
     console.log(employed)
     this.myFormUpdate.get('employeed')?.setValue(`${employed.nombreE} ${employed.apellidoP} ${employed.apellidoM}`)
     this.myFormUpdate.get('group')?.setValue(`${employed.departamento}`)
 
   },
-  error:(e)=>{
+  error:(e:any)=>{
     this.myFormUpdate.get('employeed')?.setValue(``)
     this.myFormUpdate.get('group')?.setValue(``)
   }
@@ -654,6 +654,29 @@ calculateCustomerTotal(number: number) {
     this.table.filterGlobal(inputValue, 'contains');
   }
 }
+changeResguardState(guard: any) {
+  if (guard.active ==0) {
+    Object.keys(guard).forEach((g:any) => {
+          if (guard[g] == undefined || guard[g] == null) {
+            this.Toast.fire({
+              icon: "warning",
+              title: "No se puede activar debido a que no contiene su información necesaria"
+            });
+          }
+      });
+      return
+  }
+
+   this.service.Delete(`guardsdestroy/${guard.id}`).subscribe({
+      next:()=>{
+        this.getGuards()
+      },
+      error:()=>{
+        this.getGuards()
+
+      }
+   })
+  }
 }
     
   

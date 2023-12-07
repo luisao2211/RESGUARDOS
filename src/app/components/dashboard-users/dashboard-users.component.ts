@@ -9,7 +9,7 @@ import { ServiceService } from 'src/app/service.service';
   styleUrls: ['./dashboard-users.component.css']
 })
 export class DashboardUsersComponent {
-
+  timeDay:Boolean = false
   isAnimateMenu:Boolean = false
   items: MenuItem[] | undefined;
   isExpanded = false;
@@ -31,6 +31,14 @@ selected: any;
      this.GetUsers()
     });
   }
+  changeTimeday() {
+    if (this.isExpanded) {
+        this.isExpanded = false
+    }
+    this.timeDay = !this.timeDay; 
+    console.log("time", this.timeDay); 
+  }
+  
   GetUsers(role:any = null){
     this.service.Data<any>(`users${role != null ? `/${role}` : ''}`).subscribe({
       next:(n:any)=>{

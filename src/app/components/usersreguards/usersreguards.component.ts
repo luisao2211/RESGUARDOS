@@ -48,12 +48,13 @@ export class UsersreguardsComponent  {
   exportColumns!: ExportColumn[];
   addTr: number = 0;
   inputsForm: any = [];
-  myForm!: FormGroup;
+  MyForm!: FormGroup;
   myFormUpdate!: FormGroup;
   first = 0;
+  imagePreview: string | ArrayBuffer | null = null;
+
   @ViewChild('dt') table!: Table; 
   @ViewChild('dt1') tableReports!: Table; 
-  @ViewChild('file') fileInputRef!: ElementRef;
 
   loading: boolean = false;
   action:'edit'|'insert'='insert' 
@@ -67,6 +68,7 @@ export class UsersreguardsComponent  {
   conteo: number = 0;
   visible: boolean = false;
   options:boolean = false;
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   value:any;
   clonedProducts: { [s: string]: any } = {};
@@ -79,122 +81,134 @@ export class UsersreguardsComponent  {
   airlne = localStorage.getItem('airlne') !== null ? localStorage.getItem('airlne') : ''; //aerea de adscripcion
   numberNomina = localStorage.getItem('numberNomina') !== null ? localStorage.getItem('numberNomina') : ''; //aerea de adscripcion
   checked = localStorage.getItem('checked') !== null ? false : true;
+  dialogVisible: boolean= false;
   //numero de nomina
 
   constructor(private fb: FormBuilder,private service:ServiceService<any>) {
     console.warn(this.checked,typeof(this.checked))
-    this.myForm = new FormGroup({
-      
+    this.MyForm = new FormGroup({
+      id: new FormControl(''),
+      picture:new FormControl('',Validators.required),
+      type:new FormControl('',Validators.required),
+      description:new FormControl('',Validators.required),
+      brand:new FormControl('',Validators.required),
+      state:new FormControl('',Validators.required),
+      serial:new FormControl('',Validators.required),
+      airlane:new FormControl('',Validators.required),
+      observations:new FormControl(''),
     });
-    this.myFormUpdate = new FormGroup({  } )
-    this.myFormUpdate.addControl(`id`,new FormControl(''))
-      this.myFormUpdate.addControl(`picture`,new FormControl('',Validators.required))
-      this.myFormUpdate.addControl(`description`,new FormControl('',Validators.required))
+    // this.myFormUpdate = new FormGroup({  } )
+    // this.myFormUpdate.addControl(`id`,new FormControl(''))
+    //   this.myFormUpdate.addControl(`picture`,new FormControl('',Validators.required))
+    //   this.myFormUpdate.addControl(`description`,new FormControl('',Validators.required))
 
-      this.myFormUpdate.addControl(`brand`,new FormControl(localStorage.getItem('brand') !== null ? localStorage.getItem('brand') : '',Validators.required))
-      this.myFormUpdate.addControl(`type`,new FormControl(localStorage.getItem('type') !== null ? localStorage.getItem('type') : ''))
-      this.myFormUpdate.addControl(`state`,new FormControl(localStorage.getItem('state') !== null ? localStorage.getItem('state') : '',Validators.required))
-      this.myFormUpdate.addControl(`serial`,new FormControl(localStorage.getItem('serial') !== null ? localStorage.getItem('serial') : '',Validators.required))
-      this.myFormUpdate.addControl(`airlne`,new FormControl(localStorage.getItem('airlne') !== null ? localStorage.getItem('airlne') : '',Validators.required))
-      this.myFormUpdate.addControl(`payroll`,new FormControl(localStorage.getItem('numberNomina') !== null ? localStorage.getItem('numberNomina') : '',Validators.required))
-      this.myFormUpdate.addControl(`group`,new FormControl('',Validators.required))
+    //   this.myFormUpdate.addControl(`brand`,new FormControl(localStorage.getItem('brand') !== null ? localStorage.getItem('brand') : '',Validators.required))
+    //   this.myFormUpdate.addControl(`type`,new FormControl(localStorage.getItem('type') !== null ? localStorage.getItem('type') : ''))
+    //   this.myFormUpdate.addControl(`state`,new FormControl(localStorage.getItem('state') !== null ? localStorage.getItem('state') : '',Validators.required))
+    //   this.myFormUpdate.addControl(`serial`,new FormControl(localStorage.getItem('serial') !== null ? localStorage.getItem('serial') : '',Validators.required))
+    //   this.myFormUpdate.addControl(`airlne`,new FormControl(localStorage.getItem('airlne') !== null ? localStorage.getItem('airlne') : '',Validators.required))
+    //   this.myFormUpdate.addControl(`payroll`,new FormControl(localStorage.getItem('numberNomina') !== null ? localStorage.getItem('numberNomina') : '',Validators.required))
+    //   this.myFormUpdate.addControl(`group`,new FormControl('',Validators.required))
 
-      this.myFormUpdate.addControl(`employeed`,new FormControl('',Validators.required))
-      this.myFormUpdate.addControl(`date`,new FormControl(new Date().toISOString().slice(0, 10),Validators.required))
-      this.myFormUpdate.addControl(`observations`,new FormControl(''))
+    //   this.myFormUpdate.addControl(`employeed`,new FormControl('',Validators.required))
+    //   this.myFormUpdate.addControl(`date`,new FormControl(new Date().toISOString().slice(0, 10),Validators.required))
+    //   this.myFormUpdate.addControl(`observations`,new FormControl(''))
 
 
-    this.cols = [
-      { field: 'stock_number', header: 'NUMERO DE INVENTARIO', customExportHeader: 'Emisor' },
-      { field: 'description', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'Emisor' },
-      { field: 'brand', header: 'MARCA Y MODELO', customExportHeader: 'Descripción del producto' },
-      { field: 'type', header: 'TIPO', customExportHeader: 'Cantidad o Pieza' },
-      { field: 'state', header: 'NUMERO DE SERIE', customExportHeader: 'Valor' },
-      { field: 'serial', header: 'ESTADO FISICO', customExportHeader: 'Nombre del resguardante' },
-      { field: 'airlne', header: 'ÁEREA DE ADSCRIPCION', customExportHeader: 'Departamento' },
-      { field: 'payroll', header: 'NUMERO DE NOMINA', customExportHeader: 'Numero consecutivo' },
-      { field: 'group', header: 'UBICACIÓN/DEPARTAMENTO', customExportHeader: 'Numero de etiqueta' },
-      { field: 'employeed', header: 'NOMBRE DEL RESGUARDANTE', customExportHeader: 'Numero de nomina' },
-      { field: 'date', header: 'FECHA DE ASIGNACIÓN DEL RESGUARDO', customExportHeader: 'Numero de nomina' },
-      { field: 'observations', header: 'OBSERVACÍONES', customExportHeader: 'Numero de nomina' },
+  //   this.cols = [
+  //     { field: 'stock_number', header: 'NUMERO DE INVENTARIO', customExportHeader: 'Emisor' },
+  //     { field: 'description', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'Emisor' },
+  //     { field: 'brand', header: 'MARCA Y MODELO', customExportHeader: 'Descripción del producto' },
+  //     { field: 'type', header: 'TIPO', customExportHeader: 'Cantidad o Pieza' },
+  //     { field: 'state', header: 'NUMERO DE SERIE', customExportHeader: 'Valor' },
+  //     { field: 'serial', header: 'ESTADO FISICO', customExportHeader: 'Nombre del resguardante' },
+  //     { field: 'airlne', header: 'ÁEREA DE ADSCRIPCION', customExportHeader: 'Departamento' },
+  //     { field: 'payroll', header: 'NUMERO DE NOMINA', customExportHeader: 'Numero consecutivo' },
+  //     { field: 'group', header: 'UBICACIÓN/DEPARTAMENTO', customExportHeader: 'Numero de etiqueta' },
+  //     { field: 'employeed', header: 'NOMBRE DEL RESGUARDANTE', customExportHeader: 'Numero de nomina' },
+  //     { field: 'date', header: 'FECHA DE ASIGNACIÓN DEL RESGUARDO', customExportHeader: 'Numero de nomina' },
+  //     { field: 'observations', header: 'OBSERVACÍONES', customExportHeader: 'Numero de nomina' },
 
-  ];
+  // ];
 
-  this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
+  // this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
   this.getGuards()
   }
-  changeBrand(event:any){
-    this.myFormUpdate.get('brand')?.setValue(event.target.value)
-    localStorage.setItem("brand", event.target.value == null ? '' : event.target.value);
+  showTableReport(){
+    this.dialogVisible = true
+  }
+  // changeBrand(event:any){
+  //   this.myFormUpdate.get('brand')?.setValue(event.target.value)
+  //   localStorage.setItem("brand", event.target.value == null ? '' : event.target.value);
  
-  }
-  changeType(event:any){
-    this.myFormUpdate.get('type')?.setValue(event.target.value)
-    localStorage.setItem("type", event.target.value == null ? '' : event.target.value);
+  // }
+  // changeType(event:any){
+  //   this.myFormUpdate.get('type')?.setValue(event.target.value)
+  //   localStorage.setItem("type", event.target.value == null ? '' : event.target.value);
 
-  }
-  changeSerial(event:any){
-    this.myFormUpdate.get('serial')?.setValue(event.target.value)
-    localStorage.setItem("serial", event.target.value == null ? '' : event.target.value);
+  // }
+  // changeSerial(event:any){
+  //   this.myFormUpdate.get('serial')?.setValue(event.target.value)
+  //   localStorage.setItem("serial", event.target.value == null ? '' : event.target.value);
 
-  }
-  changeState(event:any){
-    this.myFormUpdate.get('state')?.setValue(event.target.value)
-    localStorage.setItem("state", event.target.value == null ? '' : event.target.value);
+  // }
+  // changeState(event:any){
+  //   this.myFormUpdate.get('state')?.setValue(event.target.value)
+  //   localStorage.setItem("state", event.target.value == null ? '' : event.target.value);
 
-  }
-  changeAirlne(event:any){
-    this.myFormUpdate.get('airlne')?.setValue(event.target.value)
-    localStorage.setItem("airlne", event.target.value == null ? '' : event.target.value);
+  // }
+  // changeAirlne(event:any){
+  //   this.myFormUpdate.get('airlne')?.setValue(event.target.value)
+  //   localStorage.setItem("airlne", event.target.value == null ? '' : event.target.value);
 
-  }
-  changeNumberNomina(event:any){
-    this.myFormUpdate.get('payroll')?.setValue(event.target.value)
-    localStorage.setItem("numberNomina", event.target.value == null ? '' : event.target.value);
-    this.searchEmployeed(event)
-  }
-  onSwitchChange(event: any) {
-    this.checked =!this.checked
-    if (!this.checked) {
-        localStorage.setItem("checked",JSON.stringify(false))
-    }else{
-      localStorage.removeItem("checked")
-    }
-  }
+  // }
+  // changeNumberNomina(event:any){
+  //   this.myFormUpdate.get('payroll')?.setValue(event.target.value)
+  //   localStorage.setItem("numberNomina", event.target.value == null ? '' : event.target.value);
+  //   this.searchEmployeed(event)
+  // }
+  // onSwitchChange(event: any) {
+  //   this.checked =!this.checked
+  //   if (!this.checked) {
+  //       localStorage.setItem("checked",JSON.stringify(false))
+  //   }else{
+  //     localStorage.removeItem("checked")
+  //   }
+  // }
   clearFileInput() {
-    this.fileInputRef.nativeElement.value = '';
+    this.fileInput.nativeElement.value = '';
   }
-  next() {
-    this.first = this.first + this.rows;
-  }
+//   next() {
+//     this.first = this.first + this.rows;
+//   }
 
-  prev() {
-    this.first = this.first - this.rows;
-}
+//   prev() {
+//     this.first = this.first - this.rows;
+// }
 
-reset() {
-    this.first = 0;
-  }
-  pageChange(event:any) {
-    this.first = event.first;
-    this.rows = event.rows;
-  }
+// reset() {
+//     this.first = 0;
+//   }
+//   pageChange(event:any) {
+//     this.first = event.first;
+//     this.rows = event.rows;
+//   }
   
-  isLastPage(): boolean {
-    return this.guards ? this.first === this.guards.length - this.rows : true;
-  }
+//   isLastPage(): boolean {
+//     return this.guards ? this.first === this.guards.length - this.rows : true;
+//   }
   
-  isFirstPage(): boolean {
-    return this.guards ? this.first === 0 : true;
-  }
-  onRowEditInit(guards: any) {
-    console.log(guards)
-    this.clonedProducts[guards.idtable as string] = { ...guards };
-  }
+//   isFirstPage(): boolean {
+//     return this.guards ? this.first === 0 : true;
+//   }
+//   onRowEditInit(guards: any) {
+//     console.log(guards)
+//     this.clonedProducts[guards.idtable as string] = { ...guards };
+//   }
 
-filter(evento:any){
+// filter(evento:any){
  
-}
+// }
 
 // onRowEditSave(idguard: number) {
 //   const index = this.guards.findIndex((d: { idtable: number; }) => d.idtable === idguard);
@@ -217,10 +231,10 @@ filter(evento:any){
   
 // }
 
-onRowEditCancel(guards: any, index: number) {
-  this.guards[index] = this.clonedProducts[guards.idtable as string];
-  delete this.clonedProducts[guards.idtable as string];
-}
+// onRowEditCancel(guards: any, index: number) {
+//   this.guards[index] = this.clonedProducts[guards.idtable as string];
+//   delete this.clonedProducts[guards.idtable as string];
+// }
 // onRowDelete(index:number){
 //   const idtable = this.guards[index].idtable
 //   this.guards.splice(index,1)
@@ -242,59 +256,59 @@ onRowEditCancel(guards: any, index: number) {
   
 // }
 
-moreInputs() {
-  if (this.myFormUpdate.get('picture')) {    
-    this.myFormUpdate.removeControl(`picture`)
-  }
-  this.myFormUpdate.addControl(`picture`,new FormControl('',Validators.required))
-  this.myFormUpdate.get(`description`)?.setValue('')
-  this.myFormUpdate.get(`observations`)?.setValue('')
-  this.myFormUpdate.get('employeed')?.setValue(``)
-        this.myFormUpdate.get('group')?.setValue(``)
-  this.clearFileInput()
-  this.myFormUpdate.get('brand')?.setValue(localStorage.getItem('brand') !== null ? localStorage.getItem('brand') : ''); //marca
- this.myFormUpdate.get('type')?.setValue(localStorage.getItem('type') !== null ? localStorage.getItem('type') : ''); //tipo
- this.myFormUpdate.get('state')?.setValue(localStorage.getItem('state') !== null ? localStorage.getItem('state') : ''); //estado fisico
- this.myFormUpdate.get('serial')?.setValue( localStorage.getItem('serial') !== null ? localStorage.getItem('serial') : ''); //serial
- this.myFormUpdate.get('airlne')?.setValue(localStorage.getItem('airlne') !== null ? localStorage.getItem('airlne') : ''); //aerea de adscripcion
- this.myFormUpdate.get('payroll')?.setValue(localStorage.getItem('numberNomina') !== null ? localStorage.getItem('numberNomina') : '');
- this.myFormUpdate.get(`date`)?.setValue(new Date().toISOString().slice(0, 10))
+// moreInputs() {
+//   if (this.myFormUpdate.get('picture')) {    
+//     this.myFormUpdate.removeControl(`picture`)
+//   }
+//   this.myFormUpdate.addControl(`picture`,new FormControl('',Validators.required))
+//   this.myFormUpdate.get(`description`)?.setValue('')
+//   this.myFormUpdate.get(`observations`)?.setValue('')
+//   this.myFormUpdate.get('employeed')?.setValue(``)
+//         this.myFormUpdate.get('group')?.setValue(``)
+//   // this.clearFileInput()
+//   this.myFormUpdate.get('brand')?.setValue(localStorage.getItem('brand') !== null ? localStorage.getItem('brand') : ''); //marca
+//  this.myFormUpdate.get('type')?.setValue(localStorage.getItem('type') !== null ? localStorage.getItem('type') : ''); //tipo
+//  this.myFormUpdate.get('state')?.setValue(localStorage.getItem('state') !== null ? localStorage.getItem('state') : ''); //estado fisico
+//  this.myFormUpdate.get('serial')?.setValue( localStorage.getItem('serial') !== null ? localStorage.getItem('serial') : ''); //serial
+//  this.myFormUpdate.get('airlne')?.setValue(localStorage.getItem('airlne') !== null ? localStorage.getItem('airlne') : ''); //aerea de adscripcion
+//  this.myFormUpdate.get('payroll')?.setValue(localStorage.getItem('numberNomina') !== null ? localStorage.getItem('numberNomina') : '');
+//  this.myFormUpdate.get(`date`)?.setValue(new Date().toISOString().slice(0, 10))
 
-  if (localStorage.getItem('numberNomina')) {
+//   if (localStorage.getItem('numberNomina')) {
     
-    this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${localStorage.getItem('numberNomina')}/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
-      next:(n:any)=>{
-        const employed = n.RESPONSE.recordsets[0][0]
-        console.log(employed)
-        this.myFormUpdate.get('employeed')?.setValue(`${employed.nombreE} ${employed.apellidoP} ${employed.apellidoM}`)
-        this.myFormUpdate.get('group')?.setValue(`${employed.departamento}`)
+//     this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${localStorage.getItem('numberNomina')}/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
+//       next:(n:any)=>{
+//         const employed = n.RESPONSE.recordsets[0][0]
+//         console.log(employed)
+//         this.myFormUpdate.get('employeed')?.setValue(`${employed.nombreE} ${employed.apellidoP} ${employed.apellidoM}`)
+//         this.myFormUpdate.get('group')?.setValue(`${employed.departamento}`)
     
-      },
-      error:(e:any)=>{
-        this.myFormUpdate.get('employeed')?.setValue(``)
-        this.myFormUpdate.get('group')?.setValue(``)
-        this.visible = true
-      },
-      complete:()=>{
-        this.visible = true
+//       },
+//       error:(e:any)=>{
+//         this.myFormUpdate.get('employeed')?.setValue(``)
+//         this.myFormUpdate.get('group')?.setValue(``)
+//         this.visible = true
+//       },
+//       complete:()=>{
+//         this.visible = true
       
-      }
-    })
-  }
-  else{
+//       }
+//     })
+//   }
+//   else{
 
-    this.visible = true
-  }
-  // localStorage.setItem("brand", this.brand == null ? '' : this.brand);
-  // localStorage.setItem("type", this.type == null ? '' : this.type);
-  // localStorage.setItem("serial", this.serial == null ? '' : this.serial);
-  // localStorage.setItem("airlne", this.airlne == null ? '' : this.airlne);
-  // localStorage.setItem("numberNomina", this.numberNomina == null ? '' : this.numberNomina);
-  }
-config() {
+//     this.visible = true
+//   }
+//   // localStorage.setItem("brand", this.brand == null ? '' : this.brand);
+//   // localStorage.setItem("type", this.type == null ? '' : this.type);
+//   // localStorage.setItem("serial", this.serial == null ? '' : this.serial);
+//   // localStorage.setItem("airlne", this.airlne == null ? '' : this.airlne);
+//   // localStorage.setItem("numberNomina", this.numberNomina == null ? '' : this.numberNomina);
+//   }
+// config() {
 
-    this.options = true
-}
+//     this.options = true
+// }
 // addFomControls(){
 //   this.myForm.addControl(`img${this.addTr}`,new FormControl(''))
 //   this.myForm.addControl(`picture${this.addTr}`,new FormControl('',Validators.required))
@@ -309,6 +323,30 @@ config() {
 //   this.myForm.addControl(`label${this.addTr}`,new FormControl('',Validators.required))
 //   this.myForm.addControl(`payroll${this.addTr}`,new FormControl('',Validators.required))
 // }
+showDialog(){
+  this.visible = true 
+}
+onFileSelected(event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  const file = inputElement.files?.[0];
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+      this.MyForm.get('picture')?.setValue(inputElement.files)
+      console.log(this.MyForm.value)
+    };
+    reader.readAsDataURL(file);
+  } else {
+    this.imagePreview = null;
+  }
+}
+
+openFileInput() {
+  this.fileInput.nativeElement.click();
+}
+
 onFileChange(event: any, index: number): void {
   console.log(index)
   const file = event.target.files[0];
@@ -317,8 +355,8 @@ onFileChange(event: any, index: number): void {
 
     reader.onload = (e: any) => {
       const base64String = e.target.result.split(',')[1];
-      this.myForm.get('img' + index)?.setValue(base64String);
-      this.myForm.get('picture' + index)?.setValue(event.target.files)
+      this.MyForm.get('img' + index)?.setValue(base64String);
+      this.MyForm.get('picture' + index)?.setValue(event.target.files)
     };
 
     reader.readAsDataURL(file);
@@ -341,63 +379,63 @@ onInputChange(event: any) {
 }
 
 
-exportPdf() {
+// exportPdf() {
   
 
-  import('jspdf').then((jsPDFModule) => {
-    import('jspdf-autotable').then((autoTableModule) => {
-      const jsPDF = jsPDFModule.default;
-      const autoTable = autoTableModule.default;
+//   import('jspdf').then((jsPDFModule) => {
+//     import('jspdf-autotable').then((autoTableModule) => {
+//       const jsPDF = jsPDFModule.default;
+//       const autoTable = autoTableModule.default;
 
-      const doc = new jsPDF('l', 'px', 'a4');
-      (doc as any).autoTable({
-        columns: this.exportColumns,
-        body: this.guardSave,
-        styles: {
-          fontSize: 8 // Cambiar el tamaño de la fuente a 8 puntos
-        }
-      });
-      doc.save('Resguardos.pdf');
-    });
-  });
-}
-exportExcel() {
-  import('xlsx').then((xlsx) => {
-    const columnKeys = this.exportColumns.map((column) => column.title);
+//       const doc = new jsPDF('l', 'px', 'a4');
+//       (doc as any).autoTable({
+//         columns: this.exportColumns,
+//         body: this.guardSave,
+//         styles: {
+//           fontSize: 8 // Cambiar el tamaño de la fuente a 8 puntos
+//         }
+//       });
+//       doc.save('Resguardos.pdf');
+//     });
+//   });
+// }
+// exportExcel() {
+//   import('xlsx').then((xlsx) => {
+//     const columnKeys = this.exportColumns.map((column) => column.title);
 
-    // Crear una copia de this.guards para no modificar el original directamente
-    const modifiedGuards = this.guardSave.map((guard: { [x: string]: any; }) => {
-      const modifiedGuard: any = {};
-      for (const key in guard) {
-        // Buscar una coincidencia en column.dataKey
-        const matchingColumn = this.exportColumns.find((column) => column.dataKey === key);
-        if (matchingColumn) {
-          // Si hay una coincidencia, usa column.title como nueva clave
-          modifiedGuard[matchingColumn.title] = guard[key];
-        }
-      }
-      return modifiedGuard;
-    });
+//     // Crear una copia de this.guards para no modificar el original directamente
+//     const modifiedGuards = this.guardSave.map((guard: { [x: string]: any; }) => {
+//       const modifiedGuard: any = {};
+//       for (const key in guard) {
+//         // Buscar una coincidencia en column.dataKey
+//         const matchingColumn = this.exportColumns.find((column) => column.dataKey === key);
+//         if (matchingColumn) {
+//           // Si hay una coincidencia, usa column.title como nueva clave
+//           modifiedGuard[matchingColumn.title] = guard[key];
+//         }
+//       }
+//       return modifiedGuard;
+//     });
 
-    const worksheet = xlsx.utils.json_to_sheet(modifiedGuards, { header: columnKeys });
-    const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-    const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-    this.saveAsExcelFile(excelBuffer, 'Resguardos');
-  });
-}
-
-
+//     const worksheet = xlsx.utils.json_to_sheet(modifiedGuards, { header: columnKeys });
+//     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+//     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+//     this.saveAsExcelFile(excelBuffer, 'Resguardos');
+//   });
+// }
 
 
 
-saveAsExcelFile(buffer: any, fileName: string): void {
-  let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-  let EXCEL_EXTENSION = '.xlsx';
-  const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-  });
-  FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-}
+
+
+// saveAsExcelFile(buffer: any, fileName: string): void {
+//   let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+//   let EXCEL_EXTENSION = '.xlsx';
+//   const data: Blob = new Blob([buffer], {
+//       type: EXCEL_TYPE
+//   });
+//   FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+// }
 
 // exportExcel() {
 //   import('xlsx').then((xlsxModule) => {
@@ -409,24 +447,24 @@ saveAsExcelFile(buffer: any, fileName: string): void {
 //   });
 // }
 
-calculateCustomerTotal(number: number) {
-  let total = 0;
+// calculateCustomerTotal(number: number) {
+//   let total = 0;
 
-  if (this.guardSave) {
-      for (let guard of this.guardSave) {
-          if (guard.payroll === number) {
-              total++;
-          }
-      }
-  }
+//   if (this.guardSave) {
+//       for (let guard of this.guardSave) {
+//           if (guard.payroll === number) {
+//               total++;
+//           }
+//       }
+//   }
 
-  return total;
-}
+//   return total;
+// }
   onSubmit() {
    
     this.loading = true;
     
-    const formData = this.myFormUpdate.value;
+    const formData = this.MyForm.value;
     const form = new FormData();
     
     for (const key of Object.keys(formData)) {
@@ -466,13 +504,17 @@ calculateCustomerTotal(number: number) {
           icon: 'error',
           title: `No se han podido insertar`,
         }); 
+        this.visible = false
+        this.MyForm.reset()
+        this.clearFileInput()
+
       },
       complete:()=>{
         // this.table.reset()
         this.action ='insert'
         this.loading = false;
         if (this.checked||this.action !='insert') {
-          this.myFormUpdate.reset()
+          this.MyForm.reset()
           this.clearFileInput()
           this.visible = false
         }
@@ -490,52 +532,52 @@ calculateCustomerTotal(number: number) {
    
   }
 
-  onSubmitUpdate(){
-    this.loading = true;
+  // onSubmitUpdate(){
+  //   this.loading = true;
 
-    const formData = this.myFormUpdate.value;
-    const form = new FormData();
-    for (const key of Object.keys(formData)) {
-      if (key.includes('picture')) {
-        const files = formData[key];
+  //   const formData = this.myFormUpdate.value;
+  //   const form = new FormData();
+  //   for (const key of Object.keys(formData)) {
+  //     if (key.includes('picture')) {
+  //       const files = formData[key];
     
-        // Verifica si hay archivos antes de agregarlos al formulario
-        if (files && files.length > 0) {
-          const file = files[0];
-          const newKey = `${key}`;
-          form.append(newKey, file);
-        }
-      } else {
-        form.append(key, formData[key]);
-      }
-    }
+  //       // Verifica si hay archivos antes de agregarlos al formulario
+  //       if (files && files.length > 0) {
+  //         const file = files[0];
+  //         const newKey = `${key}`;
+  //         form.append(newKey, file);
+  //       }
+  //     } else {
+  //       form.append(key, formData[key]);
+  //     }
+  //   }
     
-    this.service.Post('guards/update',form).subscribe({
-      next:(n:any)=>{
-        this.Toast.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: `se han actualizado`,
-        });  
-      },
-      error:(e:any)=>{
-        this.Toast.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: `no se ha podido actualizar`,
-        });  
-      },
-      complete:()=>{
-        this.visible= false
-        this.guards =[]
-        this.loading = false;
-        this.getGuards()
+  //   this.service.Post('guards/update',form).subscribe({
+  //     next:(n:any)=>{
+  //       this.Toast.fire({
+  //         position: 'top-end',
+  //         icon: 'success',
+  //         title: `se han actualizado`,
+  //       });  
+  //     },
+  //     error:(e:any)=>{
+  //       this.Toast.fire({
+  //         position: 'top-end',
+  //         icon: 'error',
+  //         title: `no se ha podido actualizar`,
+  //       });  
+  //     },
+  //     complete:()=>{
+  //       this.visible= false
+  //       this.guards =[]
+  //       this.loading = false;
+  //       this.getGuards()
 
-      }
-    })
+  //     }
+  //   })
     
 
-  }
+  // }
   getGuards(){
     this.loading = true;
 
@@ -578,29 +620,29 @@ calculateCustomerTotal(number: number) {
       }
     })
   }
- EditGuard(guard:any){
-  if (this.myFormUpdate.get('picture')) {
-    this.myFormUpdate.removeControl(`picture`)
+//  EditGuard(guard:any){
+//   if (this.myFormUpdate.get('picture')) {
+//     this.myFormUpdate.removeControl(`picture`)
 
-  }
-  this.myFormUpdate.addControl(`picture`,new FormControl(''))
-  this.visible = true
-  this.action = 'edit'
-  this.myFormUpdate.get(`id`)?.setValue(guard.id)
-  this.myFormUpdate.get(`description`)?.setValue(guard.description)
-  this.myFormUpdate.get(`brand`)?.setValue(guard.brand)
-  this.myFormUpdate.get(`type`)?.setValue(guard.type)
-  this.myFormUpdate.get(`serial`)?.setValue(guard.serial)
-  this.myFormUpdate.get(`state`)?.setValue(guard.state)
-  this.myFormUpdate.get(`airlne`)?.setValue(guard.airlne)
-  this.myFormUpdate.get(`payroll`)?.setValue(guard.payroll)
-  this.myFormUpdate.get(`group`)?.setValue(guard.group)
-  this.myFormUpdate.get(`employeed`)?.setValue(guard.employeed)
-  this.myFormUpdate.get(`date`)?.setValue(guard.date)
-  this.myFormUpdate.get(`observations`)?.setValue(guard.observations)
-  this.myFormUpdate.addControl(`description`,new FormControl('',Validators.required))
+//   }
+//   this.myFormUpdate.addControl(`picture`,new FormControl(''))
+//   this.visible = true
+//   this.action = 'edit'
+//   this.myFormUpdate.get(`id`)?.setValue(guard.id)
+//   this.myFormUpdate.get(`description`)?.setValue(guard.description)
+//   this.myFormUpdate.get(`brand`)?.setValue(guard.brand)
+//   this.myFormUpdate.get(`type`)?.setValue(guard.type)
+//   this.myFormUpdate.get(`serial`)?.setValue(guard.serial)
+//   this.myFormUpdate.get(`state`)?.setValue(guard.state)
+//   this.myFormUpdate.get(`airlne`)?.setValue(guard.airlne)
+//   this.myFormUpdate.get(`payroll`)?.setValue(guard.payroll)
+//   this.myFormUpdate.get(`group`)?.setValue(guard.group)
+//   this.myFormUpdate.get(`employeed`)?.setValue(guard.employeed)
+//   this.myFormUpdate.get(`date`)?.setValue(guard.date)
+//   this.myFormUpdate.get(`observations`)?.setValue(guard.observations)
+//   this.myFormUpdate.addControl(`description`,new FormControl('',Validators.required))
 
-}
+// }
  searchEmployeed(event:any ){
   this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${event.target.value}/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
   next:(n:any)=>{
@@ -655,27 +697,32 @@ calculateCustomerTotal(number: number) {
   }
 }
 changeResguardState(guard: any) {
-  if (guard.active ==0) {
-    Object.keys(guard).forEach((g:any) => {
+  let pass = true
+  
+    Object.keys(guard).forEach((g:any,index) => {
           if (guard[g] == undefined || guard[g] == null) {
+            pass = false
             this.Toast.fire({
               icon: "warning",
               title: "No se puede activar debido a que no contiene su información necesaria"
             });
           }
+          if (index == Object.keys(guard).length -1  && pass) {
+            this.service.Delete(`guardsdestroy/${guard.id}`).subscribe({
+              next:()=>{
+                this.getGuards()
+              },
+              error:()=>{
+                this.getGuards()
+        
+              }
+           })
+          }
       });
-      return
-  }
+      
+  
 
-   this.service.Delete(`guardsdestroy/${guard.id}`).subscribe({
-      next:()=>{
-        this.getGuards()
-      },
-      error:()=>{
-        this.getGuards()
 
-      }
-   })
   }
 }
     

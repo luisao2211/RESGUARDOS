@@ -7,6 +7,7 @@ import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-
 import { AuthenticationGuard } from './auth.guard';
 import { AcessGuard } from './access.guard';
 import { UsersComponent } from './components/users/users.component';
+import { UserResguardsComponent } from './components/user-resguards/user-resguards.component';
 
 const routes: Routes = [
   {path:"",component:LoginComponent,
@@ -33,6 +34,10 @@ const routes: Routes = [
     path:'Usuarios',
     pathMatch: 'full',
     component:UsersComponent
+  },
+  {
+    path:'ResguardosUsuarios/:id',
+    component:UserResguardsComponent
   }
   ]
 

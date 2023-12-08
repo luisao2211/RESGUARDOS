@@ -66,7 +66,7 @@ export class UsersreguardsComponent  {
   
  guardSave:any =[]
   conteo: number = 0;
-  visible: boolean = false;
+  modal: boolean = false;
   options:boolean = false;
   @ViewChild('fileInput') fileInput!: ElementRef;
 
@@ -81,7 +81,7 @@ export class UsersreguardsComponent  {
   airlne = localStorage.getItem('airlne') !== null ? localStorage.getItem('airlne') : ''; //aerea de adscripcion
   numberNomina = localStorage.getItem('numberNomina') !== null ? localStorage.getItem('numberNomina') : ''; //aerea de adscripcion
   checked = localStorage.getItem('checked') !== null ? false : true;
-  dialogVisible: boolean= false;
+  dialogmodal: boolean= false;
   //numero de nomina
 
   constructor(private fb: FormBuilder,private service:ServiceService<any>) {
@@ -135,7 +135,7 @@ export class UsersreguardsComponent  {
   this.getGuards()
   }
   showTableReport(){
-    this.dialogVisible = true
+    this.dialogmodal = true
   }
   // changeBrand(event:any){
   //   this.myFormUpdate.get('brand')?.setValue(event.target.value)
@@ -287,17 +287,17 @@ export class UsersreguardsComponent  {
 //       error:(e:any)=>{
 //         this.myFormUpdate.get('employeed')?.setValue(``)
 //         this.myFormUpdate.get('group')?.setValue(``)
-//         this.visible = true
+//         this.modal = true
 //       },
 //       complete:()=>{
-//         this.visible = true
+//         this.modal = true
       
 //       }
 //     })
 //   }
 //   else{
 
-//     this.visible = true
+//     this.modal = true
 //   }
 //   // localStorage.setItem("brand", this.brand == null ? '' : this.brand);
 //   // localStorage.setItem("type", this.type == null ? '' : this.type);
@@ -323,8 +323,9 @@ export class UsersreguardsComponent  {
 //   this.myForm.addControl(`label${this.addTr}`,new FormControl('',Validators.required))
 //   this.myForm.addControl(`payroll${this.addTr}`,new FormControl('',Validators.required))
 // }
-showDialog(){
-  this.visible = true 
+showDialog(){ 
+  this.action = 'insert'
+  this.modal = true 
 }
 onFileSelected(event: Event) {
   const inputElement = event.target as HTMLInputElement;
@@ -334,8 +335,7 @@ onFileSelected(event: Event) {
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;
-      this.MyForm.get('picture')?.setValue(inputElement.files)
-      console.log(this.MyForm.value)
+    this.onFileChangeUpdate(event)
     };
     reader.readAsDataURL(file);
   } else {
@@ -363,9 +363,8 @@ onFileChange(event: any, index: number): void {
   }
 }
 onFileChangeUpdate(event: any): void {
-  const file = event.target.files[0];
 
-      this.myFormUpdate.get('picture')?.setValue(event.target.files)
+      this.MyForm.get('picture')?.setValue(event.target.files)
     
 
   
@@ -504,7 +503,7 @@ onInputChange(event: any) {
           icon: 'error',
           title: `No se han podido insertar`,
         }); 
-        this.visible = false
+        this.modal = false
         this.MyForm.reset()
         this.clearFileInput()
 
@@ -516,7 +515,7 @@ onInputChange(event: any) {
         if (this.checked||this.action !='insert') {
           this.MyForm.reset()
           this.clearFileInput()
-          this.visible = false
+          this.modal = false
         }
         else{
           this.myFormUpdate.get(`picture`)?.setValue('');
@@ -568,7 +567,7 @@ onInputChange(event: any) {
   //       });  
   //     },
   //     complete:()=>{
-  //       this.visible= false
+  //       this.modal= false
   //       this.guards =[]
   //       this.loading = false;
   //       this.getGuards()
@@ -626,7 +625,7 @@ onInputChange(event: any) {
 
 //   }
 //   this.myFormUpdate.addControl(`picture`,new FormControl(''))
-//   this.visible = true
+//   this.modal = true
 //   this.action = 'edit'
 //   this.myFormUpdate.get(`id`)?.setValue(guard.id)
 //   this.myFormUpdate.get(`description`)?.setValue(guard.description)
@@ -723,6 +722,20 @@ changeResguardState(guard: any) {
   
 
 
+  }
+  EditGuard(guard:any){
+    this.MyForm.get('id')?.setValue(guard.id)
+    this.action = 'edit'
+    Object.keys(guard).forEach(key => {
+      if (this.MyForm.get(key)) {
+        this.MyForm.get(key)?.setValue(guard[key]);
+      }
+      if (key == 'picture') {
+        this.imagePreview = guard[key]
+      }
+    });
+    
+    this.modal = true
   }
 }
     

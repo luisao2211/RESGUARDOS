@@ -37,6 +37,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { UsersComponent } from './components/users/users.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { UserResguardsComponent } from './components/user-resguards/user-resguards.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,8 @@ import { DropdownModule } from 'primeng/dropdown';
     LoginComponent,
     UsersreguardsComponent,
     DashboardAdminComponent,
-    UsersComponent
+    UsersComponent,
+    UserResguardsComponent
   ],
   imports: [
     BrowserModule,

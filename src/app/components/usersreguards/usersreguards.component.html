@@ -130,7 +130,7 @@
                   <button (click)="showTableReport()" class="mr-2 bg-blue-300 hover:bg-blue-500 rounded-full p-4 "><i class="fas fa-file-alt"></i>
 
                   </button>
-                  <button  class="mr-2 bg-yellow-300 hover:bg-yellow-500 rounded-full p-4 "> <li class="fa fa-edit"></li></button>
+                  <button (click)="EditGuard(guards)"  class="mr-2 bg-yellow-300 hover:bg-yellow-500 rounded-full p-4 "> <li class="fa fa-edit"></li></button>
 
                   <button (click)="changeResguardState(guards)" class=" rounded-full p-4 mr-2 "
                   [ngClass]="{'bg-lime-300 hover:bg-lime-500':guards.active ==0,
@@ -165,8 +165,7 @@
 
 
 
-<p-dialog header="Agregar Resguardo" [(visible)]="visible" [position]="'right'" [style]="{width: '50vw'}">
-  <div class=" w-full h-fit ">
+<p-dialog header="Agregar Usuario" [(visible)]="modal" [position]="'right'" [style]="{width: '30vw',height:'100vh'}">
      
  <form class="pt-2 mx-auto w-full" [formGroup]="MyForm" (ngSubmit)="onSubmit()" action="">
   <div class="w-full  flex justify-center align-center">
@@ -237,7 +236,6 @@
       
     </div>
 <!-- component -->
-<link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.4/dist/flowbite.min.css" />
 
 <!-- This is an example component -->
 <div class="w-full">
@@ -257,13 +255,12 @@
         <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
             <textarea
               formControlName="observations"
-            id="editor" rows="12"  class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Escribe las observaciones" required></textarea>
+            id="editor" rows="12"  class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400" placeholder="Escribe las observaciones" required></textarea>
         </div>
     </div>
   
 
 
-    <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
 </div>
 
 
@@ -283,14 +280,13 @@
     </ng-container>
     
  </form>
-  </div>
     
 </p-dialog>
 
 
 
 <p-dialog
- header="Reporte" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [(visible)]="dialogVisible" [style]="{width: '75vw'}" [contentStyle]="{height: '300px'}">
+ header="Reporte" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [(visible)]="dialogmodal" [style]="{width: '50vh'}" [contentStyle]="{height: '300px'}">
   <p-table styleClass="mt-5"  [value]="[]" [scrollable]="true" scrollHeight="flex" [tableStyle]="{'min-width': '50rem'}">
       <ng-template pTemplate="header">
           <tr>
@@ -314,6 +310,6 @@
       </ng-template>
   </p-table>
   <ng-template pTemplate="footer">
-      <button type="button" class="hover:bg-red-500" pButton pRipple icon="pi pi-times" (click)="dialogVisible=false" label="Salir" class="p-button-text"></button>
+      <button type="button" class="hover:bg-red-500" pButton pRipple icon="pi pi-times" (click)="dialogmodal=false" label="Salir" class="p-button-text"></button>
   </ng-template>
 </p-dialog>

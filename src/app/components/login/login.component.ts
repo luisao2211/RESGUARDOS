@@ -50,10 +50,15 @@ export class LoginComponent implements OnInit  {
       localStorage.setItem("token",n["data"]["result"]["token"])
       localStorage.setItem("role",n["data"]["result"]["user"]["role"])
       localStorage.setItem("id",n["data"]["result"]["user"]["id"])
-
+      const id =n["data"]["result"]["user"]["id"]
 
       
-      
+            if (parseInt(n["data"]["result"]["user"]["role"])==4) {
+              this.router.navigateByUrl(`/ResguardosUsuarios/${id}`);
+
+            }else{
+              alert(parseInt(n["data"]["result"]["user"]["role"]))
+            }
             this.router.navigateByUrl('/Usuarios');
 
       

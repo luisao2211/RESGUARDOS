@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ServiceService } from 'src/app/service.service';
 import { Table } from 'primeng/table'; 
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-users',
@@ -9,7 +10,17 @@ import { Table } from 'primeng/table';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent {
-
+  public Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
   idUser! : number|null
   loading:any = false
   users: any[] = [];
@@ -112,15 +123,34 @@ export class UsersComponent {
       }
     })
   }
-  changeStateUser(id: any) {
+  changeStateUser(user: any) {
+    console.log(user)
     this.loading = true
-    this.service.Delete(`usersdestroy/${id}`).subscribe({
+    this.service.Delete(`usersdestroy/${user.id}`).subscribe({
       next: (n:any) => {
         this.GetUsers()
         this.loading = false
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `se a cambiado el estado`,
+        });
       },
       error:(e:any)=>{
         this.loading = false
+       if (user.active ==1) {
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: `el usuario tiene resguardos`,
+        });
+       }else{
+        this.Toast.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: `ha ocurrido un error`,
+        });
+       }
       }
     })
   }

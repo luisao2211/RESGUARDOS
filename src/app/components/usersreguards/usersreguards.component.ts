@@ -82,10 +82,10 @@ export class UsersreguardsComponent  {
   numberNomina = localStorage.getItem('numberNomina') !== null ? localStorage.getItem('numberNomina') : ''; //aerea de adscripcion
   checked = localStorage.getItem('checked') !== null ? false : true;
   dialogmodal: boolean= false;
+  history: any=[];
   //numero de nomina
 
   constructor(private fb: FormBuilder,private service:ServiceService<any>) {
-    console.warn(this.checked,typeof(this.checked))
     this.MyForm = new FormGroup({
       id: new FormControl(''),
       picture:new FormControl('',Validators.required),
@@ -134,8 +134,13 @@ export class UsersreguardsComponent  {
   // this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
   this.getGuards()
   }
-  showTableReport(){
-    this.dialogmodal = true
+  showTableReport(guard:any){
+    this.service.Data<any>(`guards/history/${guard.id}`).subscribe({
+      next: (n:any) => {
+        this.history = n['data']['result']
+        this.dialogmodal = true
+      }
+    })
   }
   // changeBrand(event:any){
   //   this.myFormUpdate.get('brand')?.setValue(event.target.value)
@@ -324,6 +329,9 @@ export class UsersreguardsComponent  {
 //   this.myForm.addControl(`payroll${this.addTr}`,new FormControl('',Validators.required))
 // }
 showDialog(){ 
+  this.imagePreview = null
+  this.clearFileInput()
+  this.MyForm.reset()
   this.action = 'insert'
   this.modal = true 
 }
@@ -398,43 +406,43 @@ onInputChange(event: any) {
 //     });
 //   });
 // }
-// exportExcel() {
-//   import('xlsx').then((xlsx) => {
-//     const columnKeys = this.exportColumns.map((column) => column.title);
+exportExcel() {
+  import('xlsx').then((xlsx) => {
+    const columnKeys = this.exportColumns.map((column) => column.title);
 
-//     // Crear una copia de this.guards para no modificar el original directamente
-//     const modifiedGuards = this.guardSave.map((guard: { [x: string]: any; }) => {
-//       const modifiedGuard: any = {};
-//       for (const key in guard) {
-//         // Buscar una coincidencia en column.dataKey
-//         const matchingColumn = this.exportColumns.find((column) => column.dataKey === key);
-//         if (matchingColumn) {
-//           // Si hay una coincidencia, usa column.title como nueva clave
-//           modifiedGuard[matchingColumn.title] = guard[key];
-//         }
-//       }
-//       return modifiedGuard;
-//     });
+    // Crear una copia de this.guards para no modificar el original directamente
+    const modifiedGuards = this.guardSave.map((guard: { [x: string]: any; }) => {
+      const modifiedGuard: any = {};
+      for (const key in guard) {
+        // Buscar una coincidencia en column.dataKey
+        const matchingColumn = this.exportColumns.find((column) => column.dataKey === key);
+        if (matchingColumn) {
+          // Si hay una coincidencia, usa column.title como nueva clave
+          modifiedGuard[matchingColumn.title] = guard[key];
+        }
+      }
+      return modifiedGuard;
+    });
 
-//     const worksheet = xlsx.utils.json_to_sheet(modifiedGuards, { header: columnKeys });
-//     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-//     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-//     this.saveAsExcelFile(excelBuffer, 'Resguardos');
-//   });
-// }
-
-
+    const worksheet = xlsx.utils.json_to_sheet(modifiedGuards, { header: columnKeys });
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, 'Resguardos');
+  });
+}
 
 
 
-// saveAsExcelFile(buffer: any, fileName: string): void {
-//   let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-//   let EXCEL_EXTENSION = '.xlsx';
-//   const data: Blob = new Blob([buffer], {
-//       type: EXCEL_TYPE
-//   });
-//   FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-// }
+
+
+saveAsExcelFile(buffer: any, fileName: string): void {
+  let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  let EXCEL_EXTENSION = '.xlsx';
+  const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+  });
+  FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+}
 
 // exportExcel() {
 //   import('xlsx').then((xlsxModule) => {
@@ -710,10 +718,22 @@ changeResguardState(guard: any) {
             this.service.Delete(`guardsdestroy/${guard.id}`).subscribe({
               next:()=>{
                 this.getGuards()
+                this.Toast.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: `se a cambiado el estado`,
+                });  
               },
               error:()=>{
                 this.getGuards()
-        
+                console.log(guard)
+                if (guard.active == 1) {
+                  this.Toast.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: `no se puede dar de baja ya que esta en uso`,
+                  });  
+                }
               }
            })
           }

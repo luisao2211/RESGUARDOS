@@ -5,7 +5,7 @@
     <button
     (click)="showDialog()" 
     pTooltip="Agregar"
-    class=" shadow-md cursor-pointer hover:bg-purple-400 h-14 rounded-md  w-28 pt-2 bg-purple-200"><li class="fa fa-plus"></li></button>
+    class=" shadow-md cursor-pointer hover:bg-purple-400 h-14 rounded-full  w-14 pt-2 bg-purple-200"><li class="fa fa-plus"></li></button>
     </ng-container>
     <ng-container *ngIf="roleTypeUser<2" >
 
@@ -102,22 +102,22 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" class="shadow-md" let-users let-i="rowIndex">
-            
-            <tr >
+            <ng-container *ngIf="users.active ==1">
+              <tr >
               
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.name }}</td>
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.payroll }}</td>
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.email }}</td>
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.group }}</td>
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.type_role }}</td>
-                <td [ngClass]="{'bg-gray-50 text-gray-400':users.active==0,'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">
+                <td [ngClass]="{'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.name }}</td>
+                <td [ngClass]="{'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.payroll }}</td>
+                <td [ngClass]="{'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.email }}</td>
+                <td [ngClass]="{'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.group }}</td>
+                <td [ngClass]="{'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">{{ users.type_role }}</td>
+                <td [ngClass]="{'bg-blue-100 text-blue-500':users.role ==2,'bg-cyan-100 text-cyan-500':users.role ==3,'bg-teal-100 text-cyan-500':users.role==4}" class="px-5 py-5 border-b border-gray-200  text-sm">
                   <ng-container *ngIf="users.active ==1" >
                     <button (click)="editUser(users)" class="bg-yellow-300 hover:bg-yellow-500 rounded-full p-4  mr-2"> 
                       <li class="fa fa-edit"></li>
   
                     </button>
                   </ng-container>
-                  <button (click)="changeStateUser(users.id)" class=" rounded-full p-4 "
+                  <button (click)="changeStateUser(users)" class=" rounded-full p-4 "
                    [ngClass]="{'bg-lime-300 hover:bg-lime-500':users.active ==0,
                    'bg-gray-300 hover:bg-gray-500':users.active ==1
                 
@@ -140,6 +140,47 @@
                 <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
             </tr>
+            </ng-container>
+            <ng-container *ngIf="users.active ==0" >
+              <tr >
+              
+                <td  class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200  text-sm">{{ users.name }}</td>
+                <td  class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200  text-sm">{{ users.payroll }}</td>
+                <td  class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200  text-sm">{{ users.email }}</td>
+                <td  class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200  text-sm">{{ users.group }}</td>
+                <td  class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200  text-sm">{{ users.type_role }}</td>
+                <td  class="bg-gray-50 text-gray-400 px-5 py-5 border-b border-gray-200  text-sm">
+                  <ng-container *ngIf="users.active ==1" >
+                    <button (click)="editUser(users)" class="bg-yellow-300 hover:bg-yellow-500 rounded-full p-4  mr-2"> 
+                      <li class="fa fa-edit"></li>
+  
+                    </button>
+                  </ng-container>
+                  <button (click)="changeStateUser(users)" class=" rounded-full p-4 "
+                   [ngClass]="{'bg-lime-300 hover:bg-lime-500':users.active ==0,
+                   'bg-gray-300 hover:bg-gray-500':users.active ==1
+                
+                
+                }"> 
+                    <ng-container *ngIf="users.active ==1" >
+
+                      <li class="fa fa-toggle-on"></li>
+
+                    </ng-container>
+                    <ng-container *ngIf="users.active ==0" >
+
+                      <li class="fa fa-toggle-off"></li>
+
+                    </ng-container>
+                  </button>
+
+                </td>
+
+                <!-- <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.category }}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ users.quantity }}</td> -->
+            </tr>
+            </ng-container>
+            
         </ng-template>
     </p-table>
 </div>

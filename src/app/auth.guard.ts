@@ -13,11 +13,11 @@ export class AuthenticationGuard implements CanActivate {
   ): boolean | UrlTree {
     const authToken =localStorage.getItem('token')
     if (authToken) {
-      if (localStorage.getItem('role')=='1') {
+      if (localStorage.getItem('role')=='1'||localStorage.getItem('role')=='2'||localStorage.getItem('role')=='3') {
         this.router.navigate(['/Usuarios']);
       }
-      else{
-        this.router.navigate(['/Administrativo']);
+      if (localStorage.getItem('role')=='4') {
+        this.router.navigate([`/ResguardosUsuarios/${localStorage.getItem('id')}`]);
       }
       return true;
     } else {

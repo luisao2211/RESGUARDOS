@@ -2,20 +2,20 @@
 <!--
   NAVBAR SUPERION
 -->
-<div class="flex flex-row w-full">
+<div class="flex flex-row w-full h-screen">
   <div class="
   relative z-40 shadow-xl md:flex md:flex-row  max-md:w-0 max-md:h-0 max-md:hidden
   ">
 
   </div>
   <div class="w-full">
-    <nav class=" 
+    <nav class="
   relative z-40 shadow-xl md:flex md:flex-row  max-md:w-0 max-md:h-0 max-md:hidden">
-    <ul class="flex flex-row pt-4 leading-10 md:ml-48">
-      <li>
-        <img src="" alt="">
+    <ul class="flex flex-row pt-4 leading-10">
+      <li class="md:ml-8">
+        <img class="w-10 h-10" src="../../../assets/icon.png" alt="Descripción de la imagen">
       </li>
-      <li
+      <li class="md:ml-40"
       >
         <button class="rounded-md p-1 md:mr-12 bg-purple-200 md:mt-2 mr-7"
         (click)="toggleContent()"
@@ -52,24 +52,25 @@
    <!--
     NAVBAR SUPERION
   -->
+  <div class="flex flex-row   h-screen ">
 
+  </div>
 
-  <div class="flex flex-row h-full">
+  <div class="flex flex-row  h-screen ">
     <!--
       SIDEBAR
     -->
 
-    <nav class="relative shadow-xl z-40 w-max-fit transition ease-in-out duration-100"
+    <nav class="h-screen  relative shadow-xl z-40 w-max-fit transition ease-in-out duration-100"
   [ngClass]="{
-'w-1/12  md:mr-80 xl:mr-40': isExpanded,
+'w-3/12 ': isExpanded,
     'w-6': !isExpanded,
     'bg-neutral-700': timeDay,
     'bg-white': !timeDay
   }"
 >
      <ng-container *ngIf="isExpanded ">
-      <div [ngClass]="{'bg-neutral-700':timeDay,'bg-white':!timeDay}" class=" flex flex-col w-full h-full mt-0 pt-0 mr-0 pr-0 hover:w-64 md:w-64   text-gray-600 transition-all duration-300 border-none z-10 sidebar">
-        <div class="overflow-y-auto w-full overflow-x-hidden flex flex-col justify-between flex-grow shadow-md">
+
           <ul class="flex flex-col py-4 space-y-1 pl-3 pr-4">
 
             <ng-container *ngIf="roleTypeUser<4" >
@@ -83,7 +84,8 @@
                 <span class="ml-2 text-sm tracking-wide truncate">Usuarios</span>
               </a>
             </li>
-
+          </ng-container>
+          <ng-container *ngIf="roleTypeUser<3" >
             <li (click)="changeItemSelected(2)" [ngClass]="{'bg-purple-200 rounded-lg text-gray-800':selectedItemMenu[2]}">
               <a [routerLink]="['/Resguardos']" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-purple-50 hover:rounded-lg text-gray-600 hover:text-gray-800 border-l-4 border-transparent">
                 <!-- Icono Store de Font Awesome -->
@@ -105,10 +107,9 @@
               </a>
             </li>
           </ul>
-          <p class="mb-14 px-5 py-3 hidden md:block text-center text-xs">Copyright @2021</p>
-        </div>
-      </div>
-    
+          <p class="mb-14 px-5 py-3 hidden md:block text-center text-xs"></p>
+
+
      </ng-container>
     </nav>
     <!--
@@ -128,8 +129,8 @@
         </div>
         </ng-container>
         <div class="pb-10 mt-3 custom-scrollbar max-w-full max-h-full overflow-y-auto ">
-          <div class="mb-4" *ngFor="let user of users; let index=index">          
-            <button 
+          <div class="mb-4" *ngFor="let user of users; let index=index">
+            <button
             [routerLink]="['/ResguardosUsuarios', user.id]"
             [ngClass]="{'bg-white':!timeDay,'bg-neutral-300':timeDay}"
             (click)="selectedEmployed(index)" [ngClass]="{'border-2 border-blue-700 shadow-lg':index==selected}" class="mb-4   p-3 w-full flex flex-col rounded-md dark:bg-gray-800 shadow">
@@ -144,7 +145,7 @@
               <div class="ml-auto text-xs font-bold ">{{ user.payroll }}</div>
             </div>
           </button>
-       
+
         </div>
         </div>
       </div>

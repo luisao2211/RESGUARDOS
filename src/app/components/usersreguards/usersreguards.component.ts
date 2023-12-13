@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ViewChild, ChangeDetectorRef, NgZone, OnInit, ElementRef} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2'
-import { Table } from 'primeng/table'; 
+import { Table } from 'primeng/table';
 import * as FileSaver from 'file-saver';
 import * as jsPDF from 'jspdf';
 // import * as xlsx from 'xlsx';
@@ -32,6 +32,7 @@ export class UsersreguardsComponent  {
 
 
 
+
   cols!: Column[];
     selectedColumns!: Column[];
      Toast = Swal.mixin({
@@ -52,18 +53,18 @@ export class UsersreguardsComponent  {
   myFormUpdate!: FormGroup;
   first = 0;
   imagePreview: string | ArrayBuffer | null = null;
-
-  @ViewChild('dt') table!: Table; 
-  @ViewChild('dt1') tableReports!: Table; 
+   resguardSelected!:string|null
+  @ViewChild('dt') table!: Table;
+  @ViewChild('dt1') tableReports!: Table;
 
   loading: boolean = false;
-  action:'edit'|'insert'='insert' 
+  action:'edit'|'insert'='insert'
 
   rows = 10;
   guards: any = [
-   
+
   ]
-  
+
  guardSave:any =[]
   conteo: number = 0;
   modal: boolean = false;
@@ -115,26 +116,23 @@ export class UsersreguardsComponent  {
     //   this.myFormUpdate.addControl(`observations`,new FormControl(''))
 
 
-  //   this.cols = [
-  //     { field: 'stock_number', header: 'NUMERO DE INVENTARIO', customExportHeader: 'Emisor' },
-  //     { field: 'description', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'Emisor' },
-  //     { field: 'brand', header: 'MARCA Y MODELO', customExportHeader: 'Descripción del producto' },
-  //     { field: 'type', header: 'TIPO', customExportHeader: 'Cantidad o Pieza' },
-  //     { field: 'state', header: 'NUMERO DE SERIE', customExportHeader: 'Valor' },
-  //     { field: 'serial', header: 'ESTADO FISICO', customExportHeader: 'Nombre del resguardante' },
-  //     { field: 'airlne', header: 'ÁEREA DE ADSCRIPCION', customExportHeader: 'Departamento' },
-  //     { field: 'payroll', header: 'NUMERO DE NOMINA', customExportHeader: 'Numero consecutivo' },
-  //     { field: 'group', header: 'UBICACIÓN/DEPARTAMENTO', customExportHeader: 'Numero de etiqueta' },
-  //     { field: 'employeed', header: 'NOMBRE DEL RESGUARDANTE', customExportHeader: 'Numero de nomina' },
-  //     { field: 'date', header: 'FECHA DE ASIGNACIÓN DEL RESGUARDO', customExportHeader: 'Numero de nomina' },
-  //     { field: 'observations', header: 'OBSERVACÍONES', customExportHeader: 'Numero de nomina' },
+    this.cols = [
+      { field: 'payroll', header: 'NUMERO DE NOMINA', customExportHeader: 'NUMERO DE NOMINA' },
+      { field: 'name', header: 'NOMBRE DEL RESGUARDANTE', customExportHeader: 'NOMBRE DEL RESGUARDANTE' },
+      { field: 'group', header: 'UBICACIÓN O DEPARTAMENTO', customExportHeader: 'UBICACIÓN O DEPARTAMENTO' },
+      { field: 'airlane', header: 'AEREA DE ADSCRIPCIÓN', customExportHeader: 'AEREA DE ADSCRIPCIÓN' },
+      { field: 'dateup', header: 'FECHA DE ASIGNACIÓN DEL RESGUARDO', customExportHeader: 'FECHA DE ASIGNACIÓN DEL RESGUARDO' },
+      { field: 'datedown', header: 'FECHA DE ENTREGA DEL RESGUARDO', customExportHeader: 'FECHA DE ENTREGA DEL RESGUARDO' },
+      { field: 'observation', header: 'OBSERVACIONES', customExportHeader: 'OBSERVACIONES' },
 
-  // ];
 
-  // this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
+  ];
+
+  this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
   this.getGuards()
   }
   showTableReport(guard:any){
+    this.resguardSelected = guard.description
     this.service.Data<any>(`guards/history/${guard.id}`).subscribe({
       next: (n:any) => {
         this.history = n['data']['result']
@@ -145,7 +143,7 @@ export class UsersreguardsComponent  {
   // changeBrand(event:any){
   //   this.myFormUpdate.get('brand')?.setValue(event.target.value)
   //   localStorage.setItem("brand", event.target.value == null ? '' : event.target.value);
- 
+
   // }
   // changeType(event:any){
   //   this.myFormUpdate.get('type')?.setValue(event.target.value)
@@ -198,11 +196,11 @@ export class UsersreguardsComponent  {
 //     this.first = event.first;
 //     this.rows = event.rows;
 //   }
-  
+
 //   isLastPage(): boolean {
 //     return this.guards ? this.first === this.guards.length - this.rows : true;
 //   }
-  
+
 //   isFirstPage(): boolean {
 //     return this.guards ? this.first === 0 : true;
 //   }
@@ -212,7 +210,7 @@ export class UsersreguardsComponent  {
 //   }
 
 // filter(evento:any){
- 
+
 // }
 
 // onRowEditSave(idguard: number) {
@@ -229,11 +227,11 @@ export class UsersreguardsComponent  {
 //     this.guards[index]["label"] = this.myForm.get(`label${idguard}`)?.value
 //     this.guards[index]["payroll"] = this.myForm.get(`payroll${idguard}`)?.value
 //     console.log(this.guards[index])
-   
+
 //     // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product is updated' });
- 
+
 //     // this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Price' });
-  
+
 // }
 
 // onRowEditCancel(guards: any, index: number) {
@@ -258,11 +256,11 @@ export class UsersreguardsComponent  {
 //   this.table?.reset();
 
 
-  
+
 // }
 
 // moreInputs() {
-//   if (this.myFormUpdate.get('picture')) {    
+//   if (this.myFormUpdate.get('picture')) {
 //     this.myFormUpdate.removeControl(`picture`)
 //   }
 //   this.myFormUpdate.addControl(`picture`,new FormControl('',Validators.required))
@@ -280,14 +278,14 @@ export class UsersreguardsComponent  {
 //  this.myFormUpdate.get(`date`)?.setValue(new Date().toISOString().slice(0, 10))
 
 //   if (localStorage.getItem('numberNomina')) {
-    
+
 //     this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/empleados/${localStorage.getItem('numberNomina')}/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
 //       next:(n:any)=>{
 //         const employed = n.RESPONSE.recordsets[0][0]
 //         console.log(employed)
 //         this.myFormUpdate.get('employeed')?.setValue(`${employed.nombreE} ${employed.apellidoP} ${employed.apellidoM}`)
 //         this.myFormUpdate.get('group')?.setValue(`${employed.departamento}`)
-    
+
 //       },
 //       error:(e:any)=>{
 //         this.myFormUpdate.get('employeed')?.setValue(``)
@@ -296,7 +294,7 @@ export class UsersreguardsComponent  {
 //       },
 //       complete:()=>{
 //         this.modal = true
-      
+
 //       }
 //     })
 //   }
@@ -328,12 +326,12 @@ export class UsersreguardsComponent  {
 //   this.myForm.addControl(`label${this.addTr}`,new FormControl('',Validators.required))
 //   this.myForm.addControl(`payroll${this.addTr}`,new FormControl('',Validators.required))
 // }
-showDialog(){ 
+showDialog(){
   this.imagePreview = null
   this.clearFileInput()
   this.MyForm.reset()
   this.action = 'insert'
-  this.modal = true 
+  this.modal = true
 }
 onFileSelected(event: Event) {
   const inputElement = event.target as HTMLInputElement;
@@ -373,9 +371,9 @@ onFileChange(event: any, index: number): void {
 onFileChangeUpdate(event: any): void {
 
       this.MyForm.get('picture')?.setValue(event.target.files)
-    
 
-  
+
+
 }
 onInputChange(event: any) {
   if (event && event.target) {
@@ -387,7 +385,7 @@ onInputChange(event: any) {
 
 
 // exportPdf() {
-  
+
 
 //   import('jspdf').then((jsPDFModule) => {
 //     import('jspdf-autotable').then((autoTableModule) => {
@@ -411,7 +409,7 @@ exportExcel() {
     const columnKeys = this.exportColumns.map((column) => column.title);
 
     // Crear una copia de this.guards para no modificar el original directamente
-    const modifiedGuards = this.guardSave.map((guard: { [x: string]: any; }) => {
+    const modifiedGuards = this.history.map((guard: { [x: string]: any; }) => {
       const modifiedGuard: any = {};
       for (const key in guard) {
         // Buscar una coincidencia en column.dataKey
@@ -441,7 +439,7 @@ saveAsExcelFile(buffer: any, fileName: string): void {
   const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE
   });
-  FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  FileSaver.saveAs(data,this.resguardSelected+ EXCEL_EXTENSION);
 }
 
 // exportExcel() {
@@ -468,14 +466,14 @@ saveAsExcelFile(buffer: any, fileName: string): void {
 //   return total;
 // }
   onSubmit() {
-   
+
     this.loading = true;
-    
+
     const formData = this.MyForm.value;
     const form = new FormData();
-    
+
     for (const key of Object.keys(formData)) {
-     
+
       if (key.includes('picture')) {
         const files = formData[key];
         if (files && files.length > 0) {
@@ -483,34 +481,34 @@ saveAsExcelFile(buffer: any, fileName: string): void {
           const newKey = `${key}`;
           form.append(newKey, file);
         }
-        
+
       } else {
         form.append(key, formData[key]);
       }
     }
-  
-    
-    
-    
+
+
+
+
     let url = 'guards'
     if (this.action !='insert') {
       url = 'guards/update'
     }
-    
+
     this.service.Post(url,form).subscribe({
       next:(n:any)=>{
         this.Toast.fire({
           position: 'top-end',
           icon: 'success',
-          title: `se han insertado`,
-        });     
+          title: `Se ha ${url =='guards'?'insertado':'actualizado'} correctamente`,
+        });
        },
       error:(e:any)=>{
         this.Toast.fire({
           position: 'top-end',
           icon: 'error',
-          title: `No se han podido insertar`,
-        }); 
+          title: ` No se ha podido ${url =='guards'?'insertar':'actualizar'}`,
+        });
         this.modal = false
         this.MyForm.reset()
         this.clearFileInput()
@@ -529,14 +527,14 @@ saveAsExcelFile(buffer: any, fileName: string): void {
           this.myFormUpdate.get(`picture`)?.setValue('');
           this.myFormUpdate.get(`description`)?.setValue('');
           this.myFormUpdate.get(`observations`)?.setValue('');
-         
+
           this.clearFileInput()
         }
         this.getGuards()
 
       }
     })
-   
+
   }
 
   // onSubmitUpdate(){
@@ -547,7 +545,7 @@ saveAsExcelFile(buffer: any, fileName: string): void {
   //   for (const key of Object.keys(formData)) {
   //     if (key.includes('picture')) {
   //       const files = formData[key];
-    
+
   //       // Verifica si hay archivos antes de agregarlos al formulario
   //       if (files && files.length > 0) {
   //         const file = files[0];
@@ -558,21 +556,21 @@ saveAsExcelFile(buffer: any, fileName: string): void {
   //       form.append(key, formData[key]);
   //     }
   //   }
-    
+
   //   this.service.Post('guards/update',form).subscribe({
   //     next:(n:any)=>{
   //       this.Toast.fire({
   //         position: 'top-end',
   //         icon: 'success',
   //         title: `se han actualizado`,
-  //       });  
+  //       });
   //     },
   //     error:(e:any)=>{
   //       this.Toast.fire({
   //         position: 'top-end',
   //         icon: 'error',
   //         title: `no se ha podido actualizar`,
-  //       });  
+  //       });
   //     },
   //     complete:()=>{
   //       this.modal= false
@@ -582,7 +580,7 @@ saveAsExcelFile(buffer: any, fileName: string): void {
 
   //     }
   //   })
-    
+
 
   // }
   getGuards(){
@@ -591,19 +589,19 @@ saveAsExcelFile(buffer: any, fileName: string): void {
     this.service.Data<any>("guards").subscribe({
       next:(n:any)=>{
         this.guardSave =n['data']["result"]
-       
+
       },
       error:(e:any)=>{
         this.loading = false;
 
       },
       complete:()=>{
-        
+
         this.loading = false;
-  
+
       }
     })
-  } 
+  }
   removeGuard(id:number){
     this.loading = true
     this.service.Delete(`guardsdestroy/${id}`).subscribe({
@@ -612,14 +610,14 @@ saveAsExcelFile(buffer: any, fileName: string): void {
           position: 'top-end',
           icon: 'success',
           title: `se ha eliminado correctamente`,
-        }); 
+        });
       },
       error:(e:any)=>{
         this.Toast.fire({
           position: 'top-end',
           icon: 'error',
           title: `no se ha podido eliminar`,
-        }); 
+        });
       },
       complete:()=>{
         this.loading = false
@@ -668,7 +666,7 @@ saveAsExcelFile(buffer: any, fileName: string): void {
  }
  Close(){
   this.options = false
-  
+
 
  }
  Destroy(){
@@ -693,7 +691,7 @@ saveAsExcelFile(buffer: any, fileName: string): void {
   this.myFormUpdate.get('payroll')?.setValue('')
   this.myFormUpdate.get('airlne')?.setValue('')
 
-  
+
   this.options = false
  }
  onInputChangeReports(event: any) {
@@ -705,7 +703,7 @@ saveAsExcelFile(buffer: any, fileName: string): void {
 }
 changeResguardState(guard: any) {
   let pass = true
-  
+
     Object.keys(guard).forEach((g:any,index) => {
           if (guard[g] == undefined || guard[g] == null) {
             pass = false
@@ -722,7 +720,7 @@ changeResguardState(guard: any) {
                   position: 'top-end',
                   icon: 'success',
                   title: `se a cambiado el estado`,
-                });  
+                });
               },
               error:()=>{
                 this.getGuards()
@@ -732,17 +730,102 @@ changeResguardState(guard: any) {
                     position: 'top-end',
                     icon: 'error',
                     title: `no se puede dar de baja ya que esta en uso`,
-                  });  
+                  });
                 }
               }
            })
           }
       });
-      
-  
+
+
 
 
   }
+  print(guards: any) {
+    // Crear un nuevo documento HTML
+    const printWindow = window.open('', '_blank');
+    
+    // Construir el contenido del HTML
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+      @media print {
+        /* Ocultar encabezado y pie de página */
+        @page {
+          size: auto;  /* Tamaño automático para la página */
+          margin: 0;  /* Sin márgenes */
+        }
+      
+        body {
+          margin: 1.6cm; /* Agrega márgenes para el contenido visible */
+        }
+      
+        /* Opcional: ocultar ciertos elementos específicos */
+        .no-print {
+          display: none;
+        }
+      }
+      
+        /* Estilos CSS */
+        .container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border: 1px solid;
+          padding: 20px;
+        }
+    
+        .text-section {
+          text-align: center;
+        }
+    
+        .image-section img {
+          max-width: 100px; /* Ajusta el tamaño de la imagen según sea necesario */
+          height: auto;
+          display: block;
+          margin: 0 auto;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="image-section">
+          <img src='url_de_la_imagen_izquierda' alt='Imagen izquierda'>
+        </div>
+    
+        <div class="text-section">
+          <p style='font-size: x-large; font-weight: bold;'>${guards.stock_number}</p> 
+          <br>
+          <!-- Comentario: Eliminé la línea de la fecha -->
+          <p>Administración 2022 - 2025</p>
+        </div>
+    
+        <div class="image-section">
+          <img src='url_de_la_imagen_derecha' alt='Imagen derecha'>
+        </div>
+      </div>
+    </body>
+    </html>
+    
+    `;
+    
+    // Escribir el contenido en el nuevo documento
+    if (printWindow) {
+      printWindow.document.open();
+      printWindow.document.write(htmlContent);
+      printWindow.document.close();
+      
+      // Imprimir el documento
+      printWindow.print();
+    } else {
+      // Si no se puede abrir una nueva ventana
+      console.error('No se pudo abrir una nueva ventana para imprimir.');
+    }
+  }
+  
+
   EditGuard(guard:any){
     this.MyForm.get('id')?.setValue(guard.id)
     this.action = 'edit'
@@ -754,11 +837,10 @@ changeResguardState(guard: any) {
         this.imagePreview = guard[key]
       }
     });
-    
+
     this.modal = true
   }
 }
-    
-  
-  
-  
+
+
+

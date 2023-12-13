@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Table } from 'primeng/table'; 
+import { Table } from 'primeng/table';
 import { ServiceService } from 'src/app/service.service';
 import Swal from 'sweetalert2';
 import * as FileSaver from 'file-saver';
@@ -25,8 +25,9 @@ interface Option {
 })
 export class UserResguardsComponent  implements OnInit, OnDestroy   {
 
-  @ViewChild('dt') table!: Table; 
+  @ViewChild('dt') table!: Table;
   exportColumns!: ExportColumn[];
+  roleTypeUser:any = localStorage.getItem('role')
 
   userId: string|null;
   name!:string
@@ -34,7 +35,7 @@ export class UserResguardsComponent  implements OnInit, OnDestroy   {
   payroll!:string
 visible: boolean = false;
 options: Option[] = [
- 
+
 ];
 cols!: Column[];
 data:any
@@ -44,7 +45,8 @@ showDropdown = false; // Variable para controlar la visibilidad del dropdow
 selected? : number| null
 loading: boolean|undefined;
   constructor(private route: ActivatedRoute,private service:ServiceService<any>){
-    this.userId = this.route.snapshot.paramMap.get('id'); 
+    this.userId = this.route.snapshot.paramMap.get('id');
+    this.roleTypeUser = parseInt(this.roleTypeUser)
       this.cols = [
       { field: 'stock_number', header: 'NUMERO DE INVENTARIO', customExportHeader: 'NUMERO DE INVENTARIO' },
       { field: 'description', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'NOMBRE O DESCRIPCIÓN' },
@@ -66,7 +68,7 @@ loading: boolean|undefined;
     this.visible = true
   }
   ngOnInit(): void {
-   
+
     this.route.params.subscribe(params => {
 
       this.userId = params['id'];
@@ -76,10 +78,10 @@ loading: boolean|undefined;
             this.name = n['data']['result']['name']
             this.group = n['data']['result']['group']
             this.payroll = n['data']['result']['payroll']
-  
+
         },
         error:(e:any)=>{
-  
+
         }
       })
       this.guards()
@@ -94,30 +96,30 @@ loading: boolean|undefined;
 
       }
     })
-  
+
   }
   ngOnDestroy(): void {
     this.data = [];
-  
+
   }
   onSearch(event: Event): void {
     const searchText = (event.target as HTMLInputElement).value.toLowerCase();
     this.filteredOptions = this.options.filter(option => option.text.toLowerCase().includes(searchText));
   }
-  
+
   showAllOptions(): void {
-    this.filteredOptions = this.options; 
+    this.filteredOptions = this.options;
     this.showDropdown = true;
   }
   onBlur(): void {
     setTimeout(() => {
-      this.showDropdown = false; 
+      this.showDropdown = false;
     }, 200);
   }
 
   selectOption(option: Option): void {
-    this.searchText = option.text; 
-    this.showDropdown = false; 
+    this.searchText = option.text;
+    this.showDropdown = false;
     this.selected= option.id
   }
   Sumbit() {
@@ -180,7 +182,7 @@ loading: boolean|undefined;
       if (result.isConfirmed) {
         Swal.fire({
           title: 'Motivo de la baja',
-          input: 'text',  
+          input: 'text',
           inputPlaceholder: 'Ingresa el motivo',
           showCancelButton: true,
           cancelButtonText: 'Cancelar',
@@ -206,24 +208,24 @@ loading: boolean|undefined;
               },
               error:(n:any)=>{
                 this.loading = false
-        
+
               }
             })
           }
         });
       }
     });
-    
-    
-    
-    
-   
-    
+
+
+
+
+
+
   }
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const columnKeys = this.exportColumns.map((column) => column.title);
-  
+
       // Crear una copia de this.guards para no modificar el original directamente
       const modifiedGuards = this.data.map((guard: { [x: string]: any; }) => {
         const modifiedGuard: any = {};
@@ -237,7 +239,7 @@ loading: boolean|undefined;
         }
         return modifiedGuard;
       });
-  
+
       const worksheet = xlsx.utils.json_to_sheet(modifiedGuards, { header: columnKeys });
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });

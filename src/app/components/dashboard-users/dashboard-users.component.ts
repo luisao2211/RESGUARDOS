@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { catchError, throwError } from 'rxjs';
 import { ServiceService } from 'src/app/service.service';
 
 @Component({
@@ -27,7 +29,7 @@ selected: any;
     this.GetUsers()
     this.roleTypeUser = parseInt(this.roleTypeUser)
     this.service.data$.subscribe((data:any) => {
-      
+
      this.GetUsers()
     });
   }
@@ -35,10 +37,10 @@ selected: any;
     if (this.isExpanded) {
         this.isExpanded = false
     }
-    this.timeDay = !this.timeDay; 
-    console.log("time", this.timeDay); 
+    this.timeDay = !this.timeDay;
+    console.log("time", this.timeDay);
   }
-  
+
   GetUsers(role:any = null){
     this.service.Data<any>(`users${role != null ? `/${role}` : ''}`).subscribe({
       next:(n:any)=>{
@@ -75,11 +77,27 @@ selected: any;
       this.selectedItemMenu[i]=false;
 
     }
-  
+
     this.selectedItemMenu[selected] = true;
   }
   Logout() {
-  this.service.Logout('auth/logout').subscribe({
+  this.service.Logout('auth/logout').pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        // Manejo específico para el error 401
+        // Por ejemplo, redirigir a la página de inicio de sesión o mostrar un mensaje al usuario
+        localStorage.removeItem('token')
+        localStorage.removeItem('id')
+        localStorage.removeItem('role')
+
+        this.router.navigateByUrl('');
+        console.log('Error 401: No autorizado');
+      }
+      // Propagar el error para que sea manejado en otras partes de la aplicación si es necesario
+      return throwError(error);
+    })
+    )
+  .subscribe({
     next:(n:any)=>{
       localStorage.removeItem('token')
       localStorage.removeItem('id')
@@ -94,13 +112,13 @@ selected: any;
   })
   }
   searchUser(event:any) {
-    this.selected = null  
+    this.selected = null
     if (event.target.value.length > 1) {
       this.users = this.users.filter(u => typeof u.payroll === 'number' && u.payroll.toString().includes(event.target.value));
     }
     else{
       this.users =  this.listUsers
     }
-  
+
     }
 }

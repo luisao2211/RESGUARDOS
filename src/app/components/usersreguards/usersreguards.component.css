@@ -12,4 +12,5 @@ group-hover\:w-full {
 }
 .group:hover .group-hover\:flex-grow {
     flex-grow: 1;
+    
 }

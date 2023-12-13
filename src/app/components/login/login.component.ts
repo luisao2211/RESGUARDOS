@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit  {
   constructor(private Http:ServiceService<any>,private router: Router){
-    
+
   }
   public Toast = Swal.mixin({
     toast: true,
@@ -30,16 +30,16 @@ export class LoginComponent implements OnInit  {
       {
         email: new FormControl('', [Validators.required,Validators.email]),
         password: new FormControl('', [Validators.required])
-  
+
       }
     )
   }
   ngOnInit(): void {
-   
-      this.createLoginForm()
-  
 
-    
+      this.createLoginForm()
+
+
+
 
   }
 
@@ -50,22 +50,22 @@ export class LoginComponent implements OnInit  {
       localStorage.setItem("token",n["data"]["result"]["token"])
       localStorage.setItem("role",n["data"]["result"]["user"]["role"])
       localStorage.setItem("id",n["data"]["result"]["user"]["id"])
+      localStorage.setItem("group",n["data"]["result"]["user"]["group"])
+
       const id =n["data"]["result"]["user"]["id"]
 
-      
+
             if (parseInt(n["data"]["result"]["user"]["role"])==4) {
-              this.router.navigateByUrl(`/ResguardosUsuarios/${id}`);
-
+              this.router.navigateByUrl(`/ResguardosUsuarios/${id}`)
             }else{
-              alert(parseInt(n["data"]["result"]["user"]["role"]))
+              this.router.navigateByUrl('/Usuarios');
             }
-            this.router.navigateByUrl('/Usuarios');
 
-      
-     
 
-      
-      
+
+
+
+
     },
     error:(e:any)=>{
       this.Toast.fire({

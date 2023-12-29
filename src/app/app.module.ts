@@ -6,9 +6,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { DialogModule } from 'primeng/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardUsersComponent } from './components/dashboard-users/dashboard-users.component';
 import { LoginComponent } from './components/login/login.component';
-import { UsersreguardsComponent } from './components/usersreguards/usersreguards.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule} from '@angular/material/paginator';
 import { MatSortModule} from '@angular/material/sort';
@@ -20,7 +18,6 @@ import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TabViewModule } from 'primeng/tabview';
-import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-admin.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpeedDialModule } from 'primeng/speeddial';
@@ -37,18 +34,27 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { UsersComponent } from './components/users/users.component';
 import { DropdownModule } from 'primeng/dropdown';
-import { UserResguardsComponent } from './components/user-resguards/user-resguards.component';
+import { TicketComponent } from './components/ticket/ticket.component';
+import { QRCodeModule } from 'angularx-qrcode';
+import { InfoguardComponent } from './components/infoguard/infoguard.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { CommonModule } from '@angular/common';
+import { ReguardsComponent } from './components/resguards/reguards.component';
+import { UserResguardsComponent } from './components/useresguards/user-resguards.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardUsersComponent,
+    NavbarComponent,
     LoginComponent,
-    UsersreguardsComponent,
-    DashboardAdminComponent,
     UsersComponent,
+    TicketComponent,
+    InfoguardComponent,
+    ReguardsComponent,
     UserResguardsComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -72,6 +78,7 @@ import { UserResguardsComponent } from './components/user-resguards/user-resguar
     InputSwitchModule,
     MultiSelectModule,
     DropdownModule,
+    QRCodeModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule
   ],
   providers: [MessageService, {

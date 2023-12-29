@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardUsersComponent } from './components/dashboard-users/dashboard-users.component';
 import { LoginComponent } from './components/login/login.component';
-import { UsersreguardsComponent } from './components/usersreguards/usersreguards.component';
-import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-admin.component';
+// import { UsersreguardsComponent } from './components/usersreguards/usersreguards.component';
 import { AuthenticationGuard } from './auth.guard';
 import { AcessGuard } from './access.guard';
 import { UsersComponent } from './components/users/users.component';
-import { UserResguardsComponent } from './components/user-resguards/user-resguards.component';
+// import { UserResguardsComponent } from './components/user-resguards/user-resguards.component';
+import { TicketComponent } from './components/ticket/ticket.component';
+import { InfoguardComponent } from './components/infoguard/infoguard.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ReguardsComponent } from './components/resguards/reguards.component';
+import { UserResguardsComponent } from './components/useresguards/user-resguards.component';
 
 const routes: Routes = [
   {path:"",component:LoginComponent,
@@ -15,21 +18,19 @@ const routes: Routes = [
 
 },
 {
-  path:"",component:DashboardUsersComponent,
+  path:"",component:NavbarComponent,
   canActivate:[AcessGuard],
   children:[
   {
     path: 'Resguardos',
         pathMatch: 'full',
-        component:UsersreguardsComponent
+        component:ReguardsComponent
   },
   {
-    path: 'Administrativo',
-        pathMatch: 'full',
-        component:DashboardAdminComponent,
-      
-
+    path: 'Ticket',
+        component:TicketComponent
   },
+  
   {
     path:'Usuarios',
     pathMatch: 'full',
@@ -42,7 +43,10 @@ const routes: Routes = [
   ]
 
 },
-
+{
+  path:'Informacion/:id',
+  component:InfoguardComponent
+}
 
 
 ];

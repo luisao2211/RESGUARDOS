@@ -6,11 +6,11 @@ import { catchError, throwError } from 'rxjs';
 import { ServiceService } from 'src/app/service.service';
 
 @Component({
-  selector: 'app-dashboard-users',
-  templateUrl: './dashboard-users.component.html',
-  styleUrls: ['./dashboard-users.component.css']
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
 })
-export class DashboardUsersComponent {
+export class NavbarComponent {
   timeDay:Boolean = false
   isAnimateMenu:Boolean = false
   items: MenuItem[] | undefined;
@@ -79,6 +79,7 @@ selected: any;
     }
 
     this.selectedItemMenu[selected] = true;
+    this.selected = null
   }
   Logout() {
   this.service.Logout('auth/logout').pipe(
@@ -122,3 +123,4 @@ selected: any;
 
     }
 }
+

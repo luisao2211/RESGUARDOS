@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    .container{
+      display: none;
+      height: 0;
+    }
+    @media print {
+      @page {
+        size: 10cm 1.8cm;
+        margin: 0;
+        padding: 0;
+      }
+      .container.print-visible {
+        display: flex;
+        align-items: center;
+        height: 1.6cm;
+        border: 1px solid black;
+      }
+      .container {
+        visibility:visible;
+        display: flex;
+        align-items: center;
+
+        height: 1.6cm;
+        border: 1px solid black;
+      }
+
+      .container img {
+        width: 50px; /* Ajusta el tamaño de las imágenes */
+        height: auto; /* Mantiene la proporción */
+      }
+
+      .text-section {
+        text-align: center;
+        margin-left: 4px;
+      }
+
+      .qr {
+        position: relative;
+      }
+
+      .qr img {
+        width: 40px; /* Ajusta el tamaño del código QR */
+        height: auto; /* Mantiene la proporción */
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+      }
+      .print {
+        display: none; /* Oculta el botón durante la impresión */
+      }
+    }
+   
+  </style>
+</head>
+
+<body>
+  <div class="container container.print-visible">
+    <img src="../../../assets/gomez.png" alt="Imagen izquierda">
+    
+    <div class="text-section">
+      <p style="font-size: 8px; font-weight: bold; margin: 0;">{{ guard.guard.group }}</p>
+      <p style="font-size: 20px; font-weight: bold; margin: 0;">{{ guard.guard.stock_number }}</p>
+      <p style="font-size: 10px; margin: 0;">Administración 2022 - 2025</p>
+    </div>
+    
+    <div class="qr">
+      <!-- Reemplaza este elemento con tu código QR -->
+      <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="myAngularxQrCode" [width]="45" [errorCorrectionLevel]="'M'"></qrcode>
+    </div>
+  </div>
+ 
+ <div class="print">
+   <!-- component -->
+ <div class="mx-auto mt-11 w-80 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md duration-300 hover:scale-105 hover:shadow-lg">
+   <img class="h-48 w-full object-cover object-center"
+   [src]="guard.guard.picture=='null'?'../../../assets/gomez.png':guard.guard.picture" 
+   [alt]="guard.guard.description"  />
+   <div class="p-4">
+     <!-- <h2 class="mb-2 text-lg font-medium dark:text-white text-gray-900">{{ guard.description }}</h2> -->
+     <p class="mb-2 text-base dark:text-gray-300 text-gray-700">{{ guard.guard.description }}</p>
+     <div class="flex items-center">
+       <p class="mr-2 text-lg font-semibold text-gray-700 dark:text-white">{{ guard.guard.group }}</p>
+       <p class="text-base  font-medium text-gray-500  dark:text-gray-300">{{ guard.guard.stock_number }}</p>
+       <p class="ml-auto text-base font-medium text-green-500">
+        <button class="bg-teal-200 hover:bg-teal-500  rounded-lg p-1" onclick="window.print()">Imprimir</button>
+
+       </p>
+     </div>
+   </div>
+ </div>
+ </div>
+</body>
+</html>

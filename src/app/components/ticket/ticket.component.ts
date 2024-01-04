@@ -15,14 +15,13 @@ export class TicketComponent implements OnInit {
   }
   ngOnInit(): void {
     this.service.data$.subscribe((data: any) => {
-      console.warn(data); // Solo para verificar los datos recibidos
     
       if (!data) {
         this.route.navigate(['Resguardos']);
       } else {
         this.guard = data;
         if (this.guard && this.guard.guard && this.guard.guard.id) {
-          this.myAngularxQrCode = `http://localhost:4200/Informacion/${this.guard.guard.id}`;
+          this.myAngularxQrCode = `https://resguardosinternos.gomezpalacio.gob.mx/#/Informacion/${this.guard.guard.id}`;
         } 
       }
     });

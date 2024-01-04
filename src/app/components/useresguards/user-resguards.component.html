@@ -50,7 +50,11 @@
        <button
        (click)="exportExcel()"
        pTooltip="Excel"
-       class=" shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  w-14 pt-2 bg-green-200"><li class="fa fa-file-excel"></li></button>
+       class=" shadow-md cursor-pointer hover:bg-green-400 h-14 rounded-full  mr-2 w-14 pt-2 bg-green-200"><li class="fa fa-file-excel"></li></button>
+       <button
+       (click)="userprintresguardsactive()"
+       pTooltip="Imprimir resguardos"
+       class=" shadow-md cursor-pointer  hover:bg-blue-400 h-14 rounded-full mr-2  w-14 pt-2 bg-blue-200"><li class="fa fa-print  "></li></button>
        <div
        pTooltip="INFORMACION"
        class="bg-gray-100 p-4 cursor-not-allowed  ml-2 shadow-md mb-4 text-gray-500  rounded-md">
@@ -86,7 +90,7 @@
    [paginator]="true"
    [rows]="5"
    [showCurrentPageReport]="true"
-   [globalFilterFields]="['stock_number','description','brand','type','state','serial','airlne','payroll','group','employeed','date','observations']"
+   [globalFilterFields]="['stock_number','description','brand','type','state','serial','airlne','group','dateup','datedown']"
    [rowsPerPageOptions]="[5, 10, 25, 50]"
    [scrollable]="true"
    scrollWidht="400px"
@@ -107,6 +111,10 @@
              <th
              class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                  tipo</th>
+                 <th
+                 class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                     Numero serial</th>
+          
                  <th
                  class="px-5 py-3 border-b-2 border-gray-400 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                      Estado fisico</th>
@@ -145,6 +153,8 @@
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.description }}</td>
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.brand }}</td>
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.type }}</td>
+         <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.serial }}</td>
+
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.state }}</td>
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.airlane }}</td>
          <td  class="px-5 py-5 border-b border-gray-200  text-sm">{{ guards.group }}</td>

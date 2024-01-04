@@ -4,6 +4,9 @@ import { Table } from 'primeng/table';
 import { ServiceService } from 'src/app/service.service';
 import Swal from 'sweetalert2';
 import * as FileSaver from 'file-saver';
+import { DialogService } from 'primeng/dynamicdialog';
+import { UserprintresguardsactiveComponent } from '../userprintresguardsactive/userprintresguardsactive.component';
+
 interface Column {
   field: string;
   header: string;
@@ -18,6 +21,21 @@ interface Option {
   id: number;
   text: string;
 }
+interface Item {
+  stock_number: string;
+  description: string;
+  brand: string;
+  type: string;
+  serial: string;
+  state: string;
+  airlane: string;
+  group: string;
+  dateup: string;
+  datedown: string;
+  used:number
+  // ... otros campos
+}
+
 @Component({
   selector: 'app-user-resguards',
   templateUrl: './user-resguards.component.html',
@@ -39,12 +57,13 @@ options: Option[] = [
 ];
 cols!: Column[];
 data:any
+dataPrint!:Item[]
 filteredOptions: Option[] = []; // Opciones filtradas para mostrar en el dropdown
 searchText = ''; // Texto de búsqueda ingresado por el usuario
 showDropdown = false; // Variable para controlar la visibilidad del dropdow
 selected? : number| null
 loading: boolean|undefined;
-  constructor(private route: ActivatedRoute,private service:ServiceService<any>){
+  constructor(private route: ActivatedRoute,private service:ServiceService<any>,private dialogService: DialogService){
     this.userId = this.route.snapshot.paramMap.get('id');
     this.roleTypeUser = parseInt(this.roleTypeUser)
       this.cols = [
@@ -52,6 +71,8 @@ loading: boolean|undefined;
       { field: 'description', header: 'NOMBRE O DESCRIPCIÓN	', customExportHeader: 'NOMBRE O DESCRIPCIÓN' },
       { field: 'brand', header: 'MARCA Y MODELO', customExportHeader: 'Descripción del producto' },
       { field: 'type', header: 'TIPO', customExportHeader: 'Cantidad o Pieza' },
+      { field: 'serial', header: 'NUMERO DE SERIE', customExportHeader: 'NUMERO DE SERIE' },
+
       { field: 'state', header: 'ESTADO FISICO', customExportHeader: 'Valor' },
       { field: 'airlane', header: 'ÁEREA DE ADSCRIPCION', customExportHeader: 'Departamento' },
       { field: 'group', header: 'UBICACIÓN/DEPARTAMENTO', customExportHeader: 'Numero de etiqueta' },
@@ -66,6 +87,20 @@ loading: boolean|undefined;
     this.selected = null
     this.searchText = ''
     this.visible = true
+  }
+  userprintresguardsactive() {
+    this.service.setData({
+      person:[{
+        name:this.name,
+        group:this.group
+      }],
+      data:this.dataPrint
+    })
+    const ref = this.dialogService.open(UserprintresguardsactiveComponent, {
+      header: this.name,
+      width: '70%',
+      contentStyle: {'max-height': '80%', 'overflow': 'auto'}
+    });
   }
   ngOnInit(): void {
 
@@ -153,7 +188,8 @@ loading: boolean|undefined;
       next:(n:any)=>{
         this.loading = false
           this.data =n['data']['result']
-          console.log(this.data)
+  
+          this.dataPrint = this.data.filter((item:Item)=>item.used == 1)
       },
       error:(n:any)=>{
         this.loading = false
@@ -162,12 +198,23 @@ loading: boolean|undefined;
     })
   }
   onInputChangeReports(event: any) {
+      this.dataPrint = this.data
     if (event && event.target) {
-      // Ahora TypeScript sabe que event.target no es nulo
+      
       const inputValue: string = event.target.value;
       this.table.filterGlobal(inputValue, 'contains');
+      this.dataPrint = this.searchTableDataPrint(inputValue)
+      console.error(this.dataPrint)
+      
     }
   }
+  searchTableDataPrint(value: string): Item[] {
+    return this.dataPrint.filter((item:any) =>
+        Object.values(item).some(valor =>
+            typeof valor === 'string' && valor.toLowerCase().includes(value.toLowerCase())
+        )
+    );
+}
   deleteResguard(guard:any){
     Swal.fire({
       title: '¿Estás seguro?',

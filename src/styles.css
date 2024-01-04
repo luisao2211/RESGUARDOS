@@ -113,3 +113,6 @@ div.p-tabview-panels {
   background-color: #999; /* Color del thumb */
   border-radius: 8px; /* Borde redondeado del thumb */
 }
+.page-break {
+  page-break-after: always;
+}

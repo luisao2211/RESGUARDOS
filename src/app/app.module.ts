@@ -41,6 +41,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { ReguardsComponent } from './components/resguards/reguards.component';
 import { UserResguardsComponent } from './components/useresguards/user-resguards.component';
+import { UserprintresguardsactiveComponent } from './components/userprintresguardsactive/userprintresguardsactive.component';
+import { DialogService } from 'primeng/dynamicdialog';
+import {  DatePipe } from '@angular/common';
+import { GroupsComponent } from './components/groups/groups.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +55,9 @@ import { UserResguardsComponent } from './components/useresguards/user-resguards
     TicketComponent,
     InfoguardComponent,
     ReguardsComponent,
-    UserResguardsComponent
+    UserResguardsComponent,
+    UserprintresguardsactiveComponent,
+    GroupsComponent
   ],
   imports: [
     CommonModule,
@@ -81,7 +87,10 @@ import { UserResguardsComponent } from './components/useresguards/user-resguards
     QRCodeModule,
     MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule
   ],
-  providers: [MessageService, {
+  providers: [    
+    DatePipe,
+    DialogService,
+    MessageService, {
     provide:HTTP_INTERCEPTORS,
     useClass:AuthInterceptor,
     multi:true

@@ -334,6 +334,8 @@ saveAsExcelFile(buffer: any, fileName: string): void {
           icon: 'error',
           title: `no se ha podido eliminar`,
         });
+        this.loading = false
+
       },
       complete:()=>{
         this.loading = false

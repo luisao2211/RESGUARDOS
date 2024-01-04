@@ -14,7 +14,7 @@
         padding: 0;
       }
       .container.print-visible {
-        display: flex;
+        display: block;
         align-items: center;
         height: 1.6cm;
         border: 1px solid black;
@@ -70,7 +70,9 @@
     
     <div class="qr">
       <!-- Reemplaza este elemento con tu código QR -->
-      <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="myAngularxQrCode" [width]="45" [errorCorrectionLevel]="'M'"></qrcode>
+      <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="myAngularxQrCode"
+        class="m-0 p-0 bg-transparent"
+      [width]="54" [errorCorrectionLevel]="'H'"></qrcode>
     </div>
   </div>
  

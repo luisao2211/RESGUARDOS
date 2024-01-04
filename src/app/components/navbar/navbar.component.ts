@@ -115,12 +115,12 @@ selected: any;
   searchUser(event:any) {
     this.selected = null
     if (event.target.value.length > 1) {
-      this.users = this.users.filter(u => typeof u.payroll === 'number' && u.payroll.toString().includes(event.target.value));
+      this.users = this.users.filter(u => typeof u.payroll === 'number' && u.payroll.toString().toLowerCase().includes(event.target.value.toLowerCase()));
     }
     else{
       this.users =  this.listUsers
     }
-
+   
     }
 }
 

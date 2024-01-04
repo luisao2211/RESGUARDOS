@@ -11,6 +11,7 @@ import { InfoguardComponent } from './components/infoguard/infoguard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ReguardsComponent } from './components/resguards/reguards.component';
 import { UserResguardsComponent } from './components/useresguards/user-resguards.component';
+import { GroupsComponent } from './components/groups/groups.component';
 
 const routes: Routes = [
   {path:"",component:LoginComponent,
@@ -39,6 +40,10 @@ const routes: Routes = [
   {
     path:'ResguardosUsuarios/:id',
     component:UserResguardsComponent
+  },
+  {
+    path:'Catalogos',
+    component:GroupsComponent
   }
   ]
 

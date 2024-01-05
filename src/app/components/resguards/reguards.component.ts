@@ -21,6 +21,9 @@ interface ExportColumn {
   dataKey: string;
 }
 
+interface Option {
+  departamento: string;
+}
 
 @Component({
   selector: 'app-reguards',
@@ -32,6 +35,7 @@ export class ReguardsComponent  {
 
 
 
+    groups:any=[]
   cols!: Column[];
     selectedColumns!: Column[];
      Toast = Swal.mixin({
@@ -55,7 +59,9 @@ export class ReguardsComponent  {
    resguardSelected!:string|null
   @ViewChild('dt') table!: Table;
   @ViewChild('dt1') tableReports!: Table;
-
+  filteredOptions: Option[] = []; // Opciones filtradas para mostrar en el dropdown
+  searchText = ''; // Texto de búsqueda ingresado por el usuario
+  showDropdown = false;
   loading: boolean = false;
   action:'edit'|'insert'='insert'
 
@@ -68,6 +74,7 @@ export class ReguardsComponent  {
   conteo: number = 0;
   modal: boolean = false;
   options:boolean = false;
+  
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   value:any;
@@ -83,6 +90,7 @@ export class ReguardsComponent  {
   checked = localStorage.getItem('checked') !== null ? false : true;
   dialogmodal: boolean= false;
   history: any=[];
+  selected? : string| null
   //numero de nomina
 
   constructor(private fb: FormBuilder,private service:ServiceService<any>,private route:Router) {
@@ -100,7 +108,7 @@ export class ReguardsComponent  {
       observations:new FormControl(''),
     });
    
-
+    this.GetDataGroups()
     this.cols = [
       { field: 'payroll', header: 'NUMERO DE NOMINA', customExportHeader: 'NUMERO DE NOMINA' },
       { field: 'name', header: 'NOMBRE DEL RESGUARDANTE', customExportHeader: 'NOMBRE DEL RESGUARDANTE' },
@@ -186,8 +194,39 @@ onInputChange(event: any) {
   }
 }
 
+GetDataGroups() {
 
 
+  this.service.OtherData<any>(`https://declaraciones.gomezpalacio.gob.mx/nominas/departamentos/infraesctruturagobmxpalaciopeticioninsegura`).subscribe({
+    next: (n:any) => {
+       this.groups = n.RESPONSE.recordsets[0]
+    },
+    error: (e:any) => {
+     
+    }
+
+  })
+
+}
+showAllOptions(): void {
+  this.filteredOptions = this.groups;
+  this.showDropdown = true;
+}
+onBlur(): void {
+  setTimeout(() => {
+    this.showDropdown = false;
+  }, 200);
+}
+onSearch(event: Event): void {
+  const searchText = (event.target as HTMLInputElement).value.toLowerCase();
+
+  this.filteredOptions = this.groups.filter(option => option.departamento.toLowerCase().includes(searchText));
+}
+selectOption(option: Option): void {
+  this.searchText = option.departamento;
+  this.showDropdown = false;
+  this.selected= option.departamento
+}
 exportExcel() {
   import('xlsx').then((xlsx) => {
     const columnKeys = this.exportColumns.map((column) => column.title);
@@ -401,15 +440,62 @@ changeResguardState(guard: any) {
   let pass = true
 
     Object.keys(guard).forEach((g:any,index) => {
-          if (guard[g] == undefined || guard[g] == null) {
+          if (guard[g] == undefined && g!== 'motive' || guard[g] == null && g !== 'motive') {
             pass = false
+        
             this.Toast.fire({
               icon: "warning",
               title: "No se puede activar debido a que no contiene su información necesaria"
             });
           }
           if (index == Object.keys(guard).length -1  && pass) {
-            this.service.Delete(`guardsdestroy/${guard.id}`).subscribe({
+            console.log(guard)
+
+           if (guard.active ==1) {
+            Swal.fire({
+              title: 'Motivo de la baja',
+              input: 'text',
+              inputPlaceholder: 'Ingresa el motivo',
+              showCancelButton: true,
+              cancelButtonText: 'Cancelar',
+              confirmButtonText: 'Eliminar',
+              preConfirm: (motivo) => {
+                if (!motivo) {
+                  Swal.showValidationMessage('Debes ingresar un motivo');
+                }
+                return motivo;
+              }
+            }).then((motivoResult) => {
+              if (motivoResult.isConfirmed) {
+                const json = {
+                  motive:motivoResult.value
+                }
+               
+            this.service.Post(`guardsdestroy/${guard.id}`,json).subscribe({
+              next:()=>{
+                this.getGuards()
+                this.Toast.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: `se a cambiado el estado`,
+                });
+              },
+              error:()=>{
+                this.getGuards()
+                if (guard.active == 1) {
+                  this.Toast.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: `no se puede dar de baja ya que esta en uso`,
+                  });
+                }
+              }
+           })
+              }
+            });
+           }
+           else{
+            this.service.Post(`guardsdestroy/${guard.id}`,{}).subscribe({
               next:()=>{
                 this.getGuards()
                 this.Toast.fire({
@@ -430,6 +516,10 @@ changeResguardState(guard: any) {
                 }
               }
            })
+           }
+
+
+         
           }
       });
 

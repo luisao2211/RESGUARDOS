@@ -1,4 +1,4 @@
-<div [ngClass]="{'bg-neutral-700':timeDay,'bg-white':!timeDay}" class="  flex flex-col w-screen h-screen overflow-x-hidden">
+<div [ngClass]="{'bg-neutral-700':timeDay,'bg-white':!timeDay}" class="pt-2  flex flex-col w-screen h-screen overflow-x-hidden">
 <!--
   NAVBAR SUPERION
 -->
@@ -85,7 +85,7 @@
               </a>
             </li>
           </ng-container>
-          <ng-container *ngIf="roleTypeUser<3" >
+          <ng-container *ngIf="roleTypeUser<4" >
             <li (click)="changeItemSelected(2)" [ngClass]="{'bg-purple-200 rounded-lg text-gray-800':selectedItemMenu[2]}">
               <a [routerLink]="['/Resguardos']" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-purple-50 hover:rounded-lg text-gray-600 hover:text-gray-800 border-l-4 border-transparent">
                 <!-- Icono Store de Font Awesome -->
@@ -93,6 +93,15 @@
                   <i class="fas fa-lock"></i>
                 </span>
                 <span class="ml-2 text-sm tracking-wide truncate">Resguardos</span>
+              </a>
+            </li>
+            <li (click)="changeItemSelected(3)" [ngClass]="{'bg-purple-200 rounded-lg text-gray-800':selectedItemMenu[3]}">
+              <a [routerLink]="['/Catalogos']" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-purple-50 hover:rounded-lg text-gray-600 hover:text-gray-800 border-l-4 border-transparent">
+                <!-- Icono Store de Font Awesome -->
+                <span class="inline-flex justify-center items-center ml-4">
+                  <i class="fas fa-book"></i>
+                </span>
+                <span class="ml-2 text-sm tracking-wide truncate">Catalogos</span>
               </a>
             </li>
           </ng-container>

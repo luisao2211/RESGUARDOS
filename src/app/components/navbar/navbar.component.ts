@@ -22,7 +22,7 @@ export class NavbarComponent {
   true, false,false,false
   ];
   selectedItemMenu:Boolean[]=[
-    false, true, false
+    false, true, false,false
   ]
 selected: any;
   constructor(private service:ServiceService<any>,private router: Router){

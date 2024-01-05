@@ -236,7 +236,7 @@
                                 </a>
                               </li>
                             </ng-container>
-                            <ng-container *ngIf="profilesOptionsShow ==1 || profilesOptionsShow ==2">
+                            <ng-container *ngIf="profilesOptionsShow ==1 || profilesOptionsShow ==2 || profilesOptionsShow ==3">
 
                               <li >
                                 <a href="#" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-purple-50 hover:rounded-lg text-gray-600 hover:text-gray-800 border-l-4 border-transparent">
@@ -319,7 +319,7 @@
             <ng-container *ngIf="roleTypeUser<3" >
 
             <li class="group relative" (click)="hideText()" (mouseover)="showText(3)" (mouseout)="hideText()">
-                <div class="hover:bg-gray-200 px-4 py-2 cursor-pointer" (click)="selectItem('Jefe-Departamento', textInput)">Jefe de departamento</div>
+                <div class="hover:bg-gray-200 px-4 py-2 cursor-pointer" (click)="selectItem('Enlance', textInput)">Enlance</div>
               </li>
             </ng-container>
             <ng-container *ngIf="roleTypeUser<4" >

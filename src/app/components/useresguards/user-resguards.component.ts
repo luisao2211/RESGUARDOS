@@ -143,6 +143,7 @@ loading: boolean|undefined;
   }
 
   showAllOptions(): void {
+    
     this.filteredOptions = this.options;
     this.showDropdown = true;
   }

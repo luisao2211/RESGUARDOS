@@ -104,7 +104,7 @@ export class UsersComponent {
       case 'Administrativo':
         this.roleUser = 2
         break;
-      case 'Jefe-Departamento':
+      case 'Enlance':
         this.roleUser = 3
 
         break;
